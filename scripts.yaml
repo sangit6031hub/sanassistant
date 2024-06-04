@@ -1,0 +1,134 @@
+siren:
+  alias: Siren
+  sequence:
+  - service: input_number.set_value
+    metadata: {}
+    data:
+      value: 1
+    target:
+      entity_id: input_number.speaker_volume
+  - repeat:
+      sequence:
+      - service: media_player.play_media
+        target:
+          entity_id:
+          - media_player.speakers_group
+        data:
+          media_content_id: media-source://media_source/local/emergency-alarm.mp3
+          media_content_type: audio/mpeg
+        metadata:
+          title: emergency-alarm.mp3
+          thumbnail:
+          media_class: music
+          children_media_class:
+          navigateIds:
+          - {}
+          - media_content_type: app
+            media_content_id: media-source://media_source
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 15
+          milliseconds: 0
+      until:
+      - condition: state
+        entity_id: alarm_control_panel.securityalarm3100
+        state: disarmed
+  mode: single
+  icon: mdi:alarm-light
+alarm_beep:
+  alias: Alarm Beep
+  sequence:
+  - service: input_number.set_value
+    metadata: {}
+    data:
+      value: 1
+    target:
+      entity_id: input_number.speaker_volume
+  - repeat:
+      sequence:
+      - service: media_player.play_media
+        target:
+          entity_id:
+          - media_player.speakers_group
+        data:
+          media_content_type: audio/mpeg
+          media_content_id: media-source://media_source/local/alarm-beep-long.mp3
+        metadata:
+          title: emergency-alarm.mp3
+          thumbnail:
+          media_class: music
+          children_media_class:
+          navigateIds:
+          - {}
+          - media_content_type: app
+            media_content_id: media-source://media_source
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 15
+          milliseconds: 0
+      while:
+      - condition: state
+        entity_id: alarm_control_panel.securityalarm3100
+        state: pending
+  mode: single
+  icon: mdi:alarm-light-outline
+alarm_exit_delay_music:
+  alias: Alarm Exit delay music
+  sequence:
+  - service: input_number.set_value
+    metadata: {}
+    data:
+      value: 1
+    target:
+      entity_id: input_number.speaker_volume
+  - service: media_player.play_media
+    target:
+      entity_id:
+      - media_player.speakers_group
+    data:
+      media_content_type: audio/mpeg
+      media_content_id: media-source://media_source/local/child-says-good-bye.mp3
+    metadata:
+      title: emergency-alarm.mp3
+      thumbnail:
+      media_class: music
+      children_media_class:
+      navigateIds:
+      - {}
+      - media_content_type: app
+        media_content_id: media-source://media_source
+  mode: single
+  icon: mdi:music
+notification_script:
+  alias: Notification script
+  sequence:
+  - service: notify.email_notification
+    data:
+      message: Home security system notification '{{ trigger.entity_id }}'
+      title: Security system notification
+      target: 3095324552@vtext.com
+  - service: notify.email_notification
+    data:
+      message: Home security system notification '{{ trigger.entity_id }}'
+      title: Security system notification
+      target: san6031@gmail.com
+  mode: single
+  icon: mdi:message-processing
+disarmed_script:
+  alias: Disarmed Script
+  sequence:
+  - service: input_number.set_value
+    metadata: {}
+    data:
+      value: 0.5
+    target:
+      entity_id: input_number.speaker_volume
+  - service: media_player.media_stop
+    target:
+      entity_id:
+      - media_player.speakers_group
+    data: {}
+  mode: single
+  icon: mdi:alarm-light-off

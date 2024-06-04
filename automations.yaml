@@ -1,0 +1,572 @@
+- id: '1698592683179'
+  alias: VoiceNotifications
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: 27e69aa0ea80aac5fc9f89b128bb02bb
+    entity_id: ee20a92f2be33c639f4a379abb36a398
+    domain: binary_sensor
+  - type: tampered
+    platform: device
+    device_id: 27e69aa0ea80aac5fc9f89b128bb02bb
+    entity_id: bb491954fab98a58d346fadf3dea869f
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: ee30e11d458110e84a0ceb230d6c3fcf
+    entity_id: 4bd5a0e380f0dacbbb79badc56071f6a
+    domain: binary_sensor
+  - type: tampered
+    platform: device
+    device_id: ee30e11d458110e84a0ceb230d6c3fcf
+    entity_id: c573230ee4fc7e5f0292b6c6580ddfcf
+    domain: binary_sensor
+  - type: tampered
+    platform: device
+    device_id: 3ff0ef6d17c887e9ea6bbf2ad15191fe
+    entity_id: abecf1a83f864348d2367c75e253a5ef
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 3ff0ef6d17c887e9ea6bbf2ad15191fe
+    entity_id: 6db468c29bf0d96490a9ac2c59e9ef3a
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 013ffab074165f75832bd3af2cc565d9
+    entity_id: b25fcd4ba900ca274594278ebb715542
+    domain: binary_sensor
+  - type: tampered
+    platform: device
+    device_id: 013ffab074165f75832bd3af2cc565d9
+    entity_id: 5e128e949adeb312a0a7827ea0ae6094
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 77cd68254a85e6fa72bda72c2e05941a
+    entity_id: 11671186c95fda60838117f376053dfc
+    domain: binary_sensor
+  - type: tampered
+    platform: device
+    device_id: 77cd68254a85e6fa72bda72c2e05941a
+    entity_id: 1d4a72655cacf1c4123327ca52a9d59b
+    domain: binary_sensor
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.voice_notifications
+      state: 'on'
+    - condition: state
+      entity_id: alarm_control_panel.securityalarm3100
+      state: disarmed
+      enabled: true
+  action:
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.speakers_group
+    data:
+      media_content_id: media-source://tts/reversotts?message="{{ state_attr(trigger.to_state.entity_id,
+        'friendly_name') }}" {{'OPEN' if trigger.to_state.state == 'on' else 'CLOSED'}}&language=Laura-US-English
+      media_content_type: provider
+    metadata:
+      title: 'OFF'
+      thumbnail: https://brands.home-assistant.io/_/tts/logo.png
+      media_class: app
+      children_media_class:
+      navigateIds:
+      - {}
+      - media_content_type: app
+        media_content_id: media-source://tts
+      - media_content_type: provider
+        media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
+  mode: single
+- id: '1703297345806'
+  alias: Sunset
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -00:01:00
+  condition: []
+  action:
+  - service: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      device_id:
+      - dd900b708c5810913edbfa2e5290ecbd
+      - a4ba99b7719642420d94bebdb42e9622
+      - 63d170521cffb53bef6863b6a8ecfa3c
+      - 17ff3b53af13bf7d60eba914223d418a
+      area_id: outdoor
+  - service: input_number.set_value
+    metadata: {}
+    data:
+      value: 0.5
+    target:
+      entity_id: input_number.speaker_volume
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.speakers_group
+    data:
+      media_content_id: media-source://tts/reversotts?message=Good Evening Yantraa
+        and Jovitha&language=Heather-US-English
+      media_content_type: provider
+    metadata:
+      title: 'OFF'
+      thumbnail: https://brands.home-assistant.io/_/tts/logo.png
+      media_class: app
+      children_media_class:
+      navigateIds:
+      - {}
+      - media_content_type: app
+        media_content_id: media-source://tts
+      - media_content_type: provider
+        media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Heather-US-English
+  mode: single
+- id: '1703297451429'
+  alias: Sunset + 2hrs
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: +02:00:00
+  - platform: time
+    at: '21:00:00'
+  condition: []
+  action:
+  - service: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id:
+      - a4ba99b7719642420d94bebdb42e9622
+      - 1d531cf53957ee6339f579fd6deaba7a
+      area_id: outdoor
+  mode: single
+- id: '1703297581987'
+  alias: Midnight Schedule
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:59:00'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 6db8e8b6bac1035f442a0e44b086eb33
+    entity_id: 018e2d43bec65efc27548d2f9d96d97d
+    domain: remote
+  - service: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.security_switch_group
+      device_id: 1d531cf53957ee6339f579fd6deaba7a
+  - service: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.security_light_group
+  - type: turn_off
+    device_id: df4cf792d8865cb18aa9400b9edc7bb3
+    entity_id: cd3684ef5ee45d56c934b517b3cbbcf8
+    domain: switch
+  mode: single
+- id: '1704825676538'
+  alias: Power Saving - Turn OFF Devices
+  description: ''
+  trigger:
+  - minutes: /30
+    platform: time_pattern
+  condition:
+  - condition: and
+    conditions:
+    - condition: sun
+      before: sunset
+      after: sunrise
+      before_offset: -01:00:00
+      after_offset: +00:30:00
+    - condition: state
+      entity_id: input_boolean.energy_saver
+      state: 'on'
+    - condition: numeric_state
+      entity_id: sensor.light_sensor_hall_illuminance_lux
+      above: 50
+  action:
+  - service: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.security_switch_group
+  - service: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.security_light_group
+  mode: single
+- id: '1705634765942'
+  alias: Sunrise
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: 0
+  condition: []
+  action:
+  - service: input_number.set_value
+    metadata: {}
+    data:
+      value: 0.1
+    target:
+      entity_id: input_number.speaker_volume
+  - service: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.energy_saver
+      - input_boolean.voice_notifications
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.speakers_group
+    data:
+      media_content_id: media-source://tts/reversotts?message=Good Morning Yantraa
+        and Jovitha&language=Heather-US-English
+      media_content_type: provider
+    metadata:
+      title: 'OFF'
+      thumbnail: https://brands.home-assistant.io/_/tts/logo.png
+      media_class: app
+      children_media_class:
+      navigateIds:
+      - {}
+      - media_content_type: app
+        media_content_id: media-source://tts
+      - media_content_type: provider
+        media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Heather-US-English
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 10
+      milliseconds: 0
+  - service: input_number.set_value
+    metadata: {}
+    data:
+      value: 0.5
+    target:
+      entity_id: input_number.speaker_volume
+  mode: single
+- id: '1706304337669'
+  alias: Motion Garage Light ON
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 9285fe432bf108bae9fbcfebf68670e6
+    entity_id: 5688dd51777566a913a266938e40b50c
+    domain: binary_sensor
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 903e7f4669512e6b03dbcb7500a5febd
+    entity_id: c42a47f71b540be6822406f4460268d6
+    domain: switch
+  mode: single
+- id: '1706564049392'
+  alias: Alarmo Keypad01 Sync
+  description: ''
+  use_blueprint:
+    path: neliss/zigbee2mqtt-control-alarmo-via-keypad.yaml
+    input:
+      state_topic: zigbee2mqtt/Keypad01
+      set_topic: zigbee2mqtt/Keypad01/set
+      entity: alarm_control_panel.securityalarm3100
+- id: '1706666603460'
+  alias: Hall Fan Automation
+  description: ''
+  trigger:
+  - platform: time
+    at: '22:00:00'
+  - platform: time
+    at: 05:00:00
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: time
+        after: 04:00:00
+        before: 06:00:00
+      sequence:
+      - type: turn_off
+        device_id: d5c8058746bf9f4ad78c6fa0674f0900
+        entity_id: 57da15fd13626a1539fca70d47f180a7
+        domain: switch
+      alias: Turn Off Fan
+    - conditions:
+      - condition: time
+        after: '20:00:00'
+        before: '12:00:00'
+      sequence:
+      - type: turn_on
+        device_id: d5c8058746bf9f4ad78c6fa0674f0900
+        entity_id: 57da15fd13626a1539fca70d47f180a7
+        domain: switch
+      alias: Turn on Fan
+  mode: single
+- id: '1707166479042'
+  alias: Alarmo Keypad02 Sync
+  description: ''
+  use_blueprint:
+    path: neliss/zigbee2mqtt-control-alarmo-via-keypad.yaml
+    input:
+      state_topic: zigbee2mqtt/Keypad02
+      set_topic: zigbee2mqtt/Keypad02/set
+      entity: alarm_control_panel.securityalarm3100
+- id: '1707608182929'
+  alias: Garage light ON
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: 3ff0ef6d17c887e9ea6bbf2ad15191fe
+    entity_id: 6db468c29bf0d96490a9ac2c59e9ef3a
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 013ffab074165f75832bd3af2cc565d9
+    entity_id: b25fcd4ba900ca274594278ebb715542
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 77cd68254a85e6fa72bda72c2e05941a
+    entity_id: 11671186c95fda60838117f376053dfc
+    domain: binary_sensor
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 903e7f4669512e6b03dbcb7500a5febd
+    entity_id: c42a47f71b540be6822406f4460268d6
+    domain: switch
+  - if:
+    - condition: state
+      entity_id: sun.sun
+      state: below_horizon
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        device_id: 57b421090ea696c870480708354d867a
+  mode: single
+- id: '1708095767512'
+  alias: Garage Door Left OPEN
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: 013ffab074165f75832bd3af2cc565d9
+    entity_id: b25fcd4ba900ca274594278ebb715542
+    domain: binary_sensor
+    id: trigger_garage_01
+  - type: opened
+    platform: device
+    device_id: 77cd68254a85e6fa72bda72c2e05941a
+    entity_id: 11671186c95fda60838117f376053dfc
+    domain: binary_sensor
+    id: trigger_garage_02
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.voice_notifications
+      state: 'on'
+    - condition: state
+      entity_id: alarm_control_panel.securityalarm3100
+      state: disarmed
+      enabled: true
+  action:
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - repeat:
+      sequence:
+      - service: media_player.play_media
+        target:
+          entity_id: media_player.speakers_group
+        data:
+          media_content_id: media-source://tts/reversotts?message="{{ state_attr(trigger.to_state.entity_id,
+            'friendly_name') }}" {{' Left OPEN for long time' if trigger.to_state.state
+            == 'on' else 'CLOSED'}}&language=Laura-US-English
+          media_content_type: provider
+        metadata:
+          title: 'OFF'
+          thumbnail: https://brands.home-assistant.io/_/tts/logo.png
+          media_class: app
+          children_media_class:
+          navigateIds:
+          - {}
+          - media_content_type: app
+            media_content_id: media-source://tts
+          - media_content_type: provider
+            media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
+      - delay:
+          hours: 0
+          minutes: 5
+          seconds: 0
+          milliseconds: 0
+      while:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.garage_door_sensor_one_contact
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.garage_door_sensor_two_contact
+          state: 'on'
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_boolean.voice_notifications
+          state: 'on'
+  mode: single
+- id: '1708309195903'
+  alias: Daily Backup
+  description: Backup Home Assistant configuration folder
+  trigger:
+  - platform: time
+    at: 02:00:00
+  condition: []
+  action:
+  - service: shell_command.backup
+    data: {}
+    response_variable: backup_response
+  - if:
+    - condition: template
+      value_template: '{{ backup_response[''returncode''] == 0 }}'
+    then:
+    - service: notify.notify
+      data:
+        title: ✅ Backup successful
+        message: '{{ backup_response[''stdout''] }}'
+    else:
+    - service: notify.notify
+      data:
+        title: ❌ Backup failed
+        message: '{{ backup_response[''stderr''] }}'
+  mode: single
+- id: '1709586544091'
+  alias: 'Turn ON voice notifications '
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.voice_notifications
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - delay:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.voice_notifications
+  mode: single
+- id: '1710282519929'
+  alias: Speaker Volume Adjust
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_number.speaker_volume
+  condition: []
+  action:
+  - service: media_player.volume_set
+    target:
+      entity_id:
+      - media_player.speakers_group
+      device_id: []
+      area_id: []
+    data:
+      volume_level: '{{ states(''input_number.speaker_volume'')}}'
+  mode: single
+- id: '1710511790171'
+  alias: Office Speaker - Volume adjust
+  description: ''
+  trigger:
+  - platform: time
+    at: 08:00:00
+    id: home
+  - platform: time
+    at: '10:00:00'
+    id: home
+  condition:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  action:
+  - service: media_player.volume_set
+    target:
+      entity_id:
+      - media_player.office_speaker
+      device_id: []
+      area_id: []
+    data:
+      volume_level: 0
+  mode: single
+- id: '1711758261995'
+  alias: Fish Tank
+  description: ''
+  trigger:
+  - platform: time
+    at: 07:00:00
+  - platform: time
+    at: '10:00:00'
+  - platform: time
+    at: '18:00:00'
+  - platform: time
+    at: '21:00:00'
+  condition: []
+  action:
+  - if:
+    - condition: device
+      type: is_off
+      device_id: df4cf792d8865cb18aa9400b9edc7bb3
+      entity_id: cd3684ef5ee45d56c934b517b3cbbcf8
+      domain: switch
+    then:
+    - type: turn_on
+      device_id: df4cf792d8865cb18aa9400b9edc7bb3
+      entity_id: cd3684ef5ee45d56c934b517b3cbbcf8
+      domain: switch
+    else:
+    - type: turn_off
+      device_id: df4cf792d8865cb18aa9400b9edc7bb3
+      entity_id: cd3684ef5ee45d56c934b517b3cbbcf8
+      domain: switch
+  mode: single
+- id: '1716382194234'
+  alias: 'Flood cam Motion detection '
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: '10'
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 61489792cb0c1bdb00a23ddb1fe63981
+    entity_id: 8dc384c316f4afc6bc6492c19cf0dcb1
+    domain: switch
+  mode: single

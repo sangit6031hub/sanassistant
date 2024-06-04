@@ -1,0 +1,33 @@
+# Loads default set of integrations. DO NOT REMOVE
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+http:
+  server_port: 80
+tts:
+  - platform: picotts
+  - platform: reversotts
+
+# Email Config entry - notify
+notify:
+  - name: email_notification
+    platform: smtp
+    sender: !secret email_sender
+    recipient: !secret email_receiver
+    username: !secret email_sender
+    password: !secret email_password
+    sender_name: "San Security Assistant"
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    encryption: starttls
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+shell_command:
+  backup: ./san_script/backup.sh
