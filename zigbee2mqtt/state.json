@@ -37,7 +37,7 @@
     "0xa4c1381c891f30ef": {
         "battery": 100,
         "voltage": 2800,
-        "contact": true,
+        "contact": false,
         "tamper": false,
         "battery_low": false,
         "linkquality": 48
@@ -64,8 +64,8 @@
     "0xa4c138dbb692ffe1": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 19.23,
-        "humidity": 52.85,
+        "temperature": 19.32,
+        "humidity": 52.84,
         "linkquality": 75
     },
     "0xa4c1389be81c9d05": {
@@ -163,8 +163,8 @@
         "linkquality": 66
     },
     "0xa4c13806bd3ed514": {
-        "illuminance_lux": 64,
-        "brightness_state": "middle",
+        "illuminance_lux": 58,
+        "brightness_state": "low",
         "linkquality": 42
     }
 }
