@@ -434,7 +434,7 @@
           state: 'on'
   mode: single
 - id: '1708309195903'
-  alias: Daily Backup
+  alias: GitHub Daily Backup
   description: Backup Home Assistant configuration folder
   trigger:
   - platform: time
