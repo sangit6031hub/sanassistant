@@ -14,8 +14,8 @@
         "linkquality": 45
     },
     "0xa4c13878b325acca": {
-        "battery": 36,
-        "voltage": 2600,
+        "battery": 100,
+        "voltage": 2800,
         "contact": true,
         "tamper": false,
         "battery_low": false,
@@ -30,8 +30,8 @@
         "contact": true,
         "tamper": false,
         "battery_low": false,
-        "battery": 44,
-        "voltage": 2600,
+        "battery": 100,
+        "voltage": 2800,
         "linkquality": 60
     },
     "0xa4c1381c891f30ef": {
@@ -50,28 +50,28 @@
     "0xa4c138e0bcb360cc": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 24.24,
-        "humidity": 38.33,
+        "temperature": 23.84,
+        "humidity": 42.35,
         "linkquality": 39
     },
     "0xa4c1384318be8deb": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 23.83,
-        "humidity": 38.72,
+        "temperature": 24.18,
+        "humidity": 41.96,
         "linkquality": 60
     },
     "0xa4c138dbb692ffe1": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 19.06,
-        "humidity": 49.84,
+        "temperature": 19.54,
+        "humidity": 52.16,
         "linkquality": 75
     },
     "0xa4c1389be81c9d05": {
         "battery": 100,
         "voltage": 3000,
-        "contact": false,
+        "contact": true,
         "tamper": false,
         "battery_low": false,
         "linkquality": 57
@@ -80,7 +80,7 @@
         "contact": true,
         "tamper": false,
         "battery_low": false,
-        "battery": 22,
+        "battery": 100,
         "voltage": 2600,
         "linkquality": 39
     },
@@ -102,7 +102,7 @@
         "linkquality": 51
     },
     "0x000d6f000f5e867b": {
-        "voltage": 6000,
+        "voltage": 5900,
         "battery": 100,
         "occupancy": false,
         "tamper": false,
@@ -118,7 +118,7 @@
         "tamper": false,
         "battery_low": false,
         "contact": true,
-        "temperature": 23,
+        "temperature": 22,
         "linkquality": 39
     },
     "0xa4c13816e64d4782": {
@@ -157,7 +157,7 @@
     "0xa4c138442284df72": {
         "battery": 84,
         "voltage": 2900,
-        "contact": true,
+        "contact": false,
         "tamper": false,
         "battery_low": false,
         "linkquality": 66

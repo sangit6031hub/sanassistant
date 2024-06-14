@@ -451,7 +451,7 @@
     - service: notify.notify
       data:
         title: ✅ Backup successful
-        message: '{{ backup_response[''stdout''] }}'
+        message: Github Daily Backup Completed
     else:
     - service: notify.notify
       data:
@@ -519,9 +519,8 @@
   action:
   - service: media_player.volume_set
     target:
-      entity_id:
-      - media_player.office_speaker
-      device_id: []
+      device_id:
+      - 084cd82182dbf7573b15b17ee4f4bfd7
       area_id: []
     data:
       volume_level: 0
