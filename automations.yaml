@@ -361,7 +361,7 @@
         device_id: 57b421090ea696c870480708354d867a
   mode: single
 - id: '1708095767512'
-  alias: Garage Door Left OPEN
+  alias: Doors Left OPEN
   description: ''
   trigger:
   - type: opened
@@ -419,18 +419,13 @@
           seconds: 0
           milliseconds: 0
       while:
-      - condition: or
-        conditions:
-        - condition: state
-          entity_id: binary_sensor.garage_door_sensor_one_contact
-          state: 'on'
-        - condition: state
-          entity_id: binary_sensor.garage_door_sensor_two_contact
-          state: 'on'
       - condition: and
         conditions:
         - condition: state
           entity_id: input_boolean.voice_notifications
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.garage_door_sensor_one_contact
           state: 'on'
   mode: single
 - id: '1708309195903'
@@ -470,7 +465,7 @@
   condition: []
   action:
   - delay:
-      hours: 2
+      hours: 4
       minutes: 0
       seconds: 0
       milliseconds: 0
