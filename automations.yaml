@@ -52,6 +52,11 @@
     device_id: 77cd68254a85e6fa72bda72c2e05941a
     entity_id: 1d4a72655cacf1c4123327ca52a9d59b
     domain: binary_sensor
+  - platform: device
+    type: changed_states
+    device_id: 3e82504e7cf749250b6d82290ccad6bd
+    entity_id: 90685de52680883754499da89f6376f5
+    domain: switch
   condition:
   - condition: and
     conditions:
