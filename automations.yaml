@@ -279,15 +279,6 @@
     entity_id: c42a47f71b540be6822406f4460268d6
     domain: switch
   mode: single
-- id: '1706564049392'
-  alias: Alarmo Keypad01 Sync
-  description: ''
-  use_blueprint:
-    path: neliss/zigbee2mqtt-control-alarmo-via-keypad.yaml
-    input:
-      state_topic: zigbee2mqtt/Keypad01
-      set_topic: zigbee2mqtt/Keypad01/set
-      entity: alarm_control_panel.securityalarm3100
 - id: '1706666603460'
   alias: Hall Fan Automation
   description: ''
@@ -320,15 +311,6 @@
         domain: switch
       alias: Turn on Fan
   mode: single
-- id: '1707166479042'
-  alias: Alarmo Keypad02 Sync
-  description: ''
-  use_blueprint:
-    path: neliss/zigbee2mqtt-control-alarmo-via-keypad.yaml
-    input:
-      state_topic: zigbee2mqtt/Keypad02
-      set_topic: zigbee2mqtt/Keypad02/set
-      entity: alarm_control_panel.securityalarm3100
 - id: '1707608182929'
   alias: Garage light ON
   description: ''
@@ -569,3 +551,21 @@
     entity_id: 8dc384c316f4afc6bc6492c19cf0dcb1
     domain: switch
   mode: single
+- id: '1720321855417'
+  alias: Alarmo Keypad Sync (San - 01)
+  description: ''
+  use_blueprint:
+    path: zigbee2mqtt-san-keypad-blueprint.yaml
+    input:
+      state_topic: zigbee2mqtt/Keypad01
+      set_topic: zigbee2mqtt/Keypad01/set
+      entity: alarm_control_panel.securityalarm3100
+- id: '1720322051365'
+  alias: Alarmo Keypad Sync (San - 02)
+  description: ''
+  use_blueprint:
+    path: zigbee2mqtt-san-keypad-blueprint.yaml
+    input:
+      state_topic: zigbee2mqtt/Keypad02
+      set_topic: zigbee2mqtt/Keypad02/set
+      entity: alarm_control_panel.securityalarm3100

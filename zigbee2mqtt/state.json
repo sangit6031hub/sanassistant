@@ -24,7 +24,7 @@
     "0xa4c138cb15addd8a": {
         "trigger": true,
         "garage_door_contact": false,
-        "linkquality": 48
+        "linkquality": 0
     },
     "0xa4c1382c7dfb1c13": {
         "contact": true,
@@ -43,29 +43,29 @@
         "linkquality": 48
     },
     "0xa4c138113fb19080": {
-        "linkquality": 48,
+        "linkquality": 66,
         "garage_door_contact": false,
         "trigger": true
     },
     "0xa4c138e0bcb360cc": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 27.06,
-        "humidity": 46.6,
-        "linkquality": 39
+        "temperature": 23.64,
+        "humidity": 41.87,
+        "linkquality": 75
     },
     "0xa4c1384318be8deb": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 25.34,
-        "humidity": 49.73,
+        "temperature": 23.42,
+        "humidity": 43.4,
         "linkquality": 60
     },
     "0xa4c138dbb692ffe1": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 21.55,
-        "humidity": 54.32,
+        "temperature": 19.74,
+        "humidity": 53.05,
         "linkquality": 75
     },
     "0xa4c1389be81c9d05": {
@@ -74,7 +74,7 @@
         "contact": true,
         "tamper": false,
         "battery_low": false,
-        "linkquality": 57
+        "linkquality": 0
     },
     "0xa4c1381796d65b2f": {
         "contact": true,
@@ -108,8 +108,8 @@
         "tamper": false,
         "battery_low": false,
         "contact": true,
-        "linkquality": 48,
-        "temperature": 24
+        "linkquality": 60,
+        "temperature": 23
     },
     "0x000d6f001415d557": {
         "voltage": 6000,
@@ -118,8 +118,8 @@
         "tamper": false,
         "battery_low": false,
         "contact": true,
-        "temperature": 26,
-        "linkquality": 39
+        "temperature": 22,
+        "linkquality": 69
     },
     "0xa4c13816e64d4782": {
         "battery": 78,
@@ -165,6 +165,6 @@
     "0xa4c13806bd3ed514": {
         "illuminance_lux": 0,
         "brightness_state": "low",
-        "linkquality": 42
+        "linkquality": 72
     }
 }
