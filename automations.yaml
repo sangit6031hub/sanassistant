@@ -279,38 +279,6 @@
     entity_id: c42a47f71b540be6822406f4460268d6
     domain: switch
   mode: single
-- id: '1706666603460'
-  alias: Hall Fan Automation
-  description: ''
-  trigger:
-  - platform: time
-    at: '22:00:00'
-  - platform: time
-    at: 05:00:00
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: time
-        after: 04:00:00
-        before: 06:00:00
-      sequence:
-      - type: turn_off
-        device_id: d5c8058746bf9f4ad78c6fa0674f0900
-        entity_id: 57da15fd13626a1539fca70d47f180a7
-        domain: switch
-      alias: Turn Off Fan
-    - conditions:
-      - condition: time
-        after: '20:00:00'
-        before: '12:00:00'
-      sequence:
-      - type: turn_on
-        device_id: d5c8058746bf9f4ad78c6fa0674f0900
-        entity_id: 57da15fd13626a1539fca70d47f180a7
-        domain: switch
-      alias: Turn on Fan
-  mode: single
 - id: '1707608182929'
   alias: Garage light ON
   description: ''
@@ -348,7 +316,7 @@
         device_id: 57b421090ea696c870480708354d867a
   mode: single
 - id: '1708095767512'
-  alias: Doors Left OPEN
+  alias: Doors Left OPEN - Long Time
   description: ''
   trigger:
   - type: opened
@@ -363,6 +331,21 @@
     entity_id: 11671186c95fda60838117f376053dfc
     domain: binary_sensor
     id: trigger_garage_02
+  - type: opened
+    platform: device
+    device_id: 27e69aa0ea80aac5fc9f89b128bb02bb
+    entity_id: ee20a92f2be33c639f4a379abb36a398
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: ee30e11d458110e84a0ceb230d6c3fcf
+    entity_id: 4bd5a0e380f0dacbbb79badc56071f6a
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 3ff0ef6d17c887e9ea6bbf2ad15191fe
+    entity_id: 6db468c29bf0d96490a9ac2c59e9ef3a
+    domain: binary_sensor
   condition:
   - condition: and
     conditions:
