@@ -319,33 +319,11 @@
   alias: Doors Left OPEN - Long Time
   description: ''
   trigger:
-  - type: opened
-    platform: device
-    device_id: 013ffab074165f75832bd3af2cc565d9
-    entity_id: b25fcd4ba900ca274594278ebb715542
-    domain: binary_sensor
-    id: trigger_garage_01
-  - type: opened
-    platform: device
-    device_id: 77cd68254a85e6fa72bda72c2e05941a
-    entity_id: 11671186c95fda60838117f376053dfc
-    domain: binary_sensor
-    id: trigger_garage_02
-  - type: opened
-    platform: device
-    device_id: 27e69aa0ea80aac5fc9f89b128bb02bb
-    entity_id: ee20a92f2be33c639f4a379abb36a398
-    domain: binary_sensor
-  - type: opened
-    platform: device
-    device_id: ee30e11d458110e84a0ceb230d6c3fcf
-    entity_id: 4bd5a0e380f0dacbbb79badc56071f6a
-    domain: binary_sensor
-  - type: opened
-    platform: device
-    device_id: 3ff0ef6d17c887e9ea6bbf2ad15191fe
-    entity_id: 6db468c29bf0d96490a9ac2c59e9ef3a
-    domain: binary_sensor
+  - platform: state
+    entity_id:
+    - binary_sensor.door_sensor_group
+    from: 'off'
+    to: 'on'
   condition:
   - condition: and
     conditions:
@@ -395,7 +373,7 @@
           entity_id: input_boolean.voice_notifications
           state: 'on'
         - condition: state
-          entity_id: binary_sensor.garage_door_sensor_one_contact
+          entity_id: binary_sensor.door_sensor_group
           state: 'on'
   mode: single
 - id: '1708309195903'
@@ -552,3 +530,43 @@
       state_topic: zigbee2mqtt/Keypad02
       set_topic: zigbee2mqtt/Keypad02/set
       entity: alarm_control_panel.securityalarm3100
+- id: '1721619572709'
+  alias: New Doors Left Open Long Time
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /5
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.voice_notifications
+      state: 'on'
+    - condition: state
+      entity_id: alarm_control_panel.securityalarm3100
+      state: disarmed
+      enabled: true
+    - condition: state
+      entity_id: binary_sensor.door_sensor_group
+      state: 'on'
+  action:
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.speakers_group
+    data:
+      media_content_id: media-source://tts/reversotts?message="{{ expand('group.all_doors_and_windows')
+        | selectattr('state','eq','on') | map(attribute='name') | list | join(', ')
+        }}" Left OPEN for long time&language=Laura-US-English
+      media_content_type: provider
+    metadata:
+      title: 'OFF'
+      thumbnail: https://brands.home-assistant.io/_/tts/logo.png
+      media_class: app
+      children_media_class:
+      navigateIds:
+      - {}
+      - media_content_type: app
+        media_content_id: media-source://tts
+      - media_content_type: provider
+        media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
+  mode: single
