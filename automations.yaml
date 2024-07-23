@@ -535,7 +535,7 @@
   description: ''
   trigger:
   - platform: time_pattern
-    minutes: /5
+    minutes: /10
   condition:
   - condition: and
     conditions:
@@ -554,7 +554,7 @@
     target:
       entity_id: media_player.speakers_group
     data:
-      media_content_id: media-source://tts/reversotts?message="{{ expand('group.all_doors_and_windows')
+      media_content_id: media-source://tts/reversotts?message="{{ expand('binary_sensor.door_sensor_group')
         | selectattr('state','eq','on') | map(attribute='name') | list | join(', ')
         }}" Left OPEN for long time&language=Laura-US-English
       media_content_type: provider
