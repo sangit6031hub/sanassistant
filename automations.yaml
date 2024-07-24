@@ -531,7 +531,7 @@
       set_topic: zigbee2mqtt/Keypad02/set
       entity: alarm_control_panel.securityalarm3100
 - id: '1721619572709'
-  alias: New Doors Left Open Long Time
+  alias: 'New Doors Left Open '
   description: ''
   trigger:
   - platform: time_pattern
@@ -554,9 +554,9 @@
     target:
       entity_id: media_player.speakers_group
     data:
-      media_content_id: media-source://tts/reversotts?message="{{ expand('binary_sensor.door_sensor_group')
-        | selectattr('state','eq','on') | map(attribute='name') | list | join(', ')
-        }}" Left OPEN for long time&language=Laura-US-English
+      media_content_id: media-source://tts/reversotts?message=Reminder doors left
+        open "{{ expand('binary_sensor.door_sensor_group') | selectattr('state','eq','on')
+        | map(attribute='name') | list | join(', ') }}"&language=Laura-US-English
       media_content_type: provider
     metadata:
       title: 'OFF'
