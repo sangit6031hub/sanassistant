@@ -122,3 +122,48 @@ disarmed_script:
     data: {}
   mode: single
   icon: mdi:alarm-light-off
+door_open_script:
+  alias: Door Open Script
+  sequence:
+  - service: media_player.play_media
+    target:
+      entity_id:
+      - media_player.speakers_group
+    data:
+      media_content_type: audio/mpeg
+      media_content_id: media-source://media_source/local/beep_tone.mp3
+    metadata:
+      title: emergency-alarm.mp3
+      thumbnail:
+      media_class: music
+      children_media_class:
+      navigateIds:
+      - {}
+      - media_content_type: app
+        media_content_id: media-source://media_source
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.speakers_group
+    data:
+      media_content_id: media-source://tts/reversotts?message="{{ expand('binary_sensor.door_sensor_group')
+        | selectattr('state','eq','on') | map(attribute='name') | list | join(' and
+        ') }}"  are OPEN  &language=Laura-US-English
+      media_content_type: provider
+    metadata:
+      title: Doors Open Reminder
+      thumbnail: https://brands.home-assistant.io/_/tts/logo.png
+      media_class: app
+      children_media_class:
+      navigateIds:
+      - {}
+      - media_content_type: app
+        media_content_id: media-source://tts
+      - media_content_type: provider
+        media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
+  description: ''
+  icon: mdi:door-open
