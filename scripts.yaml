@@ -141,11 +141,13 @@ door_open_script:
       - {}
       - media_content_type: app
         media_content_id: media-source://media_source
+    enabled: false
   - delay:
       hours: 0
       minutes: 0
       seconds: 3
       milliseconds: 0
+    enabled: false
   - service: media_player.play_media
     target:
       entity_id:
@@ -154,7 +156,7 @@ door_open_script:
       media_content_type: provider
       media_content_id: media-source://tts/reversotts?message="{{ expand('binary_sensor.door_sensor_group')
         | selectattr('state','eq','on') | map(attribute='name') | list | join(', ')
-        }}"  are OPEN  &language=Laura-US-English
+        }}"  are left OPEN for long time &language=Laura-US-English
     metadata:
       title: emergency-alarm.mp3
       thumbnail:
