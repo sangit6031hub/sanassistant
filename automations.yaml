@@ -561,8 +561,6 @@
   description: ''
   trigger:
   - platform: time
-    at: '22:30:00'
-  - platform: time
     at: '23:00:00'
   - platform: time
     at: '23:30:00'
@@ -571,9 +569,9 @@
     entity_id: alarm_control_panel.securityalarm3100
     state: disarmed
   action:
-  - service: alarm_control_panel.alarm_arm_night
-    metadata: {}
+  - metadata: {}
     data: {}
     target:
       entity_id: alarm_control_panel.securityalarm3100
+    action: alarm_control_panel.alarm_arm_night
   mode: single
