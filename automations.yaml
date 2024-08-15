@@ -537,7 +537,7 @@
   description: ''
   trigger:
   - platform: time_pattern
-    minutes: /10
+    minutes: /15
   condition:
   - condition: and
     conditions:
@@ -552,9 +552,9 @@
       entity_id: binary_sensor.door_sensor_group
       state: 'on'
   action:
-  - service: script.door_open_script
-    metadata: {}
+  - metadata: {}
     data: {}
+    action: script.door_open_script
   mode: single
 - id: '1721877086383'
   alias: Nightly Alarm ON
@@ -574,4 +574,37 @@
     target:
       entity_id: alarm_control_panel.securityalarm3100
     action: alarm_control_panel.alarm_arm_night
+  mode: single
+- id: '1723660828224'
+  alias: Water Flow Notifications
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /10
+  condition:
+  - condition: state
+    entity_id: input_boolean.voice_notifications
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.flume_sensor_3200_60_minutes
+    above: 30
+  action:
+  - target:
+      entity_id: media_player.speakers_group
+    data:
+      media_content_id: media-source://tts/reversotts?message="Increase in water flow
+        detected &language=Laura-US-English
+      media_content_type: provider
+    metadata:
+      title: Water Flow - Message
+      thumbnail: https://brands.home-assistant.io/_/tts/logo.png
+      media_class: app
+      children_media_class:
+      navigateIds:
+      - {}
+      - media_content_type: app
+        media_content_id: media-source://tts
+      - media_content_type: provider
+        media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
+    action: media_player.play_media
   mode: single
