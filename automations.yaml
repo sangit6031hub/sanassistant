@@ -224,21 +224,20 @@
     offset: 0
   condition: []
   action:
-  - service: input_number.set_value
-    metadata: {}
+  - metadata: {}
     data:
-      value: 0.1
+      value: 5
     target:
       entity_id: input_number.speaker_volume
-  - service: input_boolean.turn_on
-    metadata: {}
+    action: input_number.set_value
+  - metadata: {}
     data: {}
     target:
       entity_id:
       - input_boolean.energy_saver
       - input_boolean.voice_notifications
-  - service: media_player.play_media
-    target:
+    action: input_boolean.turn_on
+  - target:
       entity_id:
       - media_player.speakers_group
     data:
@@ -253,17 +252,18 @@
       - {}
       - media_content_type: app
         media_content_id: media-source://media_source
+    action: media_player.play_media
   - delay:
       hours: 0
       minutes: 0
       seconds: 10
       milliseconds: 0
-  - service: input_number.set_value
-    metadata: {}
+  - metadata: {}
     data:
       value: 0.5
     target:
       entity_id: input_number.speaker_volume
+    action: input_number.set_value
   mode: single
 - id: '1706304337669'
   alias: Motion Garage Light ON
@@ -546,4 +546,21 @@
       - media_content_type: provider
         media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
     action: media_player.play_media
+  mode: single
+- id: '1725022447304'
+  alias: Music player Started
+  description: ''
+  trigger:
+  - platform: device
+    device_id: d4f9fd53e5a08dfbb1d40bf5a0d48040
+    domain: media_player
+    entity_id: 77ea52c848169d828455e60015652548
+    type: playing
+  condition: []
+  action:
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.voice_notifications
   mode: single
