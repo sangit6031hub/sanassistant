@@ -519,7 +519,7 @@
   description: ''
   trigger:
   - platform: time_pattern
-    minutes: /10
+    minutes: /12
   condition:
   - condition: state
     entity_id: input_boolean.voice_notifications
