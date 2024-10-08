@@ -67,14 +67,13 @@ alarm_beep:
 alarm_exit_delay_music:
   alias: Alarm Exit delay music
   sequence:
-  - service: input_number.set_value
-    metadata: {}
+  - metadata: {}
     data:
       value: 1
     target:
       entity_id: input_number.speaker_volume
-  - service: media_player.play_media
-    target:
+    action: input_number.set_value
+  - target:
       entity_id:
       - media_player.speakers_group
     data:
@@ -89,6 +88,12 @@ alarm_exit_delay_music:
       - {}
       - media_content_type: app
         media_content_id: media-source://media_source
+    action: media_player.play_media
+  - device_id: 41d0350e99e72f613319bfbaef984a98
+    domain: select
+    entity_id: 26ccda54be221973d1dd4a04bc7b0fbd
+    type: select_option
+    option: away
   mode: single
   icon: mdi:music
 notification_script:
@@ -109,17 +114,22 @@ notification_script:
 disarmed_script:
   alias: Disarmed Script
   sequence:
-  - service: input_number.set_value
-    metadata: {}
+  - metadata: {}
     data:
       value: 0.5
     target:
       entity_id: input_number.speaker_volume
-  - service: media_player.media_stop
-    target:
+    action: input_number.set_value
+  - target:
       entity_id:
       - media_player.speakers_group
     data: {}
+    action: media_player.media_stop
+  - device_id: 41d0350e99e72f613319bfbaef984a98
+    domain: select
+    entity_id: 26ccda54be221973d1dd4a04bc7b0fbd
+    type: select_option
+    option: home
   mode: single
   icon: mdi:alarm-light-off
 door_open_script:

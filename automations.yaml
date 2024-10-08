@@ -498,16 +498,18 @@
 - id: '1721877086383'
   alias: Nightly Alarm ON
   description: ''
-  trigger:
-  - platform: time
-    at: '23:00:00'
-  - platform: time
-    at: '23:30:00'
-  condition:
+  triggers:
+  - at: '22:00:00'
+    trigger: time
+  - at: '23:30:00'
+    trigger: time
+  - at: '23:00:00'
+    trigger: time
+  conditions:
   - condition: state
     entity_id: alarm_control_panel.securityalarm3100
     state: disarmed
-  action:
+  actions:
   - metadata: {}
     data: {}
     target:
