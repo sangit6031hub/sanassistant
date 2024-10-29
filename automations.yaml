@@ -134,50 +134,56 @@
 - id: '1703297451429'
   alias: Sunset + 2hrs
   description: ''
-  trigger:
-  - platform: sun
-    event: sunset
+  triggers:
+  - event: sunset
     offset: +02:00:00
-  - platform: time
-    at: '21:00:00'
-  condition: []
-  action:
-  - service: switch.turn_off
-    metadata: {}
+    trigger: sun
+  - at: '21:00:00'
+    trigger: time
+  conditions:
+  - condition: state
+    entity_id: input_boolean.energy_saver
+    state: 'on'
+  actions:
+  - metadata: {}
     data: {}
     target:
       device_id:
       - a4ba99b7719642420d94bebdb42e9622
       - 1d531cf53957ee6339f579fd6deaba7a
       area_id: outdoor
+    action: switch.turn_off
   mode: single
 - id: '1703297581987'
   alias: Midnight Schedule
   description: ''
-  trigger:
-  - platform: time
-    at: '23:59:00'
-  - platform: time
-    at: '23:00:00'
-  - platform: time
-    at: 01:00:00
-  condition: []
-  action:
+  triggers:
+  - at: '23:59:00'
+    trigger: time
+  - at: '23:00:00'
+    trigger: time
+  - at: 01:00:00
+    trigger: time
+  conditions:
+  - condition: state
+    entity_id: input_boolean.energy_saver
+    state: 'on'
+  actions:
   - type: turn_off
     device_id: 6db8e8b6bac1035f442a0e44b086eb33
     entity_id: 018e2d43bec65efc27548d2f9d96d97d
     domain: remote
-  - service: switch.turn_off
-    metadata: {}
+  - metadata: {}
     data: {}
     target:
       entity_id: switch.security_switch_group
       device_id: 1d531cf53957ee6339f579fd6deaba7a
-  - service: light.turn_off
-    metadata: {}
+    action: switch.turn_off
+  - metadata: {}
     data: {}
     target:
       entity_id: light.security_light_group
+    action: light.turn_off
   - type: turn_off
     device_id: df4cf792d8865cb18aa9400b9edc7bb3
     entity_id: cd3684ef5ee45d56c934b517b3cbbcf8

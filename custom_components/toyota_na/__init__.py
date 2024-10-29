@@ -1,12 +1,42 @@
 from ctypes import cast
 from datetime import timedelta
 import logging
+import asyncio
 
 from toyota_na.auth import ToyotaOneAuth
 from toyota_na.client import ToyotaOneClient
+
+# Patch client code
+from .patch_client import get_electric_status
+ToyotaOneClient.get_electric_status = get_electric_status
+
+# Patch base_vehicle
+import toyota_na.vehicle.base_vehicle
+from .patch_base_vehicle import ApiVehicleGeneration
+toyota_na.vehicle.base_vehicle.ApiVehicleGeneration = ApiVehicleGeneration
+from .patch_base_vehicle import VehicleFeatures
+toyota_na.vehicle.base_vehicle.VehicleFeatures = VehicleFeatures
+from .patch_base_vehicle import RemoteRequestCommand
+toyota_na.vehicle.base_vehicle.RemoteRequestCommand = RemoteRequestCommand
+from .patch_base_vehicle import ToyotaVehicle
+toyota_na.vehicle.base_vehicle.ToyotaVehicle = ToyotaVehicle
+
+# Patch seventeen_cy_plus
+from toyota_na.vehicle.vehicle_generations.seventeen_cy_plus import SeventeenCYPlusToyotaVehicle
+from .patch_seventeen_cy_plus import SeventeenCYPlusToyotaVehicle
+toyota_na.vehicle.vehicle_generations.seventeen_cy_plus.SeventeenCYPlusToyotaVehicle = SeventeenCYPlusToyotaVehicle
+
+# Patch seventeen_cy
+from toyota_na.vehicle.vehicle_generations.seventeen_cy import SeventeenCYToyotaVehicle
+from .patch_seventeen_cy import SeventeenCYToyotaVehicle
+toyota_na.vehicle.vehicle_generations.seventeen_cy.SeventeenCYToyotaVehicle = SeventeenCYToyotaVehicle
+
 from toyota_na.exceptions import AuthError, LoginError
 from toyota_na.vehicle.base_vehicle import RemoteRequestCommand, ToyotaVehicle
-from toyota_na.vehicle.vehicle import get_vehicles
+
+#Patch get_vehicles
+from .patch_vehicle import get_vehicles
+#from toyota_na.vehicle.vehicle import get_vehicles
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall
@@ -19,6 +49,11 @@ from .const import (
     DOMAIN,
     ENGINE_START,
     ENGINE_STOP,
+    HAZARDS_ON,
+    HAZARDS_OFF,
+    DOOR_LOCK,
+    DOOR_UNLOCK,
+    REFRESH,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -64,7 +99,14 @@ async def async_setup(hass: HomeAssistant, _processed_config) -> bool:
 
                 vin = identifier[1]
                 for vehicle in coordinator.data:
-                    if vehicle.vin == vin:
+                    if vehicle.vin == vin and remote_action.upper() == "REFRESH" and vehicle.subscribed:
+                        await vehicle.poll_vehicle_refresh()
+                        # TODO: This works great and prevents us from unnecessarily hitting Toyota. But we can and should
+                        # probably do stuff like this in the library where we can better control which APIs we hit to refresh our in-memory data.
+                        coordinator.async_set_updated_data(coordinator.data)
+                        await asyncio.sleep(10)
+                        await coordinator.async_request_refresh()
+                    elif vehicle.vin == vin and vehicle.subscribed:
                         await vehicle.send_command(COMMAND_MAP[remote_action])
                         break
 
@@ -74,6 +116,11 @@ async def async_setup(hass: HomeAssistant, _processed_config) -> bool:
 
     hass.services.async_register(DOMAIN, ENGINE_START, async_service_handle)
     hass.services.async_register(DOMAIN, ENGINE_STOP, async_service_handle)
+    hass.services.async_register(DOMAIN, HAZARDS_ON, async_service_handle)
+    hass.services.async_register(DOMAIN, HAZARDS_OFF, async_service_handle)
+    hass.services.async_register(DOMAIN, DOOR_LOCK, async_service_handle)
+    hass.services.async_register(DOMAIN, DOOR_UNLOCK, async_service_handle)
+    hass.services.async_register(DOMAIN, REFRESH, async_service_handle)
 
     return True
 
@@ -125,10 +172,9 @@ async def update_vehicles_status(client: ToyotaOneClient, entry: ConfigEntry):
         vehicles: list[ToyotaVehicle] = []
         for vehicle in raw_vehicles:
             if vehicle.subscribed is not True:
-                _LOGGER.warn(
-                    f"Your {vehicle.model_year} {vehicle.model_name} needs a remote services subscription to be used with Home Assistant."
+                _LOGGER.warning(
+                    f"Your {vehicle.model_year} {vehicle.model_name} needs a remote services subscription to fully work with Home Assistant."
                 )
-                continue
             vehicles.append(vehicle)
 
         return vehicles
