@@ -132,11 +132,11 @@
         media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Heather-US-English
   mode: single
 - id: '1703297451429'
-  alias: Sunset + 2hrs
+  alias: Sunset + 3hrs
   description: ''
   triggers:
   - event: sunset
-    offset: +02:00:00
+    offset: +03:00:00
     trigger: sun
   - at: '21:00:00'
     trigger: time
