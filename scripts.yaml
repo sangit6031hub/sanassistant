@@ -39,14 +39,13 @@ siren:
 alarm_beep:
   alias: Alarm Entry Delay Beep
   sequence:
-  - service: input_number.set_value
-    metadata: {}
+  - metadata: {}
     data:
       value: 1
     target:
       entity_id: input_number.speaker_volume
-  - service: media_player.play_media
-    target:
+    action: input_number.set_value
+  - target:
       entity_id:
       - media_player.speakers_group
     data:
@@ -61,6 +60,7 @@ alarm_beep:
       - {}
       - media_content_type: app
         media_content_id: media-source://media_source
+    action: media_player.play_media
   mode: single
   icon: mdi:alarm-light-outline
   description: ''

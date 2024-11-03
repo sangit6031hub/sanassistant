@@ -245,14 +245,8 @@
   - delay:
       hours: 0
       minutes: 0
-      seconds: 10
+      seconds: 2
       milliseconds: 0
-  - metadata: {}
-    data:
-      value: 0.507
-    target:
-      entity_id: input_number.speaker_volume
-    action: input_number.set_value
   - if:
     - condition: state
       entity_id: alarm_control_panel.securityalarm3100
@@ -279,6 +273,17 @@
         - media_content_type: app
           media_content_id: media-source://media_source
       action: media_player.play_media
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - metadata: {}
+    data:
+      value: 0.5
+    target:
+      entity_id: input_number.speaker_volume
+    action: input_number.set_value
   mode: single
 - id: '1706304337669'
   alias: Motion Garage Light ON
