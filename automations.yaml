@@ -90,14 +90,13 @@
 - id: '1703297345806'
   alias: Sunset
   description: ''
-  trigger:
-  - platform: sun
-    event: sunset
+  triggers:
+  - event: sunset
     offset: -00:01:00
-  condition: []
-  action:
-  - service: switch.turn_on
-    metadata: {}
+    trigger: sun
+  conditions: []
+  actions:
+  - metadata: {}
     data: {}
     target:
       device_id:
@@ -106,30 +105,46 @@
       - 63d170521cffb53bef6863b6a8ecfa3c
       - 17ff3b53af13bf7d60eba914223d418a
       area_id: outdoor
-  - service: input_number.set_value
-    metadata: {}
+    action: switch.turn_on
+  - metadata: {}
     data:
       value: 0.5
     target:
       entity_id: input_number.speaker_volume
-  - service: media_player.play_media
-    target:
-      entity_id: media_player.speakers_group
-    data:
-      media_content_id: media-source://tts/reversotts?message=Good Evening Yantraa
-        and Jovitha&language=Heather-US-English
-      media_content_type: provider
-    metadata:
-      title: 'OFF'
-      thumbnail: https://brands.home-assistant.io/_/tts/logo.png
-      media_class: app
-      children_media_class:
-      navigateIds:
-      - {}
-      - media_content_type: app
-        media_content_id: media-source://tts
-      - media_content_type: provider
-        media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Heather-US-English
+    action: input_number.set_value
+  - if:
+    - condition: and
+      conditions:
+      - condition: device
+        device_id: 49a18263e7ed2de861299b2fd095daee
+        domain: media_player
+        entity_id: 63f1c55117f67876c1e7eae959a6d727
+        type: is_playing
+      - condition: device
+        device_id: c6ae3c935d6df09d0ab2a48efe73abc3
+        domain: media_player
+        entity_id: 541a6c7a0694abe0f14ee0791aa90f05
+        type: is_playing
+    then: []
+    else:
+    - target:
+        entity_id: media_player.speakers_group
+      data:
+        media_content_id: media-source://tts/reversotts?message=Good Evening Yantraa
+          and Jovitha&language=Heather-US-English
+        media_content_type: provider
+      metadata:
+        title: 'OFF'
+        thumbnail: https://brands.home-assistant.io/_/tts/logo.png
+        media_class: app
+        children_media_class:
+        navigateIds:
+        - {}
+        - media_content_type: app
+          media_content_id: media-source://tts
+        - media_content_type: provider
+          media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Heather-US-English
+      action: media_player.play_media
   mode: single
 - id: '1703297451429'
   alias: Sunset + 3hrs
@@ -257,22 +272,37 @@
       metadata: {}
       data:
         code: '5363'
-    - target:
-        entity_id:
-        - media_player.speakers_group
-      data:
-        media_content_type: audio/mpeg
-        media_content_id: media-source://media_source/local/rooster-sound.mp3
-      metadata:
-        title: emergency-alarm.mp3
-        thumbnail:
-        media_class: music
-        children_media_class:
-        navigateIds:
-        - {}
-        - media_content_type: app
-          media_content_id: media-source://media_source
-      action: media_player.play_media
+    - if:
+      - condition: and
+        conditions:
+        - condition: device
+          device_id: 49a18263e7ed2de861299b2fd095daee
+          domain: media_player
+          entity_id: 63f1c55117f67876c1e7eae959a6d727
+          type: is_playing
+        - condition: device
+          device_id: c6ae3c935d6df09d0ab2a48efe73abc3
+          domain: media_player
+          entity_id: 541a6c7a0694abe0f14ee0791aa90f05
+          type: is_playing
+      then: []
+      else:
+      - target:
+          entity_id:
+          - media_player.speakers_group
+        data:
+          media_content_type: audio/mpeg
+          media_content_id: media-source://media_source/local/rooster-sound.mp3
+        metadata:
+          title: emergency-alarm.mp3
+          thumbnail:
+          media_class: music
+          children_media_class:
+          navigateIds:
+          - {}
+          - media_content_type: app
+            media_content_id: media-source://media_source
+        action: media_player.play_media
   - delay:
       hours: 0
       minutes: 0
@@ -568,21 +598,4 @@
       - media_content_type: provider
         media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
     action: media_player.play_media
-  mode: single
-- id: '1725022447304'
-  alias: Music player Started
-  description: ''
-  trigger:
-  - platform: device
-    device_id: d4f9fd53e5a08dfbb1d40bf5a0d48040
-    domain: media_player
-    entity_id: 77ea52c848169d828455e60015652548
-    type: playing
-  condition: []
-  action:
-  - action: input_boolean.turn_off
-    metadata: {}
-    data: {}
-    target:
-      entity_id: input_boolean.voice_notifications
   mode: single
