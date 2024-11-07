@@ -524,10 +524,10 @@
 - id: '1721619572709'
   alias: 'New Doors Left Open '
   description: ''
-  trigger:
-  - platform: time_pattern
-    minutes: /15
-  condition:
+  triggers:
+  - minutes: /29
+    trigger: time_pattern
+  conditions:
   - condition: and
     conditions:
     - condition: state
@@ -540,7 +540,7 @@
     - condition: state
       entity_id: binary_sensor.door_sensor_group
       state: 'on'
-  action:
+  actions:
   - metadata: {}
     data: {}
     action: script.door_open_script
