@@ -92,7 +92,7 @@
   description: ''
   triggers:
   - event: sunset
-    offset: -00:01:00
+    offset: -00:01:01
     trigger: sun
   conditions: []
   actions:
@@ -116,14 +116,9 @@
     - condition: and
       conditions:
       - condition: device
-        device_id: 49a18263e7ed2de861299b2fd095daee
+        device_id: 6bee91906ed371d81142b086f5dee5c4
         domain: media_player
-        entity_id: 63f1c55117f67876c1e7eae959a6d727
-        type: is_playing
-      - condition: device
-        device_id: c6ae3c935d6df09d0ab2a48efe73abc3
-        domain: media_player
-        entity_id: 541a6c7a0694abe0f14ee0791aa90f05
+        entity_id: e46862071587735566875d11a33ee607
         type: is_playing
     then: []
     else:
@@ -153,6 +148,7 @@
   - event: sunset
     offset: +03:00:00
     trigger: sun
+    enabled: false
   - at: '21:00:00'
     trigger: time
   conditions:
@@ -276,14 +272,9 @@
       - condition: and
         conditions:
         - condition: device
-          device_id: 49a18263e7ed2de861299b2fd095daee
+          device_id: 6bee91906ed371d81142b086f5dee5c4
           domain: media_player
-          entity_id: 63f1c55117f67876c1e7eae959a6d727
-          type: is_playing
-        - condition: device
-          device_id: c6ae3c935d6df09d0ab2a48efe73abc3
-          domain: media_player
-          entity_id: 541a6c7a0694abe0f14ee0791aa90f05
+          entity_id: e46862071587735566875d11a33ee607
           type: is_playing
       then: []
       else:

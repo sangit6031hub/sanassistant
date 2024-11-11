@@ -11,7 +11,7 @@
         "power_outage_memory": "restore",
         "indicator_mode": "off/on",
         "child_lock": "UNLOCK",
-        "linkquality": 105
+        "linkquality": 99
     },
     "0xa4c13878b325acca": {
         "battery": 87,
@@ -19,12 +19,12 @@
         "contact": true,
         "tamper": false,
         "battery_low": false,
-        "linkquality": 102
+        "linkquality": 93
     },
     "0xa4c138cb15addd8a": {
         "trigger": true,
         "garage_door_contact": false,
-        "linkquality": 15
+        "linkquality": 18
     },
     "0xa4c1382c7dfb1c13": {
         "contact": true,
@@ -32,7 +32,7 @@
         "battery_low": false,
         "battery": 87,
         "voltage": 2500,
-        "linkquality": 45
+        "linkquality": 27
     },
     "0xa4c1381c891f30ef": {
         "battery": 93,
@@ -40,33 +40,33 @@
         "contact": true,
         "tamper": false,
         "battery_low": false,
-        "linkquality": 18
+        "linkquality": 15
     },
     "0xa4c138113fb19080": {
-        "linkquality": 18,
+        "linkquality": 21,
         "garage_door_contact": false,
         "trigger": true
     },
     "0xa4c138e0bcb360cc": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 21.32,
-        "humidity": 46.11,
-        "linkquality": 27
+        "temperature": 21.48,
+        "humidity": 46.36,
+        "linkquality": 42
     },
     "0xa4c1384318be8deb": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 21.1,
-        "humidity": 42.9,
-        "linkquality": 33
+        "temperature": 20.46,
+        "humidity": 44,
+        "linkquality": 45
     },
     "0xa4c138dbb692ffe1": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 20.44,
-        "humidity": 46.52,
-        "linkquality": 78
+        "temperature": 19.86,
+        "humidity": 47.31,
+        "linkquality": 75
     },
     "0xa4c1389be81c9d05": {
         "battery": 100,
@@ -74,7 +74,7 @@
         "contact": true,
         "tamper": false,
         "battery_low": false,
-        "linkquality": 24
+        "linkquality": 96
     },
     "0xa4c1381796d65b2f": {
         "contact": true,
@@ -82,24 +82,24 @@
         "battery_low": false,
         "battery": 100,
         "voltage": 2800,
-        "linkquality": 18
+        "linkquality": 96
     },
     "0xa4c138e48b80b383": {
         "battery": 100,
         "water_leak": false,
         "tamper": false,
         "battery_low": false,
-        "linkquality": 102
+        "linkquality": 105
     },
     "0xa4c138beedc1e652": {
         "battery": 100,
         "voltage": 2900,
         "keep_time": 60,
         "sensitivity": "medium",
-        "occupancy": true,
+        "occupancy": false,
         "tamper": false,
         "battery_low": false,
-        "linkquality": 6
+        "linkquality": 9
     },
     "0x000d6f000f5e867b": {
         "voltage": 5800,
@@ -108,7 +108,7 @@
         "tamper": false,
         "battery_low": false,
         "contact": true,
-        "linkquality": 42,
+        "linkquality": 93,
         "temperature": 19
     },
     "0x000d6f001415d557": {
@@ -119,14 +119,14 @@
         "battery_low": false,
         "contact": true,
         "temperature": 19,
-        "linkquality": 39
+        "linkquality": 18
     },
     "0xa4c13816e64d4782": {
         "battery": 78,
         "water_leak": false,
         "tamper": false,
         "battery_low": false,
-        "linkquality": 21
+        "linkquality": 99
     },
     "0xa4c13801c72daed8": {
         "battery": 72,
@@ -141,18 +141,18 @@
     },
     "0xa4c13865385bd935": {
         "battery": 79,
-        "linkquality": 75
+        "linkquality": 123
     },
     "0xa4c1382108d38428": {
         "battery": 81,
-        "linkquality": 102,
+        "linkquality": 99,
         "water_leak": false,
         "tamper": false,
         "battery_low": false
     },
     "0xa4c138dbe7413406": {
         "battery": 76,
-        "linkquality": 48,
+        "linkquality": 45,
         "water_leak": false,
         "tamper": false,
         "battery_low": false
@@ -163,11 +163,11 @@
         "contact": false,
         "tamper": false,
         "battery_low": false,
-        "linkquality": 54
+        "linkquality": 51
     },
     "0xa4c13806bd3ed514": {
         "illuminance_lux": 0,
         "brightness_state": "low",
-        "linkquality": 42
+        "linkquality": 24
     }
 }
