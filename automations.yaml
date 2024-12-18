@@ -445,14 +445,14 @@
 - id: '1710511790171'
   alias: Office Speaker - Volume adjust
   description: ''
-  trigger:
-  - platform: time
-    at: 08:00:00
+  triggers:
+  - at: 08:00:00
     id: home
-  - platform: time
-    at: '10:00:00'
+    trigger: time
+  - at: '10:00:00'
     id: home
-  condition:
+    trigger: time
+  conditions:
   - condition: time
     weekday:
     - mon
@@ -460,14 +460,14 @@
     - wed
     - thu
     - fri
-  action:
-  - service: media_player.volume_set
-    target:
+  actions:
+  - target:
       device_id:
       - 084cd82182dbf7573b15b17ee4f4bfd7
       area_id: []
     data:
       volume_level: 0
+    action: media_player.volume_set
   mode: single
 - id: '1711758261995'
   alias: Fish Tank
@@ -610,4 +610,16 @@
       - media_content_type: provider
         media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
     action: media_player.play_media
+  mode: single
+- id: '1734474074495'
+  alias: Emergency
+  description: ''
+  triggers: []
+  conditions: []
+  actions:
+  - action: alarm_control_panel.alarm_trigger
+    metadata: {}
+    data: {}
+    target:
+      device_id: 9ba1fd619aee1df98698bb7b0fe0e16b
   mode: single
