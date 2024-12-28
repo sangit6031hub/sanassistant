@@ -43,29 +43,29 @@
         "linkquality": 15
     },
     "0xa4c138113fb19080": {
-        "linkquality": 21,
+        "linkquality": 75,
         "garage_door_contact": false,
         "trigger": true
     },
     "0xa4c138e0bcb360cc": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 23,
-        "humidity": 40.07,
+        "temperature": 21.36,
+        "humidity": 43.98,
         "linkquality": 42
     },
     "0xa4c1384318be8deb": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 19.58,
-        "humidity": 42.63,
+        "temperature": 19.33,
+        "humidity": 42.88,
         "linkquality": 45
     },
     "0xa4c138dbb692ffe1": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 19.09,
-        "humidity": 38.67,
+        "temperature": 17.76,
+        "humidity": 40.25,
         "linkquality": 75
     },
     "0xa4c1389be81c9d05": {
@@ -109,7 +109,7 @@
         "battery_low": false,
         "contact": true,
         "linkquality": 93,
-        "temperature": 18
+        "temperature": 17
     },
     "0x000d6f001415d557": {
         "voltage": 5900,
@@ -118,7 +118,7 @@
         "tamper": false,
         "battery_low": false,
         "contact": true,
-        "temperature": 21,
+        "temperature": 19,
         "linkquality": 18
     },
     "0xa4c13816e64d4782": {
@@ -163,11 +163,11 @@
         "contact": true,
         "tamper": false,
         "battery_low": false,
-        "linkquality": 51
+        "linkquality": 66
     },
     "0xa4c13806bd3ed514": {
         "illuminance_lux": 0,
         "brightness_state": "low",
-        "linkquality": 39
+        "linkquality": 21
     }
 }

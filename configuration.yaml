@@ -12,9 +12,11 @@ tts:
   - platform: reversotts
 
 # Email Config entry - notify
+notifyt: !include notify.yaml
+
 notify:
-  - name: email_notification
-    platform: smtp
+  - platform: smtp
+    name: email_notify
     sender: !secret email_sender
     recipient: !secret email_receiver
     username: !secret email_sender
@@ -24,6 +26,7 @@ notify:
     port: 587
     timeout: 15
     encryption: starttls
+    verify_ssl: false
 
 automation: !include automations.yaml
 script: !include scripts.yaml
