@@ -12,17 +12,15 @@ tts:
   - platform: reversotts
 
 # Email Config entry - notify
-notifyt: !include notify.yaml
-
 notify:
-  - platform: smtp
-    name: email_notify
+  - name: "email_notify"
+    platform: smtp
     sender: !secret email_sender
     recipient: !secret email_receiver
     username: !secret email_sender
     password: !secret email_password
     sender_name: "San Security Assistant"
-    server: smtp.gmail.com
+    server: "smtp.gmail.com"
     port: 587
     timeout: 15
     encryption: starttls
