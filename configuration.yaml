@@ -11,9 +11,14 @@ tts:
   - platform: picotts
   - platform: reversotts
 
+# Twilio SImplePush config
+twilio:
+  account_sid: !secret ACCOUNT_SID_FROM_TWILIO
+  auth_token: !secret AUTH_TOKEN_FROM_TWILIO
+
 # Email Config entry - notify
 notify:
-  - name: "email_notify"
+  - name: "email_notification"
     platform: smtp
     sender: !secret email_sender
     recipient: !secret email_receiver

@@ -1,16 +1,15 @@
 siren:
-  alias: Siren
+  alias: Alarm Trigerred - Siren
   sequence:
-  - service: input_number.set_value
-    metadata: {}
+  - metadata: {}
     data:
       value: 1
     target:
       entity_id: input_number.speaker_volume
+    action: input_number.set_value
   - repeat:
       sequence:
-      - service: media_player.play_media
-        target:
+      - target:
           entity_id:
           - media_player.speakers_group
         data:
@@ -25,6 +24,7 @@ siren:
           - {}
           - media_content_type: app
             media_content_id: media-source://media_source
+        action: media_player.play_media
       - delay:
           hours: 0
           minutes: 0
@@ -36,6 +36,7 @@ siren:
         state: disarmed
   mode: single
   icon: mdi:alarm-light
+  description: ''
 alarm_beep:
   alias: Alarm Entry Delay Beep
   sequence:
@@ -112,7 +113,7 @@ notification_script:
   mode: single
   icon: mdi:message-processing
 disarmed_script:
-  alias: Disarmed Script
+  alias: Alarm Disarmed Script
   sequence:
   - metadata: {}
     data:
@@ -132,6 +133,7 @@ disarmed_script:
     option: home
   mode: single
   icon: mdi:alarm-light-off
+  description: ''
 door_open_script:
   alias: Door Open Script
   sequence:
@@ -178,3 +180,81 @@ door_open_script:
         media_content_id: media-source://media_source
   description: ''
   icon: mdi:door-open
+alarm_trigerred_friends_and_family_notifications:
+  alias: Alarm Trigerred - Friends and Family Notifications
+  sequence:
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 30
+      milliseconds: 0
+  - repeat:
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 15
+          milliseconds: 0
+      - data:
+          message: ⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
+            trigger.entity_id }}'
+          title: Security system notification
+          target: sravisankar@gmail.com
+        action: notify.email_notification
+        alias: Notify Ravisankar Email
+      - data:
+          message: ⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
+            trigger.entity_id }}'
+          title: Security system notification
+          target: sri.sudharson@gmail.com
+        action: notify.email_notification
+        alias: Notify Sudarshon Email
+      - data:
+          message: ⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
+            trigger.entity_id }}'
+          title: Security system notification
+          target: vinoth2002@gmail.com
+        action: notify.email_notification
+        alias: Notify Vinoth Email
+      - data:
+          message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
+            trigger.entity_id }}'
+          title: Security system notification
+          target: skalpana1967@gmail.com
+        action: notify.email_notification
+        alias: Notify Kalpana Email
+      - data:
+          message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
+            trigger.entity_id }}'
+          title: Security system notification
+          target: san6031@gmail.com
+        action: notify.email_notification
+        alias: Notify Santosh Email
+      - data:
+          message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
+            trigger.entity_id }}'
+          title: Security system notification
+          target: sowjanyamohan1907@gmail.com
+        action: notify.email_notification
+        alias: Notify Sowji Email
+      - data:
+          message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
+            trigger.entity_id }}'
+          title: Security system notification
+          target: 3095324552@vtext.com
+        action: notify.email_notification
+        alias: Notify Santosh SMS
+      - data:
+          message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
+            trigger.entity_id }}'
+          title: Security system notification
+          target: 3095303499@vtext.com
+        action: notify.email_notification
+        alias: Notify Sowji SMS
+      until:
+      - condition: state
+        entity_id: alarm_control_panel.securityalarm3100
+        state: disarmed
+  mode: single
+  icon: mdi:message-badge
+  description: Send Information to Friends and Family

@@ -614,7 +614,11 @@
 - id: '1734474074495'
   alias: Emergency
   description: ''
-  triggers: []
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.sos_emergency
+    to: 'on'
   conditions: []
   actions:
   - action: alarm_control_panel.alarm_trigger
