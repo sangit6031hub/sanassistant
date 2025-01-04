@@ -66,4 +66,4 @@ devices:
     friendly_name: Light Sensor Hall
 blocklist:
   - '0x38398ffffe83cfd9'
-version: 4
+version: 3

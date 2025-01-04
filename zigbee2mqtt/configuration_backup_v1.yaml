@@ -1,69 +1,69 @@
-homeassistant:
-  enabled: true
+homeassistant: true
 mqtt:
   server: mqtt://192.168.1.50:1883
   user: mqtt_user
   password: yhfgtTHSUS7494
-  base_topic: zigbee2mqtt
 serial:
   port: /dev/ttyUSB0
 frontend:
-  enabled: true
   port: 8099
-advanced: {}
-device_options: {}
+advanced:
+  homeassistant_legacy_entity_attributes: false
+  legacy_api: false
+  legacy_availability_payload: false
+device_options:
+  legacy: false
 devices:
-  '0xa4c1389679f54d58':
+  "0xa4c1389679f54d58":
     friendly_name: ZPlug01
-  '0xa4c1384a58a142f5':
+  "0xa4c1384a58a142f5":
     friendly_name: ZPlug02
-  '0xa4c13878b325acca':
+  "0xa4c13878b325acca":
     friendly_name: Laundry_Entrance_Door
     description: Laundry Entrance Door
-  '0xa4c138cb15addd8a':
+  "0xa4c138cb15addd8a":
     friendly_name: GarageDoor01
     description: Garage Door
-  '0xa4c1382c7dfb1c13':
+  "0xa4c1382c7dfb1c13":
     friendly_name: Backyard_Door
-  '0xa4c1381c891f30ef':
+  "0xa4c1381c891f30ef":
     friendly_name: Main_door
     description: Main Door
-  '0xa4c138113fb19080':
+  "0xa4c138113fb19080":
     friendly_name: GarageDoor02
-  '0xa4c138e0bcb360cc':
+  "0xa4c138e0bcb360cc":
     friendly_name: Bedroom_Temp_Sensor
-  '0xa4c1384318be8deb':
+  "0xa4c1384318be8deb":
     friendly_name: Living_Room_Temp_Sensor
-  '0xa4c138dbb692ffe1':
+  "0xa4c138dbb692ffe1":
     friendly_name: Basement_Temp_Sensor
-  '0xa4c1389be81c9d05':
+  "0xa4c1389be81c9d05":
     friendly_name: Garage_Door_Sensor_One
-  '0xa4c1381796d65b2f':
+  "0xa4c1381796d65b2f":
     friendly_name: Garage_Door_Sensor_Two
-  '0xa4c138e48b80b383':
+  "0xa4c138e48b80b383":
     friendly_name: Basement Water Detector
-  '0xa4c138beedc1e652':
+  "0xa4c138beedc1e652":
     friendly_name: Motion Sensor Garage
-  '0x000d6f000f5e867b':
+  "0x000d6f000f5e867b":
     friendly_name: Keypad01
-  '0x000d6f001415d557':
+  "0x000d6f001415d557":
     friendly_name: Keypad02
-  '0xa4c13816e64d4782':
+  "0xa4c13816e64d4782":
     friendly_name: Master Bathroom Water Leak Sensor
-  '0xa4c13801c72daed8':
+  "0xa4c13801c72daed8":
     friendly_name: Basement Bathroom Water Leak Sensor
-  '0xa4c1385745e35a81':
+  "0xa4c1385745e35a81":
     friendly_name: Hall Bathroom water leak sensor
-  '0xa4c13865385bd935':
+  "0xa4c13865385bd935":
     friendly_name: Kitchen water leak sensor
-  '0xa4c1382108d38428':
-    friendly_name: 'Laundry Water Leak sensor '
-  '0xa4c138dbe7413406':
+  "0xa4c1382108d38428":
+    friendly_name: "Laundry Water Leak sensor "
+  "0xa4c138dbe7413406":
     friendly_name: Common bathroom Water leak sensor
-  '0xa4c138442284df72':
+  "0xa4c138442284df72":
     friendly_name: Gas Burner 01
-  '0xa4c13806bd3ed514':
+  "0xa4c13806bd3ed514":
     friendly_name: Light Sensor Hall
 blocklist:
-  - '0x38398ffffe83cfd9'
-version: 4
+  - "0x38398ffffe83cfd9"
