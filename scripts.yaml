@@ -185,15 +185,10 @@ alarm_trigerred_friends_and_family_notifications:
   sequence:
   - delay:
       hours: 0
-      minutes: 0
-      seconds: 30
+      minutes: 1
+      seconds: 0
   - repeat:
       sequence:
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 15
-          milliseconds: 0
       - data:
           message: ⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
             trigger.entity_id }}'
@@ -208,7 +203,7 @@ alarm_trigerred_friends_and_family_notifications:
           target: sri.sudharson@gmail.com
         action: notify.email_notification
         alias: Notify Sudarshon Email
-        enabled: false
+        enabled: true
       - data:
           message: ⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
             trigger.entity_id }}'
@@ -216,7 +211,7 @@ alarm_trigerred_friends_and_family_notifications:
           target: vinoth2002@gmail.com
         action: notify.email_notification
         alias: Notify Vinoth Email
-        enabled: false
+        enabled: true
       - data:
           message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
             trigger.entity_id }}'
@@ -224,7 +219,7 @@ alarm_trigerred_friends_and_family_notifications:
           target: skalpana1967@gmail.com
         action: notify.email_notification
         alias: Notify Kalpana Email
-        enabled: false
+        enabled: true
       - data:
           message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
             trigger.entity_id }}'

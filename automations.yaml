@@ -501,13 +501,13 @@
       domain: switch
   mode: single
 - id: '1716382194234'
-  alias: 'Flood cam Motion detection '
+  alias: Flood cam Motion detection ON
   description: ''
-  trigger:
-  - platform: time_pattern
-    minutes: '10'
-  condition: []
-  action:
+  triggers:
+  - minutes: '10'
+    trigger: time_pattern
+  conditions: []
+  actions:
   - type: turn_on
     device_id: 61489792cb0c1bdb00a23ddb1fe63981
     entity_id: 8dc384c316f4afc6bc6492c19cf0dcb1
@@ -610,20 +610,4 @@
       - media_content_type: provider
         media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
     action: media_player.play_media
-  mode: single
-- id: '1734474074495'
-  alias: Emergency
-  description: ''
-  triggers:
-  - trigger: state
-    entity_id:
-    - input_boolean.sos_emergency
-    to: 'on'
-  conditions: []
-  actions:
-  - action: alarm_control_panel.alarm_trigger
-    metadata: {}
-    data: {}
-    target:
-      device_id: 9ba1fd619aee1df98698bb7b0fe0e16b
   mode: single
