@@ -342,40 +342,45 @@
         domain: binary_sensor
   mode: single
 - id: '1707608182929'
-  alias: Garage light ON
+  alias: Garage and driveway light ON
   description: ''
-  trigger:
+  triggers:
   - type: opened
-    platform: device
     device_id: 3ff0ef6d17c887e9ea6bbf2ad15191fe
     entity_id: 6db468c29bf0d96490a9ac2c59e9ef3a
     domain: binary_sensor
+    trigger: device
   - type: opened
-    platform: device
     device_id: 013ffab074165f75832bd3af2cc565d9
     entity_id: b25fcd4ba900ca274594278ebb715542
     domain: binary_sensor
+    trigger: device
   - type: opened
-    platform: device
     device_id: 77cd68254a85e6fa72bda72c2e05941a
     entity_id: 11671186c95fda60838117f376053dfc
     domain: binary_sensor
-  condition: []
-  action:
+    trigger: device
+  conditions: []
+  actions:
   - type: turn_on
     device_id: 903e7f4669512e6b03dbcb7500a5febd
     entity_id: c42a47f71b540be6822406f4460268d6
     domain: switch
   - if:
-    - condition: state
-      entity_id: sun.sun
-      state: below_horizon
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: sun.sun
+        state: below_horizon
+      - condition: time
+        after: '18:00:00'
+        before: 05:00:00
     then:
-    - service: switch.turn_on
-      metadata: {}
+    - metadata: {}
       data: {}
       target:
         device_id: 57b421090ea696c870480708354d867a
+      action: switch.turn_on
   mode: single
 - id: '1708309195903'
   alias: GitHub Daily Backup
