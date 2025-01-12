@@ -190,64 +190,61 @@ alarm_trigerred_friends_and_family_notifications:
   - repeat:
       sequence:
       - data:
-          message: ⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
-            trigger.entity_id }}'
-          title: Security system notification
-          target: sravisankar@gmail.com
+          message: '⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️  '
+          title: Santosh Home security system Trigerred
+          target: san6031@gmail.com
         action: notify.email_notification
-        alias: Notify Ravisankar Email
+        alias: Notify Santosh Email
+      - alias: Notify Sowji Email
+        data:
+          message: '⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️   '
+          title: Santosh Home security system Trigerred
+          target: sowjanyamohan1907@gmail.com
+        action: notify.email_notification
+      - alias: Notify Santosh SMS
+        data:
+          message: '⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️  '
+          title: Santosh Home security system Trigerred
+          target: 3095324552@vtext.com
+        action: notify.email_notification
+      - alias: Notify Sowji SMS
+        data:
+          message: '⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️ '
+          title: Santosh Home security system Trigerred
+          target: 3095303499@vtext.com
+        action: notify.email_notification
       - data:
-          message: ⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
-            trigger.entity_id }}'
-          title: Security system notification
+          message: '⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️ '
+          title: Santosh Home security system Trigerred
           target: sri.sudharson@gmail.com
         action: notify.email_notification
         alias: Notify Sudarshon Email
         enabled: true
       - data:
-          message: ⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
-            trigger.entity_id }}'
-          title: Security system notification
+          message: ⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️
+          title: Santosh Home security system Trigerred
+          target: sravisankar@gmail.com
+        action: notify.email_notification
+        alias: Notify Ravisankar Email
+        enabled: true
+      - data:
+          message: ⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️
+          title: Santosh Home security system Trigerred
           target: vinoth2002@gmail.com
         action: notify.email_notification
         alias: Notify Vinoth Email
         enabled: true
       - data:
-          message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
-            trigger.entity_id }}'
-          title: Security system notification
+          message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️
+          title: Santosh Home security system Trigerred
           target: skalpana1967@gmail.com
         action: notify.email_notification
         alias: Notify Kalpana Email
         enabled: true
-      - data:
-          message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
-            trigger.entity_id }}'
-          title: Security system notification
-          target: san6031@gmail.com
-        action: notify.email_notification
-        alias: Notify Santosh Email
-      - data:
-          message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
-            trigger.entity_id }}'
-          title: Security system notification
-          target: sowjanyamohan1907@gmail.com
-        action: notify.email_notification
-        alias: Notify Sowji Email
-      - data:
-          message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
-            trigger.entity_id }}'
-          title: Security system notification
-          target: 3095324552@vtext.com
-        action: notify.email_notification
-        alias: Notify Santosh SMS
-      - data:
-          message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️   Reason:'{{
-            trigger.entity_id }}'
-          title: Security system notification
-          target: 3095303499@vtext.com
-        action: notify.email_notification
-        alias: Notify Sowji SMS
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 30
       until:
       - condition: state
         entity_id: alarm_control_panel.securityalarm3100
