@@ -64,6 +64,8 @@ devices:
     friendly_name: Gas Burner 01
   '0xa4c13806bd3ed514':
     friendly_name: Light Sensor Hall
+  '0xbc026efffe0dbb6e':
+    friendly_name: ZigbeeExtenderAeotec
 blocklist:
   - '0x38398ffffe83cfd9'
 version: 4
