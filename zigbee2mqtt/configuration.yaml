@@ -36,8 +36,6 @@ devices:
     friendly_name: Living_Room_Temp_Sensor
   '0xa4c138dbb692ffe1':
     friendly_name: Basement_Temp_Sensor
-  '0xa4c1389be81c9d05':
-    friendly_name: Garage_Door_Sensor_One
   '0xa4c1381796d65b2f':
     friendly_name: Garage_Door_Sensor_Two
   '0xa4c138e48b80b383':
@@ -60,12 +58,12 @@ devices:
     friendly_name: 'Laundry Water Leak sensor '
   '0xa4c138dbe7413406':
     friendly_name: Common bathroom Water leak sensor
-  '0xa4c138442284df72':
-    friendly_name: Gas Burner 01
   '0xa4c13806bd3ed514':
     friendly_name: Light Sensor Hall
   '0xbc026efffe0dbb6e':
     friendly_name: ZigbeeExtenderAeotec
+  '0xa4c1389be81c9d05':
+    friendly_name: '0xa4c1389be81c9d05'
 blocklist:
   - '0x38398ffffe83cfd9'
 version: 4
