@@ -1,63 +1,58 @@
 - id: '1698592683179'
   alias: VoiceNotifications
   description: ''
-  trigger:
+  triggers:
   - type: opened
-    platform: device
     device_id: 27e69aa0ea80aac5fc9f89b128bb02bb
     entity_id: ee20a92f2be33c639f4a379abb36a398
     domain: binary_sensor
+    trigger: device
   - type: tampered
-    platform: device
     device_id: 27e69aa0ea80aac5fc9f89b128bb02bb
     entity_id: bb491954fab98a58d346fadf3dea869f
     domain: binary_sensor
+    trigger: device
   - type: opened
-    platform: device
     device_id: ee30e11d458110e84a0ceb230d6c3fcf
     entity_id: 4bd5a0e380f0dacbbb79badc56071f6a
     domain: binary_sensor
+    trigger: device
   - type: tampered
-    platform: device
     device_id: ee30e11d458110e84a0ceb230d6c3fcf
     entity_id: c573230ee4fc7e5f0292b6c6580ddfcf
     domain: binary_sensor
+    trigger: device
   - type: tampered
-    platform: device
     device_id: 3ff0ef6d17c887e9ea6bbf2ad15191fe
     entity_id: abecf1a83f864348d2367c75e253a5ef
     domain: binary_sensor
+    trigger: device
   - type: opened
-    platform: device
     device_id: 3ff0ef6d17c887e9ea6bbf2ad15191fe
     entity_id: 6db468c29bf0d96490a9ac2c59e9ef3a
     domain: binary_sensor
+    trigger: device
   - type: opened
-    platform: device
-    device_id: 013ffab074165f75832bd3af2cc565d9
-    entity_id: b25fcd4ba900ca274594278ebb715542
-    domain: binary_sensor
-  - type: tampered
-    platform: device
-    device_id: 013ffab074165f75832bd3af2cc565d9
-    entity_id: 5e128e949adeb312a0a7827ea0ae6094
-    domain: binary_sensor
-  - type: opened
-    platform: device
     device_id: 77cd68254a85e6fa72bda72c2e05941a
     entity_id: 11671186c95fda60838117f376053dfc
     domain: binary_sensor
+    trigger: device
   - type: tampered
-    platform: device
     device_id: 77cd68254a85e6fa72bda72c2e05941a
     entity_id: 1d4a72655cacf1c4123327ca52a9d59b
     domain: binary_sensor
-  - platform: device
-    type: changed_states
+    trigger: device
+  - type: changed_states
     device_id: 3e82504e7cf749250b6d82290ccad6bd
     entity_id: 90685de52680883754499da89f6376f5
     domain: switch
-  condition:
+    trigger: device
+  - type: opened
+    device_id: 3fe834a8a82965a188ad5359dc6734f8
+    entity_id: b59f95ad6d650d54c316e1f015f4ac82
+    domain: binary_sensor
+    trigger: device
+  conditions:
   - condition: and
     conditions:
     - condition: state
@@ -67,9 +62,8 @@
       entity_id: alarm_control_panel.securityalarm3100
       state: disarmed
       enabled: true
-  action:
-  - service: media_player.play_media
-    target:
+  actions:
+  - target:
       entity_id: media_player.speakers_group
     data:
       media_content_id: media-source://tts/reversotts?message="{{ state_attr(trigger.to_state.entity_id,
@@ -86,6 +80,7 @@
         media_content_id: media-source://tts
       - media_content_type: provider
         media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
+    action: media_player.play_media
   mode: single
 - id: '1703297345806'
   alias: Sunset
