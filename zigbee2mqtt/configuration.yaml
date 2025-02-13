@@ -36,8 +36,6 @@ devices:
     friendly_name: Living_Room_Temp_Sensor
   '0xa4c138dbb692ffe1':
     friendly_name: Basement_Temp_Sensor
-  '0xa4c1381796d65b2f':
-    friendly_name: Garage_Door_Sensor_Two
   '0xa4c138e48b80b383':
     friendly_name: Basement Water Detector
   '0xa4c138beedc1e652':
@@ -63,11 +61,11 @@ devices:
   '0xbc026efffe0dbb6e':
     friendly_name: ZigbeeExtenderAeotec
   '0x282c02bfffeeeaf2':
-    friendly_name: garage tilt sensor one
-  '0xa4c1389be81c9d05':
-    friendly_name: '0xa4c1389be81c9d05'
-  '0xa4c138b9ebec3506':
-    friendly_name: '0xa4c138b9ebec3506'
+    friendly_name: Garage tilt sensor one
+  '0x282c02bfffebb06e':
+    friendly_name: Garage tilt senor two
+  '0xa4c1381796d65b2f':
+    friendly_name: '0xa4c1381796d65b2f'
 blocklist:
   - '0x38398ffffe83cfd9'
 version: 4
