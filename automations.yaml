@@ -32,16 +32,6 @@
     entity_id: 6db468c29bf0d96490a9ac2c59e9ef3a
     domain: binary_sensor
     trigger: device
-  - type: opened
-    device_id: 77cd68254a85e6fa72bda72c2e05941a
-    entity_id: 11671186c95fda60838117f376053dfc
-    domain: binary_sensor
-    trigger: device
-  - type: tampered
-    device_id: 77cd68254a85e6fa72bda72c2e05941a
-    entity_id: 1d4a72655cacf1c4123327ca52a9d59b
-    domain: binary_sensor
-    trigger: device
   - type: changed_states
     device_id: 3e82504e7cf749250b6d82290ccad6bd
     entity_id: 90685de52680883754499da89f6376f5
@@ -50,6 +40,11 @@
   - type: opened
     device_id: 3fe834a8a82965a188ad5359dc6734f8
     entity_id: b59f95ad6d650d54c316e1f015f4ac82
+    domain: binary_sensor
+    trigger: device
+  - type: opened
+    device_id: 8ca5f2a5d5d73c74a5f5b7b40a2d8e89
+    entity_id: 755d4f8948e4041f43aceba674c6d0c9
     domain: binary_sensor
     trigger: device
   conditions:

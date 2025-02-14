@@ -64,8 +64,7 @@ devices:
     friendly_name: Garage tilt sensor one
   '0x282c02bfffebb06e':
     friendly_name: Garage tilt senor two
-  '0xa4c1381796d65b2f':
-    friendly_name: '0xa4c1381796d65b2f'
 blocklist:
   - '0x38398ffffe83cfd9'
+  - '0xa4c1381796d65b2f'
 version: 4
