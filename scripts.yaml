@@ -249,7 +249,7 @@ alarm_trigerred_friends_and_family_notifications:
       while:
       - condition: state
         entity_id: alarm_control_panel.securityalarm3100
-        state: disarmed
+        state: triggered
   mode: single
   icon: mdi:message-badge
   description: Send Information to Friends and Family
