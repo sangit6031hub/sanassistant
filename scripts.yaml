@@ -220,32 +220,33 @@ alarm_trigerred_friends_and_family_notifications:
           target: sri.sudharson@gmail.com
         action: notify.email_notification
         alias: Notify Sudarshon Email
-        enabled: false
+        enabled: true
       - data:
           message: ⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️
           title: Santosh Home security system Trigerred
           target: sravisankar@gmail.com
         action: notify.email_notification
         alias: Notify Ravisankar Email
-        enabled: false
+        enabled: true
       - data:
           message: ⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️
           title: Santosh Home security system Trigerred
           target: vinoth2002@gmail.com
         action: notify.email_notification
         alias: Notify Vinoth Email
-        enabled: false
+        enabled: true
       - data:
           message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️
           title: Santosh Home security system Trigerred
           target: skalpana1967@gmail.com
         action: notify.email_notification
         alias: Notify Kalpana Email
-        enabled: false
+        enabled: true
       - delay:
           hours: 0
-          minutes: 0
-          seconds: 30
+          minutes: 2
+          seconds: 0
+          milliseconds: 0
       while:
       - condition: state
         entity_id: alarm_control_panel.securityalarm3100
