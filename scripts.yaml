@@ -256,36 +256,41 @@ alarm_trigerred_friends_and_family_notifications:
   description: Send Information to Friends and Family
 alarm_night_on:
   sequence:
-  - metadata: {}
-    data:
-      value: 0.3
-    target:
-      entity_id: input_number.speaker_volume
-    action: input_number.set_value
-    alias: Set Volumne 0.3
-  - target:
-      entity_id:
-      - media_player.speakers_group
-    data:
-      media_content_type: audio/mpeg
-      media_content_id: media-source://media_source/local/birds-chirping.mp3
-    metadata:
-      title: emergency-alarm.mp3
-      thumbnail:
-      media_class: music
-      children_media_class:
-      navigateIds:
-      - {}
-      - media_content_type: app
-        media_content_id: media-source://media_source
-    action: media_player.play_media
-  - alias: Set Volumne 0.5
-    metadata: {}
-    data:
-      value: 0.5
-    target:
-      entity_id: input_number.speaker_volume
-    action: input_number.set_value
+  - if:
+    - condition: state
+      entity_id: input_boolean.voice_notifications
+      state: 'on'
+    then:
+    - metadata: {}
+      data:
+        value: 0.3
+      target:
+        entity_id: input_number.speaker_volume
+      action: input_number.set_value
+      alias: Set Volumne 0.3
+    - target:
+        entity_id:
+        - media_player.speakers_group
+      data:
+        media_content_type: audio/mpeg
+        media_content_id: media-source://media_source/local/birds-chirping.mp3
+      metadata:
+        title: emergency-alarm.mp3
+        thumbnail:
+        media_class: music
+        children_media_class:
+        navigateIds:
+        - {}
+        - media_content_type: app
+          media_content_id: media-source://media_source
+      action: media_player.play_media
+    - alias: Set Volumne 0.5
+      metadata: {}
+      data:
+        value: 0.5
+      target:
+        entity_id: input_number.speaker_volume
+      action: input_number.set_value
   alias: Alarm Night ON
   mode: single
   icon: mdi:moon-waning-crescent
