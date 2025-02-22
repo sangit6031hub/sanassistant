@@ -68,6 +68,8 @@ devices:
     friendly_name: '0xa4c138442284df72'
   '0xa4c138b9ebec3506':
     friendly_name: '0xa4c138b9ebec3506'
+  '0xa4c1389be81c9d05':
+    friendly_name: '0xa4c1389be81c9d05'
 blocklist:
   - '0x38398ffffe83cfd9'
   - '0xa4c1381796d65b2f'
