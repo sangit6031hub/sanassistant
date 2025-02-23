@@ -50,22 +50,22 @@
     "0xa4c138e0bcb360cc": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 20.36,
-        "humidity": 24.61,
+        "temperature": 20.03,
+        "humidity": 25,
         "linkquality": 39
     },
     "0xa4c1384318be8deb": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 19.64,
-        "humidity": 24.91,
+        "temperature": 17.07,
+        "humidity": 26.68,
         "linkquality": 36
     },
     "0xa4c138dbb692ffe1": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 20.17,
-        "humidity": 24.78,
+        "temperature": 17.38,
+        "humidity": 26.55,
         "linkquality": 75
     },
     "0xa4c138e48b80b383": {
@@ -80,7 +80,7 @@
         "voltage": 2900,
         "keep_time": 60,
         "sensitivity": "medium",
-        "occupancy": false,
+        "occupancy": true,
         "tamper": false,
         "battery_low": false,
         "linkquality": 27
@@ -93,7 +93,7 @@
         "battery_low": false,
         "contact": true,
         "linkquality": 93,
-        "temperature": 17
+        "temperature": 16
     },
     "0x000d6f001415d557": {
         "voltage": 5800,
