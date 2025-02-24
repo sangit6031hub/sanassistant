@@ -137,31 +137,7 @@ disarmed_script:
 door_open_script:
   alias: Door Open Script
   sequence:
-  - service: media_player.play_media
-    target:
-      entity_id:
-      - media_player.speakers_group
-    data:
-      media_content_type: audio/mpeg
-      media_content_id: media-source://media_source/local/beep_tone.mp3
-    metadata:
-      title: emergency-alarm.mp3
-      thumbnail:
-      media_class: music
-      children_media_class:
-      navigateIds:
-      - {}
-      - media_content_type: app
-        media_content_id: media-source://media_source
-    enabled: false
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 3
-      milliseconds: 0
-    enabled: false
-  - service: media_player.play_media
-    target:
+  - target:
       entity_id:
       - media_player.speakers_group
     data:
@@ -170,7 +146,7 @@ door_open_script:
         | selectattr('state','eq','on') | map(attribute='name') | list | join(', ')
         }}"  are left OPEN for long time &language=Laura-US-English
     metadata:
-      title: emergency-alarm.mp3
+      title: Door open script
       thumbnail:
       media_class: music
       children_media_class:
@@ -178,6 +154,7 @@ door_open_script:
       - {}
       - media_content_type: app
         media_content_id: media-source://media_source
+    action: media_player.play_media
   description: ''
   icon: mdi:door-open
 alarm_trigerred_friends_and_family_notifications:

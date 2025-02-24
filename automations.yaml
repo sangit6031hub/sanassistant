@@ -93,7 +93,7 @@
       - dd900b708c5810913edbfa2e5290ecbd
       - a4ba99b7719642420d94bebdb42e9622
       - 63d170521cffb53bef6863b6a8ecfa3c
-      - 17ff3b53af13bf7d60eba914223d418a
+      - 0a873709d9ade42d66bec015328266b0
       area_id: outdoor
     action: switch.turn_on
   - metadata: {}
@@ -130,6 +130,7 @@
         - media_content_type: provider
           media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Heather-US-English
       action: media_player.play_media
+    alias: Play Good evening Message
   mode: single
 - id: '1703297451429'
   alias: Sunset + 3hrs
@@ -530,7 +531,7 @@
   alias: 'New Doors Left Open '
   description: ''
   triggers:
-  - minutes: /29
+  - minutes: /30
     trigger: time_pattern
   conditions:
   - condition: and
