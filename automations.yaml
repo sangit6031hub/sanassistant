@@ -607,3 +607,24 @@
         media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
     action: media_player.play_media
   mode: single
+- id: '1743301340118'
+  alias: Garage light off
+  description: ''
+  triggers:
+  - type: turned_on
+    device_id: 903e7f4669512e6b03dbcb7500a5febd
+    entity_id: c42a47f71b540be6822406f4460268d6
+    domain: switch
+    trigger: device
+  conditions: []
+  actions:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - type: turn_off
+    device_id: 903e7f4669512e6b03dbcb7500a5febd
+    entity_id: c42a47f71b540be6822406f4460268d6
+    domain: switch
+  mode: single
