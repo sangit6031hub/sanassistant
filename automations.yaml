@@ -32,7 +32,7 @@
     entity_id: 6db468c29bf0d96490a9ac2c59e9ef3a
     domain: binary_sensor
     trigger: device
-  - type: changed_states
+  - type: turned_on
     device_id: 3e82504e7cf749250b6d82290ccad6bd
     entity_id: 90685de52680883754499da89f6376f5
     domain: switch
