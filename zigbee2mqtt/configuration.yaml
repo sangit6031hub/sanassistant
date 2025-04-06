@@ -1,7 +1,7 @@
 homeassistant:
   enabled: true
 mqtt:
-  server: mqtt://192.168.1.50:1883
+  server: mqtt://192.168.10.2:1883
   user: mqtt_user
   password: yhfgtTHSUS7494
   base_topic: zigbee2mqtt
