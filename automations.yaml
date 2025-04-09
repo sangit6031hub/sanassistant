@@ -351,27 +351,28 @@
     entity_id: 755d4f8948e4041f43aceba674c6d0c9
     domain: binary_sensor
     trigger: device
-  conditions: []
+  conditions:
+  - condition: time
+    after: '18:00:00'
+    before: 06:00:00
   actions:
-  - type: turn_on
-    device_id: 903e7f4669512e6b03dbcb7500a5febd
-    entity_id: c42a47f71b540be6822406f4460268d6
-    domain: switch
-  - if:
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: sun.sun
-        state: below_horizon
-      - condition: time
-        after: '18:00:00'
-        before: 05:00:00
-    then:
-    - metadata: {}
-      data: {}
-      target:
-        device_id: 57b421090ea696c870480708354d867a
-      action: switch.turn_on
+  - metadata: {}
+    data: {}
+    target:
+      device_id:
+      - 57b421090ea696c870480708354d867a
+      - 3d088840b274c5366c61b3417ba582cc
+    action: switch.turn_on
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: 3d088840b274c5366c61b3417ba582cc
   mode: single
 - id: '1708309195903'
   alias: GitHub Daily Backup
@@ -606,25 +607,4 @@
       - media_content_type: provider
         media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
     action: media_player.play_media
-  mode: single
-- id: '1743301340118'
-  alias: Garage light off
-  description: ''
-  triggers:
-  - type: turned_on
-    device_id: 903e7f4669512e6b03dbcb7500a5febd
-    entity_id: c42a47f71b540be6822406f4460268d6
-    domain: switch
-    trigger: device
-  conditions: []
-  actions:
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 2
-      milliseconds: 0
-  - type: turn_off
-    device_id: 903e7f4669512e6b03dbcb7500a5febd
-    entity_id: c42a47f71b540be6822406f4460268d6
-    domain: switch
   mode: single
