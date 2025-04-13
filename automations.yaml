@@ -196,10 +196,10 @@
 - id: '1704825676538'
   alias: Power Saving - Turn OFF Devices
   description: ''
-  trigger:
+  triggers:
   - minutes: /30
-    platform: time_pattern
-  condition:
+    trigger: time_pattern
+  conditions:
   - condition: and
     conditions:
     - condition: sun
@@ -213,17 +213,17 @@
     - condition: numeric_state
       entity_id: sensor.light_sensor_hall_illuminance_lux
       above: 50
-  action:
-  - service: switch.turn_off
-    metadata: {}
+  actions:
+  - metadata: {}
     data: {}
     target:
       entity_id: switch.security_switch_group
-  - service: light.turn_off
-    metadata: {}
+    action: switch.turn_off
+  - metadata: {}
     data: {}
+    action: light.turn_off
     target:
-      entity_id: light.security_light_group
+      entity_id: light.all_light_group
   mode: single
 - id: '1705634765942'
   alias: Sunrise
