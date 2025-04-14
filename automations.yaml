@@ -299,39 +299,6 @@
       entity_id: input_number.speaker_volume
     action: input_number.set_value
   mode: single
-- id: '1706304337669'
-  alias: Motion Garage Light ON
-  description: ''
-  triggers:
-  - type: occupied
-    device_id: 9285fe432bf108bae9fbcfebf68670e6
-    entity_id: 5688dd51777566a913a266938e40b50c
-    domain: binary_sensor
-    trigger: device
-  conditions: []
-  actions:
-  - type: turn_on
-    device_id: 903e7f4669512e6b03dbcb7500a5febd
-    entity_id: c42a47f71b540be6822406f4460268d6
-    domain: switch
-  - repeat:
-      sequence:
-      - delay:
-          hours: 0
-          minutes: 1
-          seconds: 0
-          milliseconds: 0
-      - type: turn_on
-        device_id: 903e7f4669512e6b03dbcb7500a5febd
-        entity_id: c42a47f71b540be6822406f4460268d6
-        domain: switch
-      until:
-      - type: is_occupied
-        condition: device
-        device_id: 9285fe432bf108bae9fbcfebf68670e6
-        entity_id: 5688dd51777566a913a266938e40b50c
-        domain: binary_sensor
-  mode: single
 - id: '1707608182929'
   alias: Garage and driveway light ON
   description: ''
