@@ -434,7 +434,7 @@
     action: media_player.volume_set
   mode: single
 - id: '1711758261995'
-  alias: Fish Tank
+  alias: Aquarium
   description: ''
   triggers:
   - at: 07:02:00
