@@ -211,7 +211,7 @@
       entity_id: input_boolean.energy_saver
       state: 'on'
     - condition: numeric_state
-      entity_id: sensor.light_sensor_hall_illuminance_lux
+      entity_id: sensor.light_sensor_hall_illuminance
       above: 50
   actions:
   - metadata: {}
