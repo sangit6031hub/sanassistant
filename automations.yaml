@@ -139,9 +139,10 @@
   - event: sunset
     offset: +03:00:00
     trigger: sun
-    enabled: false
+    enabled: true
   - at: '21:04:00'
     trigger: time
+    enabled: false
   - at: '22:03:00'
     trigger: time
   conditions:
