@@ -206,13 +206,6 @@ alarm_trigerred_friends_and_family_notifications:
         alias: Notify Ravisankar Email
         enabled: true
       - data:
-          message: ⚠️⚠️Emergency -Santosh Home security system Trigerred⚠️⚠️
-          title: Santosh Home security system Trigerred
-          target: vinoth2002@gmail.com
-        action: notify.email_notification
-        alias: Notify Vinoth Email
-        enabled: true
-      - data:
           message: ⚠️⚠️Emergency - Santosh Home security system Trigerred⚠️⚠️
           title: Santosh Home security system Trigerred
           target: skalpana1967@gmail.com
