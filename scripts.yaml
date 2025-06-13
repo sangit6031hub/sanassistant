@@ -265,3 +265,13 @@ alarm_night_on:
   mode: single
   icon: mdi:moon-waning-crescent
   description: ''
+trashreminder:
+  sequence:
+  - action: notify.notify
+    metadata: {}
+    data:
+      message: Trash can pickup reminder
+      title: Trash Reminder
+  alias: TrashReminder
+  description: ''
+  icon: mdi:delete-empty

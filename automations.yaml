@@ -576,3 +576,20 @@
         media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
     action: media_player.play_media
   mode: single
+- id: '1749756464834'
+  alias: Trash Reminder Automation
+  description: ''
+  triggers:
+  - at: '20:00:00'
+    trigger: time
+  conditions:
+  - condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - thu
+  actions:
+  - action: script.trashreminder
+    metadata: {}
+    data: {}
+  mode: single
