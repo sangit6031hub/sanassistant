@@ -213,7 +213,7 @@
       state: 'on'
     - condition: numeric_state
       entity_id: sensor.light_sensor_hall_illuminance
-      above: 50
+      above: 70
   actions:
   - metadata: {}
     data: {}
