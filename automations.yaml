@@ -336,11 +336,24 @@
       minutes: 1
       seconds: 0
       milliseconds: 0
-  - action: switch.turn_off
-    metadata: {}
-    data: {}
-    target:
-      device_id: 3d088840b274c5366c61b3417ba582cc
+  - if:
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.garage_one_tilt_sensor_contact
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.garage_tilt_senor_two_contact
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.0xa4c138b9ebec3506_contact
+        state: 'on'
+    then:
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        device_id: 3d088840b274c5366c61b3417ba582cc
   mode: single
 - id: '1708309195903'
   alias: GitHub Daily Backup
@@ -465,19 +478,6 @@
       entity_id: cd3684ef5ee45d56c934b517b3cbbcf8
       domain: switch
   mode: single
-- id: '1716382194234'
-  alias: Flood cam Motion detection ON
-  description: ''
-  triggers:
-  - minutes: '10'
-    trigger: time_pattern
-  conditions: []
-  actions:
-  - type: turn_on
-    device_id: 61489792cb0c1bdb00a23ddb1fe63981
-    entity_id: 8dc384c316f4afc6bc6492c19cf0dcb1
-    domain: switch
-  mode: single
 - id: '1720321855417'
   alias: Alarmo Keypad Sync (San - 01)
   description: ''
@@ -577,7 +577,7 @@
     action: media_player.play_media
   mode: single
 - id: '1749756464834'
-  alias: Trash Reminder Automation
+  alias: Trash Reminder Notification
   description: ''
   triggers:
   - at: '20:00:00'
@@ -593,3 +593,31 @@
     metadata: {}
     data: {}
   mode: single
+- id: '1752292419309'
+  alias: HVAC Cycle Temperature
+  description: ''
+  use_blueprint:
+    path: github.com/hvac_cycle_temp.yaml
+    input:
+      climate_controller:
+        device_id: 41d0350e99e72f613319bfbaef984a98
+        entity_id: climate.ecobeethermostat
+      base_temp: 85
+      max_temp: 90
+      min_temp: 68
+      noon_temp: 78
+      midnight_temp: 73
+      time_offset: 1
+      alarm_controller:
+        entity_id: alarm_control_panel.securityalarm3100
+      default_base_temp: 80
+      default_max_temp: 90
+      default_min_temp: 68
+      default_noon_temp: 78
+      default_midnight_temp: 73
+      away_base_temp: 90
+      away_max_temp: 95
+      away_min_temp: 63
+      away_noon_temp: 90
+      away_midnight_temp: 90
+      away_temp: 85
