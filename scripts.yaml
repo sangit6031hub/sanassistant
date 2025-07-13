@@ -90,11 +90,6 @@ alarm_exit_delay_music:
       - media_content_type: app
         media_content_id: media-source://media_source
     action: media_player.play_media
-  - device_id: 41d0350e99e72f613319bfbaef984a98
-    domain: select
-    entity_id: 26ccda54be221973d1dd4a04bc7b0fbd
-    type: select_option
-    option: away
   mode: single
   icon: mdi:music
 notification_script:
@@ -126,11 +121,6 @@ disarmed_script:
       - media_player.speakers_group
     data: {}
     action: media_player.media_stop
-  - device_id: 41d0350e99e72f613319bfbaef984a98
-    domain: select
-    entity_id: 26ccda54be221973d1dd4a04bc7b0fbd
-    type: select_option
-    option: home
   mode: single
   icon: mdi:alarm-light-off
   description: ''

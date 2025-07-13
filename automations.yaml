@@ -607,7 +607,7 @@
       min_temp: 68
       noon_temp: 78
       midnight_temp: 73
-      time_offset: 1
+      time_offset: 2
       alarm_controller:
         entity_id: alarm_control_panel.securityalarm3100
       default_base_temp: 80
@@ -621,3 +621,5 @@
       away_noon_temp: 90
       away_midnight_temp: 90
       away_temp: 85
+      energy_controller:
+        entity_id: input_boolean.energy_saver
