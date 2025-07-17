@@ -610,7 +610,7 @@
       time_offset: 2
       alarm_controller:
         entity_id: alarm_control_panel.securityalarm3100
-      default_base_temp: 80
+      default_base_temp: 84
       default_max_temp: 90
       default_min_temp: 68
       default_noon_temp: 78
