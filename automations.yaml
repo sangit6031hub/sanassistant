@@ -600,7 +600,6 @@
     path: github.com/hvac_cycle_temp.yaml
     input:
       climate_controller:
-        device_id: 41d0350e99e72f613319bfbaef984a98
         entity_id: climate.ecobeethermostat
       base_temp: 85
       max_temp: 90

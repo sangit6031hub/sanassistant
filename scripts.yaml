@@ -7,6 +7,7 @@ siren:
     target:
       entity_id: input_number.speaker_volume
     action: input_number.set_value
+    alias: Change Volumne - Speakers
   - repeat:
       sequence:
       - target:
@@ -30,6 +31,45 @@ siren:
           minutes: 0
           seconds: 15
           milliseconds: 0
+      until:
+      - condition: state
+        entity_id: alarm_control_panel.securityalarm3100
+        state: disarmed
+    alias: Siren Sound - Speakers
+  - alias: Wyze Siren
+    repeat:
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 2
+          seconds: 0
+          milliseconds: 0
+      - if:
+        - condition: state
+          entity_id: alarm_control_panel.securityalarm3100
+          state: triggered
+        then:
+        - action: siren.turn_on
+          metadata: {}
+          data: {}
+          target:
+            entity_id:
+            - siren.3100_garage_siren
+            - siren.3100_living_room_siren
+            - siren.backyardcam_siren
+            - siren.floodlightcam_siren
+          alias: Wyze Siren Group
+        else:
+        - action: siren.turn_off
+          metadata: {}
+          data: {}
+          target:
+            entity_id:
+            - siren.3100_garage_siren
+            - siren.3100_living_room_siren
+            - siren.backyardcam_siren
+            - siren.floodlightcam_siren
+          alias: Wyze Siren Group
       until:
       - condition: state
         entity_id: alarm_control_panel.securityalarm3100
@@ -121,6 +161,16 @@ disarmed_script:
       - media_player.speakers_group
     data: {}
     action: media_player.media_stop
+  - action: siren.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - siren.3100_garage_siren
+      - siren.3100_living_room_siren
+      - siren.backyardcam_siren
+      - siren.floodlightcam_siren
+    alias: Wyze Siren Group
   mode: single
   icon: mdi:alarm-light-off
   description: ''
