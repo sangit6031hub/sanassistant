@@ -516,6 +516,11 @@
       entity_id: binary_sensor.door_sensor_group
       state: 'on'
   actions:
+  - delay:
+      hours: 0
+      minutes: 4
+      seconds: 0
+      milliseconds: 0
   - metadata: {}
     data: {}
     action: script.door_open_script
