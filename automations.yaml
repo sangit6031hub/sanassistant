@@ -617,13 +617,13 @@
       default_base_temp: 78
       default_max_temp: 85
       default_min_temp: 68
-      default_noon_temp: 76
-      default_midnight_temp: 70
+      default_noon_temp: 78
+      default_midnight_temp: 73
       away_base_temp: 90
       away_max_temp: 95
       away_min_temp: 63
       away_noon_temp: 90
       away_midnight_temp: 90
-      away_temp: 79
+      away_temp: 84
       energy_controller:
         entity_id: input_boolean.energy_saver
