@@ -230,8 +230,9 @@
   alias: Sunrise
   description: ''
   triggers:
-  - trigger: time
-    at: 06:00:00
+  - event: sunrise
+    offset: 01:00:00
+    trigger: sun
   conditions: []
   actions:
   - metadata: {}
@@ -526,7 +527,7 @@
     action: script.door_open_script
   mode: single
 - id: '1721877086383'
-  alias: Nightly Alarm ON
+  alias: Night Alarm ON
   description: ''
   triggers:
   - at: '21:30:00'
@@ -627,3 +628,28 @@
       away_temp: 84
       energy_controller:
         entity_id: input_boolean.energy_saver
+- id: '1754312117243'
+  alias: Night Alarm OFF
+  description: ''
+  triggers:
+  - trigger: time
+    at: 05:15:00
+  conditions: []
+  actions:
+  - if:
+    - condition: state
+      entity_id: alarm_control_panel.securityalarm3100
+      state: armed_night
+    then:
+    - action: alarm_control_panel.alarm_disarm
+      entity_id: alarm_control_panel.securityalarm3100
+      metadata: {}
+      data:
+        code: '5363'
+  - metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.voice_notifications
+    action: input_boolean.turn_off
+  mode: single
