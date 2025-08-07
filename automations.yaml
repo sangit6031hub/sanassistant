@@ -181,14 +181,16 @@
   - metadata: {}
     data: {}
     target:
-      entity_id: switch.security_switch_group
+      entity_id:
+      - switch.security_switch_group
+      - switch.fish_tank_outlet
       device_id: 1d531cf53957ee6339f579fd6deaba7a
     action: switch.turn_off
   - metadata: {}
     data: {}
-    target:
-      entity_id: light.security_light_group
     action: light.turn_off
+    target:
+      entity_id: light.all_light_group
   - type: turn_off
     device_id: df4cf792d8865cb18aa9400b9edc7bb3
     entity_id: cd3684ef5ee45d56c934b517b3cbbcf8
