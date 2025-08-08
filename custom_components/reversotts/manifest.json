@@ -1,10 +1,16 @@
 {
   "domain": "reversotts",
-  "name": "Reverso TTS",
-  "version": "1.0.2",
-  "documentation": "https://github.com/rt400/ReversoTTS-HA",
-  "dependencies": [],
-  "codeowners": ["@yuval_mejahez"],
-  "requirements": ["pyttsreverso==0.4"],
-  "issue_tracker": "https://github.com/rt400/ReversoTTS-HA/issues"
+  "name": "Reverso text-to-speech",
+  "codeowners": [
+    "@bywciu"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/bywciu/Home-Assistant-Custom-Components-ReversoTTS",
+  "integration_type": "service",
+  "iot_class": "cloud_push",
+  "issue_tracker": "https://github.com/bywciu/Home-Assistant-Custom-Components-ReversoTTS/issues",
+  "requirements": [
+    "pyttsreverso==0.4"
+  ],
+  "version": "v0.3.0"
 }

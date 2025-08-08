@@ -1,87 +1,159 @@
-"""Support for the Reverso TTS speech service."""
+"""Support for the Reverso speech service."""
+
+from __future__ import annotations
+
 import logging
+from typing import Any
+
 from pyttsreverso import pyttsreverso
 import voluptuous as vol
-from homeassistant.components.tts import CONF_LANG, PLATFORM_SCHEMA, Provider
-import homeassistant.helpers.config_validation as cv
+
+from homeassistant.components.tts import (
+    CONF_LANG,
+    PLATFORM_SCHEMA as TTS_PLATFORM_SCHEMA,
+    Provider,
+    TextToSpeechEntity,
+    TtsAudioType,
+)
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import HomeAssistantError
+from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
+from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
+from homeassistant.util import slugify
+
+from .const import (
+    CONF_PITCH,
+    DEFAULT_BITRATE,
+    DEFAULT_LANG,
+    DEFAULT_PITCH,
+    SUPPORT_LANGUAGES,
+    SUPPORT_OPTIONS,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
-CONF_PITCH = "pitch"
-CONF_BITRATE = "bitrate"
-
-DEFAULT_LANG = "Sharon-US-English"
-DEFAULT_PITCH = "100"
-DEFAULT_BITRATE = "128k"
-
-SUPPORTED_LANGUAGES = ['Leila-Arabic', 'Mehdi-Arabic', 'Nizar-Arabic', 'Salma-Arabic', 'Lisa-Australian-English',
-                       'Tyler-Australian-English', 'Jeroen-Belgian-Dutch', 'Sofie-Belgian-Dutch', 'Zoe-Belgian-Dutch',
-                       'Alice-BE-Belgian-French', 'Anais-BE-Belgian-French', 'Antoine-BE-Belgian-French',
-                       'Bruno-BE-Belgian-French', 'Claire-BE-Belgian-French', 'Julie-BE-Belgian-French',
-                       'Justine-Belgian-French', 'Manon-BE-Belgian-French', 'Margaux-BE-Belgian-French',
-                       'Marcia-Brazilian', 'Graham-British', 'Lucy-British', 'Peter-British', 'QueenElizabeth-British',
-                       'Rachel-British', 'Louise-Canadian-French', 'Laia-Catalan', 'Eliska-Czech', 'Mette-Danish',
-                       'Rasmus-Danish', 'Daan-Dutch', 'Femke-Dutch', 'Jasmijn-Dutch', 'Max-Dutch',
-                       'Samuel-Finland-Swedish', 'Sanna-Finnish', 'Alice-French', 'Anais-French', 'Antoine-French',
-                       'Bruno-French', 'Claire-French', 'Julie-French', 'Manon-French', 'Margaux-French',
-                       'Andreas-German', 'Claudia-German', 'Julia-German', 'Klaus-German', 'Sarah-German',
-                       'Kal-Gothenburg-Swedish', 'Dimitris-Greek', 'he-IL-Asaf-Hebrew', 'Deepa-Indian-English',
-                       'Chiara-Italian', 'Fabiana-Italian', 'Vittorio-Italian', 'Sakura-Japanese', 'Minji-Korean',
-                       'Lulu-Mandarin-Chinese', 'Bente-Norwegian', 'Kari-Norwegian', 'Olav-Norwegian', 'Ania-Polish',
-                       'Monika-Polish', 'Celia-Portuguese', 'ro-RO-Andrei-Romanian', 'Alyona-Russian', 'Mia-Scanian',
-                       'Antonio-Spanish', 'Ines-Spanish', 'Maria-Spanish', 'Elin-Swedish', 'Emil-Swedish',
-                       'Emma-Swedish', 'Erik-Swedish', 'Ipek-Turkish', 'Heather-US-English', 'Karen-US-English',
-                       'Kenny-US-English', 'Laura-US-English', 'Micah-US-English', 'Nelly-US-English', 'Rod-US-English',
-                       'Ryan-US-English', 'Saul-US-English', 'Sharon-US-English', 'Tracy-US-English', 'Will-US-English',
-                       'Rodrigo-US-Spanish', 'Rosa-US-Spanish']
-
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
+PLATFORM_SCHEMA = TTS_PLATFORM_SCHEMA.extend(
     {
-        vol.Optional(CONF_LANG, default=DEFAULT_LANG): vol.In(SUPPORTED_LANGUAGES),
-        vol.Optional(CONF_PITCH, default=DEFAULT_PITCH): cv.string,
-        vol.Optional(CONF_BITRATE, default=DEFAULT_BITRATE): cv.string,
+        vol.Optional(CONF_LANG, default=DEFAULT_LANG): vol.In(SUPPORT_LANGUAGES),
+        vol.Optional(CONF_PITCH, default=DEFAULT_PITCH): str,
     }
 )
 
 
-def get_engine(hass, config, discovery_info=None):
+async def async_get_engine(
+    hass: HomeAssistant,
+    config: ConfigType,
+    discovery_info: DiscoveryInfoType | None = None,
+) -> ReversoProvider:
     """Set up Reverso speech component."""
     return ReversoProvider(
+        hass,
         config[CONF_LANG],
         config[CONF_PITCH],
-        config[CONF_BITRATE],
     )
 
 
-class ReversoProvider(Provider):
-    """The Reverso TTS API provider."""
+async def async_setup_entry(
+    hass: HomeAssistant,
+    config_entry: ConfigEntry,
+    async_add_entities: AddConfigEntryEntitiesCallback,
+) -> None:
+    """Set up Reverso speech platform via config entry."""
+    default_language = config_entry.data[CONF_LANG]
+    default_pitch = config_entry.data[CONF_PITCH]
+    async_add_entities([ReversoTTSEntity(config_entry, default_language, default_pitch, DEFAULT_BITRATE)])
 
-    def __init__(self, lang, pitch, bitrate):
-        """Initialize Reverso TTS provider."""
+
+class ReversoTTSEntity(TextToSpeechEntity):
+    """The Reverso speech API entity."""
+
+    def __init__(self, config_entry: ConfigEntry, lang: str, pitch: int, bitrate: str) -> None:
+        """Init Reverso TTS service."""
         self._lang = lang
         self._pitch = pitch
         self._bitrate = bitrate
-        self.name = "ReversoTTS"
+
+        self._attr_name = f"Reverso TTS {SUPPORT_LANGUAGES[self._lang]}"
+        self.entity_id = f"tts.{slugify(self._attr_name)}_{self._pitch}"
+        self._attr_unique_id = config_entry.entry_id
 
     @property
-    def default_language(self):
+    def default_language(self) -> str:
         """Return the default language."""
         return self._lang
 
     @property
-    def supported_languages(self):
+    def supported_languages(self) -> list[str]:
         """Return list of supported languages."""
-        return SUPPORTED_LANGUAGES
+        return SUPPORT_LANGUAGES
 
-    def get_tts_audio(self, message, language, options=None):
-        """Load TTS using pyttsreverso."""
+    @property
+    def supported_options(self) -> list[str]:
+        """Return a list of supported options."""
+        return SUPPORT_OPTIONS
+
+    def get_tts_audio(
+        self, message: str, language: str, options: dict[str, Any] | None = None
+    ) -> TtsAudioType:
+        """Load TTS from Reverso."""
         if language is None:
             language = self._lang
+
         try:
-            convert = pyttsreverso.ReversoTTS()
-            data = convert.convert_text(voice=language, pitch=self._pitch, bitrate=self._bitrate, msg=message)
-        except Exception as e:
-            _LOGGER.error("Error while to convert: %s", str(e))
-            return (None, None)
-        return ("mp3", data)
-      
+            tts = pyttsreverso.ReversoTTS()
+            mp3_data = tts.convert_text(
+                voice=language, pitch=self._pitch, bitrate=self._bitrate, msg=message
+            )
+        except Exception as exc:
+            _LOGGER.debug(
+                "Error during processing of TTS request %s", exc, exc_info=True
+            )
+            raise HomeAssistantError(exc) from exc
+
+        return "mp3", mp3_data
+
+
+class ReversoProvider(Provider):
+    """The Reverso speech API provider."""
+
+    def __init__(self, hass: HomeAssistant, lang: str, pitch: int, bitrate: str) -> None:
+        """Init Reverso TTS service."""
+        self.hass = hass
+        self._lang = lang
+        self._pitch = pitch
+        self._bitrate = bitrate
+        self.name = "Reverso TTS"
+
+    @property
+    def default_language(self) -> str:
+        """Return the default language."""
+        return self._lang
+
+    @property
+    def supported_languages(self) -> list[str]:
+        """Return list of supported languages."""
+        return SUPPORT_LANGUAGES
+
+    @property
+    def supported_options(self) -> list[str]:
+        """Return a list of supported options."""
+        return SUPPORT_OPTIONS
+
+    def get_tts_audio(
+        self, message: str, language: str, options: dict[str, Any] | None = None
+    ) -> TtsAudioType:
+        """Load TTS from Reverso."""
+        if language is None:
+            language = self._lang
+
+        try:
+            tts = pyttsreverso.ReversoTTS()
+            mp3_data = tts.convert_text(
+                voice=language, pitch=self._pitch, bitrate=self._bitrate, msg=message
+            )
+        except Exception:
+            _LOGGER.exception("Error during processing of TTS request")
+            return None, None
+
+        return "mp3", mp3_data

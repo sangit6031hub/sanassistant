@@ -178,23 +178,22 @@ door_open_script:
   alias: Door Open Script
   sequence:
   - target:
-      entity_id:
-      - media_player.speakers_group
+      entity_id: tts.openai_tts_tts_1_hd
     data:
-      media_content_type: provider
-      media_content_id: media-source://tts/reversotts?message="{{ expand('binary_sensor.door_sensor_group')
-        | selectattr('state','eq','on') | map(attribute='name') | list | join(', ')
-        }}"  are left OPEN for long time &language=Laura-US-English
+      cache: true
+      media_player_entity_id: media_player.speakers_group
+      message: '{{ expand(''binary_sensor.door_sensor_group'') | selectattr(''state'',''eq'',''on'')
+        | map(attribute=''name'') | list | join('', '') }} are left OPEN for long
+        time'
+      options:
+        chime: true
+        instructions: Speak loud and clear
     metadata:
       title: Door open script
       thumbnail:
       media_class: music
       children_media_class:
-      navigateIds:
-      - {}
-      - media_content_type: app
-        media_content_id: media-source://media_source
-    action: media_player.play_media
+    action: tts.speak
   description: ''
   icon: mdi:door-open
 alarm_trigerred_friends_and_family_notifications:
@@ -315,3 +314,60 @@ trashreminder:
   alias: TrashReminder
   description: ''
   icon: mdi:delete-empty
+ac_is_on_script:
+  sequence:
+  - target:
+      entity_id:
+      - media_player.speakers_group
+    data:
+      media_content_type: provider
+      media_content_id: media-source://tts/reversotts?message=Air COnditioner is ON&language=Laura-US-English
+    metadata:
+      title: AC is ON
+      thumbnail:
+      media_class: music
+      children_media_class:
+      navigateIds:
+      - {}
+      - media_content_type: app
+        media_content_id: media-source://media_source
+    action: media_player.play_media
+  alias: AC is ON Script
+  description: ''
+  icon: mdi:air-conditioner
+announce_tts_message:
+  alias: Announce TTS Message
+  description: Announce a typed message to Google Home speakers
+  mode: single
+  sequence:
+  - action: tts.picotts_say
+    data:
+      cache: true
+      entity_id: media_player.speakers_group
+      language: en-US
+      message: '{{ states(''input_text.tts_text_input'') }}'
+  - target:
+      entity_id: input_text.tts_text_input
+    data:
+      value: ''
+    action: input_text.set_value
+announce_tts_message_openai:
+  sequence:
+  - action: tts.speak
+    target:
+      entity_id: tts.openai_tts_tts_1_hd
+    data:
+      cache: true
+      media_player_entity_id: media_player.speakers_group
+      message: '{{ states(''input_text.tts_text_input'') }}'
+      options:
+        chime: true
+        instructions: Speak loud and clear
+  - target:
+      entity_id: input_text.tts_text_input
+    data:
+      value: ''
+    action: input_text.set_value
+  alias: Announce TTS Message (openai)
+  description: Announce a typed message to Google Home speakers
+  mode: single

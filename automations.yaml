@@ -500,7 +500,7 @@
       set_topic: zigbee2mqtt/Keypad02/set
       entity: alarm_control_panel.securityalarm3100
 - id: '1721619572709'
-  alias: 'New Doors Left Open '
+  alias: 'Doors Left Open '
   description: ''
   triggers:
   - minutes: /30
@@ -527,6 +527,15 @@
   - metadata: {}
     data: {}
     action: script.door_open_script
+  - if:
+    - condition: state
+      entity_id: climate.ecobeethermostat
+      state: 'off'
+    then: []
+    else:
+    - action: script.ac_is_on_script
+      metadata: {}
+      data: {}
   mode: single
 - id: '1721877086383'
   alias: Night Alarm ON
@@ -605,31 +614,21 @@
   alias: HVAC Cycle Temperature
   description: ''
   use_blueprint:
-    path: github.com/hvac_cycle_temp.yaml
+    path: hvac_cycle_temp.yaml
     input:
       climate_controller:
         entity_id: climate.ecobeethermostat
-      base_temp: 85
-      max_temp: 90
-      min_temp: 68
-      noon_temp: 78
-      midnight_temp: 73
-      time_offset: 2
       alarm_controller:
         entity_id: alarm_control_panel.securityalarm3100
-      default_base_temp: 78
-      default_max_temp: 85
-      default_min_temp: 68
-      default_noon_temp: 78
-      default_midnight_temp: 73
-      away_base_temp: 90
-      away_max_temp: 95
-      away_min_temp: 63
-      away_noon_temp: 90
-      away_midnight_temp: 90
-      away_temp: 84
       energy_controller:
         entity_id: input_boolean.energy_saver
+      default_base_temp: 80
+      default_max_temp: 90
+      default_min_temp: 66
+      default_midnight_temp: 73
+      away_temp: 85
+      time_offset: 2
+      default_noon_temp: 78
 - id: '1754312117243'
   alias: Night Alarm OFF
   description: ''
