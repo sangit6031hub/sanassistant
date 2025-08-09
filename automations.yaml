@@ -58,25 +58,10 @@
       state: disarmed
       enabled: true
   actions:
-  - target:
-      entity_id: media_player.speakers_group
+  - action: script.tts_common_announcement
     data:
-      media_content_id: media-source://tts/reversotts?message="{{ state_attr(trigger.to_state.entity_id,
-        'friendly_name') }}" {{'OPEN' if trigger.to_state.state == 'on' else 'CLOSED'}}&language=Laura-US-English
-      media_content_type: provider
-    metadata:
-      title: 'OFF'
-      thumbnail: https://brands.home-assistant.io/_/tts/logo.png
-      media_class: app
-      children_media_class:
-      navigateIds:
-      - {}
-      - media_content_type: app
-        media_content_id: media-source://tts
-      - media_content_type: provider
-        media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
-    action: media_player.play_media
-  mode: single
+      message: '{{ state_attr(trigger.to_state.entity_id, ''friendly_name'') }} {{''OPEN''
+        if trigger.to_state.state == ''on'' else ''CLOSED''}}'
 - id: '1703297345806'
   alias: Sunset
   description: ''
@@ -563,35 +548,20 @@
 - id: '1723660828224'
   alias: Water Flow Notifications
   description: ''
-  trigger:
-  - platform: time_pattern
-    minutes: /12
-  condition:
+  triggers:
+  - minutes: /12
+    trigger: time_pattern
+  conditions:
   - condition: state
     entity_id: input_boolean.voice_notifications
     state: 'on'
   - condition: numeric_state
     entity_id: sensor.flume_sensor_3200_60_minutes
     above: 50
-  action:
-  - target:
-      entity_id: media_player.speakers_group
+  actions:
+  - action: script.tts_common_announcement
     data:
-      media_content_id: media-source://tts/reversotts?message="Increase in water flow
-        detected &language=Laura-US-English
-      media_content_type: provider
-    metadata:
-      title: Water Flow - Message
-      thumbnail: https://brands.home-assistant.io/_/tts/logo.png
-      media_class: app
-      children_media_class:
-      navigateIds:
-      - {}
-      - media_content_type: app
-        media_content_id: media-source://tts
-      - media_content_type: provider
-        media_content_id: media-source://tts/reversotts?message=SpeechNotifications&language=Laura-US-English
-    action: media_player.play_media
+      message: Increase in water flow detected
   mode: single
 - id: '1749756464834'
   alias: Trash Reminder Notification

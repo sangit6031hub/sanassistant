@@ -177,23 +177,16 @@ disarmed_script:
 door_open_script:
   alias: Door Open Script
   sequence:
-  - target:
-      entity_id: tts.openai_tts_tts_1_hd
+  - action: script.tts_common_announcement
     data:
-      cache: true
-      media_player_entity_id: media_player.speakers_group
       message: '{{ expand(''binary_sensor.door_sensor_group'') | selectattr(''state'',''eq'',''on'')
         | map(attribute=''name'') | list | join('', '') }} are left OPEN for long
         time'
-      options:
-        chime: true
-        instructions: Speak loud and clear
     metadata:
       title: Door open script
       thumbnail:
       media_class: music
       children_media_class:
-    action: tts.speak
   description: ''
   icon: mdi:door-open
 alarm_trigerred_friends_and_family_notifications:
@@ -335,39 +328,31 @@ ac_is_on_script:
   alias: AC is ON Script
   description: ''
   icon: mdi:air-conditioner
-announce_tts_message:
-  alias: Announce TTS Message
-  description: Announce a typed message to Google Home speakers
+tts_common_announcement:
+  alias: TTS Common Announcement
+  description: Announce a custom message to Google Home speakers
   mode: single
-  sequence:
-  - action: tts.picotts_say
-    data:
-      cache: true
-      entity_id: media_player.speakers_group
-      language: en-US
-      message: '{{ states(''input_text.tts_text_input'') }}'
-  - target:
-      entity_id: input_text.tts_text_input
-    data:
-      value: ''
-    action: input_text.set_value
-announce_tts_message_openai:
   sequence:
   - action: tts.speak
     target:
-      entity_id: tts.openai_tts_tts_1_hd
+      entity_id: tts.openai_tts
     data:
       cache: true
       media_player_entity_id: media_player.speakers_group
-      message: '{{ states(''input_text.tts_text_input'') }}'
+      message: '{{ message }}'
       options:
         chime: true
         instructions: Speak loud and clear
+tts_on_demand_message_script:
+  alias: TTS On-Demand Message Script
+  description: Announce a typed message to the Google Home speaker
+  mode: single
+  sequence:
+  - data:
+      message: '{{ states(''input_text.tts_text_input'') }}'
+    action: script.tts_common_announcement
   - target:
       entity_id: input_text.tts_text_input
     data:
       value: ''
     action: input_text.set_value
-  alias: Announce TTS Message (openai)
-  description: Announce a typed message to Google Home speakers
-  mode: single

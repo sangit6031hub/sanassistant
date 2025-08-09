@@ -38,8 +38,6 @@ devices:
     friendly_name: Basement_Temp_Sensor
   '0xa4c138e48b80b383':
     friendly_name: Basement Water Detector
-  '0x000d6f000f5e867b':
-    friendly_name: Keypad01
   '0x000d6f001415d557':
     friendly_name: Keypad02
   '0xa4c13816e64d4782':
@@ -64,6 +62,8 @@ devices:
     friendly_name: Garage tilt senor two
   '0xa4c138b9ebec3506':
     friendly_name: Garage Back Door
+  '0x000d6f000f5e867b':
+    friendly_name: Keypad01
 blocklist:
   - '0x38398ffffe83cfd9'
   - '0xa4c1381796d65b2f'
