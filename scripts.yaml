@@ -304,27 +304,33 @@ trashreminder:
     data:
       message: Trash can pickup reminder
       title: Trash Reminder
+  - action: script.tts_common_announcement
+    data:
+      message: Time for move trach cans
+    metadata:
+      title: Door open script
+      thumbnail:
+      media_class: music
+      children_media_class:
   alias: TrashReminder
   description: ''
   icon: mdi:delete-empty
 ac_is_on_script:
   sequence:
-  - target:
-      entity_id:
-      - media_player.speakers_group
-    data:
-      media_content_type: provider
-      media_content_id: media-source://tts/reversotts?message=Air COnditioner is ON&language=Laura-US-English
-    metadata:
-      title: AC is ON
-      thumbnail:
-      media_class: music
-      children_media_class:
-      navigateIds:
-      - {}
-      - media_content_type: app
-        media_content_id: media-source://media_source
-    action: media_player.play_media
+  - if:
+    - condition: state
+      entity_id: climate.ecobeethermostat
+      state: 'off'
+    then: []
+    else:
+    - action: script.tts_common_announcement
+      data:
+        message: Air conditioner is Running
+      metadata:
+        title: Door open script
+        thumbnail:
+        media_class: music
+        children_media_class:
   alias: AC is ON Script
   description: ''
   icon: mdi:air-conditioner
@@ -333,16 +339,21 @@ tts_common_announcement:
   description: Announce a custom message to Google Home speakers
   mode: single
   sequence:
-  - action: tts.speak
-    target:
-      entity_id: tts.openai_tts
-    data:
-      cache: true
-      media_player_entity_id: media_player.speakers_group
-      message: '{{ message }}'
-      options:
-        chime: true
-        instructions: Speak loud and clear
+  - if:
+    - condition: state
+      entity_id: input_boolean.voice_notifications
+      state: 'on'
+    then:
+    - action: tts.speak
+      target:
+        entity_id: tts.openai_tts
+      data:
+        cache: true
+        media_player_entity_id: media_player.speakers_group
+        message: '{{ message }}'
+        options:
+          chime: true
+          instructions: Speak loud and clear
 tts_on_demand_message_script:
   alias: TTS On-Demand Message Script
   description: Announce a typed message to the Google Home speaker
