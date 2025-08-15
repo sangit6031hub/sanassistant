@@ -262,7 +262,7 @@
       milliseconds: 0
   - metadata: {}
     data:
-      value: 0.7
+      value: 0.5
     target:
       entity_id: input_number.speaker_volume
     action: input_number.set_value
@@ -487,6 +487,11 @@
   - metadata: {}
     data: {}
     action: script.door_open_script
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 6
+      milliseconds: 0
   - action: script.ac_is_on_script
     metadata: {}
     data: {}
