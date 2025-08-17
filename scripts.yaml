@@ -344,6 +344,18 @@ tts_common_announcement:
       entity_id: input_boolean.voice_notifications
       state: 'on'
     then:
+    - metadata: {}
+      data:
+        value: 0.7
+      target:
+        entity_id: input_number.speaker_volume
+      action: input_number.set_value
+      alias: Increase Volume
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 1
+        milliseconds: 0
     - action: tts.speak
       target:
         entity_id: tts.openai_tts
@@ -354,6 +366,18 @@ tts_common_announcement:
         options:
           chime: true
           instructions: Speak loud and clear
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+    - alias: Decrease Volumne
+      metadata: {}
+      data:
+        value: 0.5
+      action: input_number.set_value
+      target:
+        entity_id: input_number.speaker_volume
 tts_on_demand_message_script:
   alias: TTS On-Demand Message Script
   description: Announce a typed message to the Google Home speaker
