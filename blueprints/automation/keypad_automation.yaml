@@ -1,0 +1,103 @@
+blueprint:
+  name: Alarmo Keypad V2.0
+  description: >
+    Alarmo Keypad integration supporting codeless arming, disarm with code,
+    and configurable scripts triggered by 4-digit codes while disarmed.
+    MQTT topics are auto-generated from the selected keypad device.
+  domain: automation
+  input:
+    keypad_device:
+      name: Keypad Device
+      description: Select your Zigbee2MQTT keypad device entity.
+      selector:
+        entity:
+          domain: sensor
+          integration: zigbee2mqtt
+          multiple: false
+
+    entity:
+      name: Alarmo entity
+      selector:
+        entity:
+          domain: alarm_control_panel
+          integration: alarmo
+
+    # List of scripts and codes
+    script_mappings:
+      name: Script Mappings
+      description: >
+        List of code/script pairs. When the alarm is disarmed and the user enters
+        a 4-digit code matching an entry here, the script will run.
+      selector:
+        object: {}
+
+trigger:
+  - platform: state
+    entity_id: !input entity
+  - platform: mqtt
+    topic: "{{ 'zigbee2mqtt/' ~ keypad_device.attributes.friendly_name }}"
+
+condition: []
+
+action:
+  - variables:
+      # Construct MQTT topics automatically
+      state_topic: "{{ 'zigbee2mqtt/' ~ keypad_device.attributes.friendly_name }}"
+      set_topic: "{{ 'zigbee2mqtt/' ~ keypad_device.attributes.friendly_name ~ '/set' }}"
+
+  - choose:
+      # Arming commands (no code required)
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload_json.action == 'arm_all_zones' }}"
+        sequence:
+          - service: alarmo.arm
+            data:
+              entity_id: !input entity
+              mode: away
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload_json.action == 'arm_day_zones' }}"
+        sequence:
+          - service: alarmo.arm
+            data:
+              entity_id: !input entity
+              mode: home
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload_json.action == 'arm_night_zones' }}"
+        sequence:
+          - service: alarmo.arm
+            data:
+              entity_id: !input entity
+              mode: night
+
+      # Disarm requires code if armed
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload_json.action == 'disarm' and state(trigger.entity_id) != 'disarmed' }}"
+        sequence:
+          - service: alarmo.disarm
+            data:
+              entity_id: !input entity
+              code: "{{ trigger.payload_json.action_code }}"
+              context_id: "{{ trigger.payload_json.action_transaction }}"
+
+      # Run scripts if disarmed + matching code
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload_json.action == 'disarm' and state(trigger.entity_id) == 'disarmed' }}"
+        sequence:
+          - variables:
+              code_entered: "{{ trigger.payload_json.action_code }}"
+              mappings: !input script_mappings
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ code_entered in mappings.keys() }}"
+                sequence:
+                  - service: script.turn_on
+                    data:
+                      entity_id: "{{ mappings[code_entered] }}"
+mode: parallel
+max: 10

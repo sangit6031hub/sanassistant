@@ -1,0 +1,81 @@
+blueprint:
+  name: Doors Left Open Alert
+  description: >
+    Checks all selected doors. If any are left open longer than the threshold,
+    run a script. If a climate device is active at the same time, 
+    the same script is called (script handles the message).
+  domain: automation
+  input:
+    doors:
+      name: Doors / Sensors
+      description: Select all door sensors to monitor.
+      selector:
+        entity:
+          domain: binary_sensor
+          device_class: door
+          multiple: true
+
+    climate_device:
+      name: Climate Device (Optional)
+      description: Select the AC/climate device (optional).
+      default: []
+      selector:
+        entity:
+          domain: climate
+
+    max_open_minutes:
+      name: Threshold (Minutes)
+      description: Number of minutes a door can stay open before action triggers.
+      default: 5
+      selector:
+        number:
+          min: 1
+          max: 120
+          step: 1
+          unit_of_measurement: min
+
+    script_door_open:
+      name: Script - Door Left Open
+      description: Script to call if any door is left open too long.
+      selector:
+        entity:
+          domain: script
+
+trigger:
+  - platform: time_pattern
+    minutes: "/5"   # check every 5 minutes
+
+condition: []
+
+action:
+  - variables:
+      door_list: !input doors
+      climate: !input climate_device
+      threshold: !input max_open_minutes
+      script_a: !input script_door_open
+
+      # Gather doors open beyond threshold
+      open_doors: >
+        {% set result = [] %}
+        {% for d in door_list %}
+          {% set state = states(d) %}
+          {% set minutes_open = (now() - states[d].last_changed).total_seconds() / 60 %}
+          {% if state == 'on' and minutes_open > threshold %}
+            {% set result = result + [d] %}
+          {% endif %}
+        {% endfor %}
+        {{ result }}
+
+  - if:
+      - condition: template
+        value_template: "{{ open_doors | length > 0 }}"
+    then:
+      - service: script.turn_on
+        data:
+          entity_id: "{{ script_a }}"
+          variables:
+            open_doors: "{{ open_doors }}"
+            climate_active: >
+              {{ climate != [] and state_attr(climate, 'hvac_action') in ['heating','cooling'] }}
+
+mode: single
