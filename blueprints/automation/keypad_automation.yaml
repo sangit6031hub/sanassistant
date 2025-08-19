@@ -1,103 +1,125 @@
 blueprint:
-  name: Alarmo Keypad V2.0
+  name: Alarmo Keypad V2.1
   description: >
-    Alarmo Keypad integration supporting codeless arming, disarm with code,
-    and configurable scripts triggered by 4-digit codes while disarmed.
-    MQTT topics are auto-generated from the selected keypad device.
+    Alarmo Keypad integration supporting disarm with code, and configurable
+    scripts triggered by 4-digit codes while disarmed. MQTT topics are built
+    from freeform keypad name.
   domain: automation
   input:
-    keypad_device:
-      name: Keypad Device
-      description: Select your Zigbee2MQTT keypad device entity.
+    keypad_name:
+      name: Keypad Name
+      description: Enter the friendly name of your Zigbee2MQTT keypad, e.g. Keypad01
+      default: Keypad01
       selector:
-        entity:
-          domain: sensor
-          integration: zigbee2mqtt
-          multiple: false
+        text: {}
 
     entity:
       name: Alarmo entity
+      description: The alarm control panel entity
       selector:
         entity:
           domain: alarm_control_panel
           integration: alarmo
 
-    # List of scripts and codes
     script_mappings:
       name: Script Mappings
       description: >
-        List of code/script pairs. When the alarm is disarmed and the user enters
-        a 4-digit code matching an entry here, the script will run.
+        Mapping of 4-digit codes to scripts to run while disarmed.
+        Example: {"1234": "script.turn_on_lights", "5678": "script.start_coffee"}
       selector:
         object: {}
 
 trigger:
+  # Trigger on alarm state change
   - platform: state
     entity_id: !input entity
+
+  # Trigger on MQTT keypad message
   - platform: mqtt
-    topic: "{{ 'zigbee2mqtt/' ~ keypad_device.attributes.friendly_name }}"
+    topic: "{{ 'zigbee2mqtt/' ~ keypad_name }}"
 
 condition: []
 
 action:
   - variables:
-      # Construct MQTT topics automatically
-      state_topic: "{{ 'zigbee2mqtt/' ~ keypad_device.attributes.friendly_name }}"
-      set_topic: "{{ 'zigbee2mqtt/' ~ keypad_device.attributes.friendly_name ~ '/set' }}"
+      alarm_entity: !input entity
+      alarm_state: "{{ states(alarm_entity) }}"
+      state_topic: "{{ 'zigbee2mqtt/' ~ keypad_name }}"
+      set_topic: "{{ 'zigbee2mqtt/' ~ keypad_name ~ '/set' }}"
+      mappings: !input script_mappings
+      payload: "{{ trigger.payload | from_json if trigger.platform == 'mqtt' else {} }}"
+      action_type: "{{ payload.action if 'action' in payload else None }}"
+      action_code: "{{ payload.action_code if 'action_code' in payload else None }}"
+      transaction: "{{ payload.action_transaction if 'action_transaction' in payload else None }}"
+
+  - service: logbook.log
+    data:
+      name: "Alarmo Keypad Debug"
+      message: >
+        Triggered by {{ trigger.platform }}. 
+        Alarm state: {{ alarm_state }}, Action: {{ action_type }}, Code: {{ action_code }}, Transaction: {{ transaction }}
 
   - choose:
-      # Arming commands (no code required)
+      # Arming commands (no code)
       - conditions:
           - condition: template
-            value_template: "{{ trigger.payload_json.action == 'arm_all_zones' }}"
+            value_template: "{{ action_type in ['arm_all_zones', 'arm_day_zones', 'arm_night_zones'] }}"
         sequence:
-          - service: alarmo.arm
+          - service: logbook.log
             data:
-              entity_id: !input entity
-              mode: away
-      - conditions:
-          - condition: template
-            value_template: "{{ trigger.payload_json.action == 'arm_day_zones' }}"
-        sequence:
-          - service: alarmo.arm
-            data:
-              entity_id: !input entity
-              mode: home
-      - conditions:
-          - condition: template
-            value_template: "{{ trigger.payload_json.action == 'arm_night_zones' }}"
-        sequence:
-          - service: alarmo.arm
-            data:
-              entity_id: !input entity
-              mode: night
+              name: "Alarmo Keypad Debug"
+              message: "Arming command received: {{ action_type }}"
 
-      # Disarm requires code if armed
+          - service: alarmo.arm
+            data:
+              entity_id: "{{ alarm_entity }}"
+              mode: >
+                {% if action_type == 'arm_all_zones' %} away
+                {% elif action_type == 'arm_day_zones' %} home
+                {% elif action_type == 'arm_night_zones' %} night
+                {% endif %}
+
+      # Disarm if armed (requires code)
       - conditions:
           - condition: template
-            value_template: "{{ trigger.payload_json.action == 'disarm' and state(trigger.entity_id) != 'disarmed' }}"
+            value_template: "{{ action_type == 'disarm' and alarm_state != 'disarmed' }}"
         sequence:
+          - service: logbook.log
+            data:
+              name: "Alarmo Keypad Debug"
+              message: "Disarming alarm with code {{ action_code }}"
+
           - service: alarmo.disarm
             data:
-              entity_id: !input entity
-              code: "{{ trigger.payload_json.action_code }}"
-              context_id: "{{ trigger.payload_json.action_transaction }}"
+              entity_id: "{{ alarm_entity }}"
+              code: "{{ action_code }}"
+              context_id: "{{ transaction }}"
 
-      # Run scripts if disarmed + matching code
+      # Run script if disarmed and code matches
       - conditions:
           - condition: template
-            value_template: "{{ trigger.payload_json.action == 'disarm' and state(trigger.entity_id) == 'disarmed' }}"
+            value_template: "{{ action_type == 'disarm' and alarm_state == 'disarmed' }}"
         sequence:
           - variables:
-              code_entered: "{{ trigger.payload_json.action_code }}"
-              mappings: !input script_mappings
+              code_entered: "{{ action_code }}"
+          - service: logbook.log
+            data:
+              name: "Alarmo Keypad Debug"
+              message: "Alarm disarmed, code entered: {{ code_entered }}"
+
           - choose:
               - conditions:
                   - condition: template
                     value_template: "{{ code_entered in mappings.keys() }}"
                 sequence:
+                  - service: logbook.log
+                    data:
+                      name: "Alarmo Keypad Debug"
+                      message: "Running script for code {{ code_entered }}: {{ mappings[code_entered] }}"
+
                   - service: script.turn_on
                     data:
                       entity_id: "{{ mappings[code_entered] }}"
+
 mode: parallel
 max: 10

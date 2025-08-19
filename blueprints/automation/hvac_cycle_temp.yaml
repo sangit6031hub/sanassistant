@@ -3,6 +3,7 @@ blueprint:
   description: >
     Controls a climate device with morning, noon, evening, night temps.
     Supports step (hold temp) or ramp (smooth interpolation) strategies.
+    Always sets temperature and logs debug info.
   domain: automation
   input:
     climate_controller:
@@ -21,14 +22,13 @@ blueprint:
     ramp_strategy:
       name: Strategy
       description: Choose between "step" or "ramp" temperature changes
-      default: ramp
+      default: step
       selector:
         select:
           options:
             - step
             - ramp
 
-    # Morning phase
     morning_time:
       name: Morning Time
       default: '05:00:00'
@@ -44,7 +44,6 @@ blueprint:
           step: 1
           unit_of_measurement: °F
 
-    # Noon phase
     noon_time:
       name: Noon Time
       default: '13:00:00'
@@ -60,7 +59,6 @@ blueprint:
           step: 1
           unit_of_measurement: °F
 
-    # Evening phase
     evening_time:
       name: Evening Time
       default: '18:00:00'
@@ -76,10 +74,9 @@ blueprint:
           step: 1
           unit_of_measurement: °F
 
-    # Night phase
     night_time:
       name: Night Time
-      default: '23:59:00'
+      default: '20:00:00'
       selector:
         time: {}
     night_temp:
@@ -100,55 +97,79 @@ condition: []
 
 action:
   - variables:
-      cc: !input climate_controller
-      ec: !input energy_controller
       strategy: !input ramp_strategy
+      morning_temp: !input morning_temp
+      noon_temp: !input noon_temp
+      evening_temp: !input evening_temp
+      night_temp: !input night_temp
+      morning_time: !input morning_time
+      noon_time: !input noon_time
+      evening_time: !input evening_time
+      night_time: !input night_time
 
-      # Phase times and temps
-      morning_s: "{{ as_timestamp(today_at(morning_time)) % 86400 }}"
-      morning_t: !input morning_temp
-      noon_s: "{{ as_timestamp(today_at(noon_time)) % 86400 }}"
-      noon_t: !input noon_temp
-      evening_s: "{{ as_timestamp(today_at(evening_time)) % 86400 }}"
-      evening_t: !input evening_temp
-      night_s: "{{ as_timestamp(today_at(night_time)) % 86400 }}"
-      night_t: !input night_temp
+      # Convert times to seconds since midnight
+      morning_s: "{{ as_timestamp(today_at(morning_time)) | float }}"
+      noon_s: "{{ as_timestamp(today_at(noon_time)) | float }}"
+      evening_s: "{{ as_timestamp(today_at(evening_time)) | float }}"
+      night_s: "{{ as_timestamp(today_at(night_time)) | float }}"
 
-      now_s: "{{ now().hour*3600 + now().minute*60 + now().second }}"
+      now_s: "{{ now().timestamp() | float }}"
 
+      # Set temperatures
       temp: >-
+        {% set m = morning_temp | float %}
+        {% set n = noon_temp | float %}
+        {% set e = evening_temp | float %}
+        {% set ni = night_temp | float %}
         {% if strategy == 'step' %}
-          {% if morning_s <= now_s < noon_s %}
-            {{ morning_t }}
-          {% elif noon_s <= now_s < evening_s %}
-            {{ noon_t }}
-          {% elif evening_s <= now_s < night_s %}
-            {{ evening_t }}
+          {% if now_s < noon_s %}
+            {{ m }}
+          {% elif now_s < evening_s %}
+            {{ n }}
+          {% elif now_s < night_s %}
+            {{ e }}
           {% else %}
-            {{ night_t }}
+            {{ ni }}
           {% endif %}
         {% else %}
-          {% set t = now_s %}
-          {% if morning_s <= t < noon_s %}
-            {{ (morning_t + (noon_t - morning_t) * (t - morning_s) / (noon_s - morning_s)) | float }}
-          {% elif noon_s <= t < evening_s %}
-            {{ (noon_t + (evening_t - noon_t) * (t - noon_s) / (evening_s - noon_s)) | float }}
-          {% elif evening_s <= t < night_s %}
-            {{ (evening_t + (night_t - evening_t) * (t - evening_s) / (night_s - evening_s)) | float }}
+          {% if now_s < noon_s %}
+            {{ (m + (n - m) * (now_s - morning_s) / (noon_s - morning_s)) | round(1) }}
+          {% elif now_s < evening_s %}
+            {{ (n + (e - n) * (now_s - noon_s) / (evening_s - noon_s)) | round(1) }}
+          {% elif now_s < night_s %}
+            {{ (e + (ni - e) * (now_s - evening_s) / (night_s - evening_s)) | round(1) }}
           {% else %}
-            {{ (night_t + (morning_t - night_t) * ((t - night_s) % 86400) / ((morning_s + 86400) - night_s)) | float }}
+            {{ (ni + (m - ni) * (now_s - night_s) / ((morning_s + 86400) - night_s)) | round(1) }}
           {% endif %}
         {% endif %}
 
+  - service: logbook.log
+    data:
+      name: HVAC Cycle Debug
+      message: >-
+        Now={{ now_s }}s | Target={{ temp }}°F | Strategy={{ strategy }}
+        | Morning={{ morning_temp }}@{{ morning_s }}
+        | Noon={{ noon_temp }}@{{ noon_s }}
+        | Evening={{ evening_temp }}@{{ evening_s }}
+        | Night={{ night_temp }}@{{ night_s }}
+
   - if:
-      - condition: template
-        value_template: "{{ (temp - state_attr(cc, 'temperature')|float(0))|abs > 0.1 }}"
-      - condition: template
-        value_template: "{{ states(ec) == 'on' }}"
+      - condition: state
+        entity_id: !input energy_controller
+        state: "on"
     then:
       - service: climate.set_temperature
         data:
-          entity_id: "{{ cc }}"
+          entity_id: !input climate_controller
           temperature: "{{ temp | round(1) }}"
+      - service: logbook.log
+        data:
+          name: HVAC Cycle Debug
+          message: "Set thermostat {{ climate_controller }} → {{ temp | round(1) }}°F"
+    else:
+      - service: logbook.log
+        data:
+          name: HVAC Cycle Debug
+          message: "Energy controller OFF, no temp change"
 
 mode: single

@@ -321,27 +321,30 @@
 - id: '1708309195903'
   alias: GitHub Daily Backup
   description: Backup Home Assistant configuration folder
-  trigger:
-  - platform: time
-    at: 02:00:00
-  condition: []
-  action:
-  - service: shell_command.backup
-    data: {}
+  triggers:
+  - at: 02:00:00
+    trigger: time
+  conditions: []
+  actions:
+  - data: {}
     response_variable: backup_response
+    action: shell_command.backup
   - if:
     - condition: template
       value_template: '{{ backup_response[''returncode''] == 0 }}'
     then:
-    - service: notify.notify
-      data:
+    - data:
         title: ✅ Backup successful
         message: Github Daily Backup Completed
+      action: notify.notify
+      alias: Success Notification
+      enabled: false
     else:
-    - service: notify.notify
-      data:
+    - data:
         title: ❌ Backup failed
         message: '{{ backup_response[''stderr''] }}'
+      action: notify.notify
+      alias: Failed Notification
   mode: single
 - id: '1709586544091'
   alias: 'Turn ON voice notifications '
@@ -606,3 +609,16 @@
       - input_boolean.voice_notifications
     action: input_boolean.turn_off
   mode: single
+- id: '1755519421529'
+  alias: Alarmo Keypad02 V2.1
+  description: ''
+  use_blueprint:
+    path: keypad_automation.yaml
+    input:
+      keypad_name: Keypad02
+      entity: alarm_control_panel.securityalarm3100
+      script_mappings:
+        '1111': script.play_music
+        '1234': script.turn_on_lights
+        '5678': script.start_coffee
+        '0000': script.custom_alert
