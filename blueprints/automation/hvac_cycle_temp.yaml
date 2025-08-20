@@ -1,9 +1,8 @@
 blueprint:
-  name: HVAC Cycle Temperature (Step / Ramp)
+  name: HVAC Cycle Temperature (Step)
   description: >
     Controls a climate device with morning, noon, evening, night temps.
-    Supports step (hold temp) or ramp (smooth interpolation) strategies.
-    Always sets temperature and logs debug info.
+    Uses step temperature changes based on time of day.
   domain: automation
   input:
     climate_controller:
@@ -18,16 +17,6 @@ blueprint:
       selector:
         entity:
           domain: input_boolean
-
-    ramp_strategy:
-      name: Strategy
-      description: Choose between "step" or "ramp" temperature changes
-      default: step
-      selector:
-        select:
-          options:
-            - step
-            - ramp
 
     morning_time:
       name: Morning Time
@@ -97,61 +86,36 @@ condition: []
 
 action:
   - variables:
-      strategy: !input ramp_strategy
-      morning_temp: !input morning_temp
-      noon_temp: !input noon_temp
-      evening_temp: !input evening_temp
-      night_temp: !input night_temp
+      current_time: "{{ now().strftime('%H:%M:%S') }}"
       morning_time: !input morning_time
       noon_time: !input noon_time
       evening_time: !input evening_time
       night_time: !input night_time
+      morning_temp: !input morning_temp
+      noon_temp: !input noon_temp
+      evening_temp: !input evening_temp
+      night_temp: !input night_temp
 
-      # Convert times to seconds since midnight
-      morning_s: "{{ as_timestamp(today_at(morning_time)) | float }}"
-      noon_s: "{{ as_timestamp(today_at(noon_time)) | float }}"
-      evening_s: "{{ as_timestamp(today_at(evening_time)) | float }}"
-      night_s: "{{ as_timestamp(today_at(night_time)) | float }}"
-
-      now_s: "{{ now().timestamp() | float }}"
-
-      # Set temperatures
       temp: >-
-        {% set m = morning_temp | float %}
-        {% set n = noon_temp | float %}
-        {% set e = evening_temp | float %}
-        {% set ni = night_temp | float %}
-        {% if strategy == 'step' %}
-          {% if now_s < noon_s %}
-            {{ m }}
-          {% elif now_s < evening_s %}
-            {{ n }}
-          {% elif now_s < night_s %}
-            {{ e }}
-          {% else %}
-            {{ ni }}
-          {% endif %}
+        {% if current_time >= morning_time and current_time < noon_time %}
+          {{ morning_temp }}
+        {% elif current_time >= noon_time and current_time < evening_time %}
+          {{ noon_temp }}
+        {% elif current_time >= evening_time and current_time < night_time %}
+          {{ evening_temp }}
         {% else %}
-          {% if now_s < noon_s %}
-            {{ (m + (n - m) * (now_s - morning_s) / (noon_s - morning_s)) | round(1) }}
-          {% elif now_s < evening_s %}
-            {{ (n + (e - n) * (now_s - noon_s) / (evening_s - noon_s)) | round(1) }}
-          {% elif now_s < night_s %}
-            {{ (e + (ni - e) * (now_s - evening_s) / (night_s - evening_s)) | round(1) }}
-          {% else %}
-            {{ (ni + (m - ni) * (now_s - night_s) / ((morning_s + 86400) - night_s)) | round(1) }}
-          {% endif %}
+          {{ night_temp }}
         {% endif %}
 
   - service: logbook.log
     data:
       name: HVAC Cycle Debug
       message: >-
-        Now={{ now_s }}s | Target={{ temp }}°F | Strategy={{ strategy }}
-        | Morning={{ morning_temp }}@{{ morning_s }}
-        | Noon={{ noon_temp }}@{{ noon_s }}
-        | Evening={{ evening_temp }}@{{ evening_s }}
-        | Night={{ night_temp }}@{{ night_s }}
+        Time={{ current_time }} | Target={{ temp }}°F
+        | Morning={{ morning_temp }}@{{ morning_time }}
+        | Noon={{ noon_temp }}@{{ noon_time }}
+        | Evening={{ evening_temp }}@{{ evening_time }}
+        | Night={{ night_temp }}@{{ night_time }}
 
   - if:
       - condition: state
@@ -161,11 +125,11 @@ action:
       - service: climate.set_temperature
         data:
           entity_id: !input climate_controller
-          temperature: "{{ temp | round(1) }}"
+          temperature: "{{ temp }}"
       - service: logbook.log
         data:
           name: HVAC Cycle Debug
-          message: "Set thermostat {{ climate_controller }} → {{ temp | round(1) }}°F"
+          message: "Set thermostat {{ climate_controller }} → {{ temp }}°F"
     else:
       - service: logbook.log
         data:
