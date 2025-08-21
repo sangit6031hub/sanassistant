@@ -575,7 +575,7 @@
       default_noon_temp: 78
       default_morning_temp: 75
       default_evening_temp: 76
-      morning_time: 05:00:00
+      morning_time: 04:00:00
       noon_time: '11:59:00'
       evening_time: '18:00:00'
       midnight_time: '20:00:00'
