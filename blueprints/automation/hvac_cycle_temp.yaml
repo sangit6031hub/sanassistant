@@ -2,14 +2,22 @@ blueprint:
   name: HVAC Cycle Temperature (Step)
   description: >
     Controls a climate device with morning, noon, evening, night temps.
-    Uses step temperature changes based on time of day.
+    Uses step temperature changes based on time of day with away mode override.
   domain: automation
   input:
     climate_controller:
       name: Climate Controller
+      description: This Climate Controller controls the temperature of the home.
       selector:
         entity:
           domain: climate
+
+    alarm_controller:
+      name: Alarm Controller
+      description: This alarm controller to set temperature based on home away or default.
+      selector:
+        entity:
+          domain: alarm_control_panel
 
     energy_controller:
       name: Energy Controller
@@ -17,10 +25,22 @@ blueprint:
       selector:
         entity:
           domain: input_boolean
+    
+    away_temp:
+      name: Away Temperature
+      default: 90
+      description:
+        (Away) The temperature for the day when not in home.
+      selector:
+        number:
+          min: 55
+          max: 100
+          step: 1
+          unit_of_measurement: °F
 
     morning_time:
       name: Morning Time
-      default: '05:00:00'
+      default: "05:00:00"
       selector:
         time: {}
     morning_temp:
@@ -35,7 +55,7 @@ blueprint:
 
     noon_time:
       name: Noon Time
-      default: '13:00:00'
+      default: "13:00:00"
       selector:
         time: {}
     noon_temp:
@@ -50,7 +70,7 @@ blueprint:
 
     evening_time:
       name: Evening Time
-      default: '18:00:00'
+      default: "18:00:00"
       selector:
         time: {}
     evening_temp:
@@ -65,7 +85,7 @@ blueprint:
 
     night_time:
       name: Night Time
-      default: '20:00:00'
+      default: "20:00:00"
       selector:
         time: {}
     night_temp:
@@ -87,6 +107,7 @@ condition: []
 action:
   - variables:
       current_time: "{{ now().strftime('%H:%M:%S') }}"
+      alarm_controller: !input alarm_controller
       morning_time: !input morning_time
       noon_time: !input noon_time
       evening_time: !input evening_time
@@ -95,27 +116,37 @@ action:
       noon_temp: !input noon_temp
       evening_temp: !input evening_temp
       night_temp: !input night_temp
+      away_temp: !input away_temp
 
+      # Check alarm state - use simple state check instead of next_state attribute
+      alarm_state: "{{ states(alarm_controller) }}"
+      
+      # Determine target temperature - use away temp if alarm is armed_away, otherwise use time-based temp
       temp: >-
-        {% if current_time >= morning_time and current_time < noon_time %}
-          {{ morning_temp }}
-        {% elif current_time >= noon_time and current_time < evening_time %}
-          {{ noon_temp }}
-        {% elif current_time >= evening_time and current_time < night_time %}
-          {{ evening_temp }}
+        {% if alarm_state == 'armed_away' %}
+          {{ away_temp }}
         {% else %}
-          {{ night_temp }}
+          {% if current_time >= morning_time and current_time < noon_time %}
+            {{ morning_temp }}
+          {% elif current_time >= noon_time and current_time < evening_time %}
+            {{ noon_temp }}
+          {% elif current_time >= evening_time and current_time < night_time %}
+            {{ evening_temp }}
+          {% else %}
+            {{ night_temp }}
+          {% endif %}
         {% endif %}
 
   - service: logbook.log
     data:
       name: HVAC Cycle Debug
       message: >-
-        Time={{ current_time }} | Target={{ temp }}°F
+        Time={{ current_time }} | Alarm={{ alarm_state }} | Target={{ temp }}°F
         | Morning={{ morning_temp }}@{{ morning_time }}
         | Noon={{ noon_temp }}@{{ noon_time }}
         | Evening={{ evening_temp }}@{{ evening_time }}
         | Night={{ night_temp }}@{{ night_time }}
+        | Away={{ away_temp }}
 
   - if:
       - condition: state
@@ -129,7 +160,7 @@ action:
       - service: logbook.log
         data:
           name: HVAC Cycle Debug
-          message: "Set thermostat {{ climate_controller }} → {{ temp }}°F"
+          message: "Set thermostat {{ climate_controller }} → {{ temp }}°F (Alarm: {{ alarm_state }})"
     else:
       - service: logbook.log
         data:
