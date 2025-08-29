@@ -584,6 +584,8 @@
       evening_temp: 76
       night_time: '20:00:00'
       noon_temp: 80
+      minmax_difference: 3
+      night_temp: 74
 - id: '1754312117243'
   alias: Night Alarm OFF
   description: ''

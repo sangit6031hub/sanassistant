@@ -1,159 +1,170 @@
 blueprint:
-  name: HVAC Cycle Temperature - Backup
-  description: Makes a climate controller's temperature follow the day cycle
+  name: HVAC Cycle Temperature (Step)
+  description: >
+    Controls a climate device with morning, noon, evening, night temps.
+    Uses step temperature changes based on time of day with away mode override.
   domain: automation
   input:
     climate_controller:
       name: Climate Controller
-      description:
-        This climate controller's temperature will be synchronized with
-        the day/night cycle.
+      description: This Climate Controller controls the temperature of the home.
       selector:
-        target:
-          entity:
-            - domain:
-                - climate
+        entity:
+          domain: climate
+
     alarm_controller:
       name: Alarm Controller
       description: This alarm controller to set temperature based on home away or default.
       selector:
-        target:
-          entity:
-            - domain:
-                - alarm_control_panel
+        entity:
+          domain: alarm_control_panel
+
     energy_controller:
       name: Energy Controller
-      description: This energy controller decides whether this automation should override temperature or not.
+      description: Only run when this boolean is on.
       selector:
-        target:
-          entity:
-            - domain:
-                - input_boolean
-    default_base_temp:
-      name: Default Base temperature
-      description: The temperature at sunrise and sunset.
-      selector:
-        number:
-          min: 55.0
-          max: 100.0
-          step: 1.00
-          unit_of_measurement: °F
-          mode: slider
-    default_max_temp:
-      name: Default Maximum temperature
-      description: Hard limit for the temperature.
-      selector:
-        number:
-          min: 55.0
-          max: 100.0
-          step: 1.00
-          unit_of_measurement: °F
-          mode: slider
-    default_min_temp:
-      name: Default Minimum temperature
-      description: Hard limit for the temperature.
-      selector:
-        number:
-          min: 55.0
-          max: 100.0
-          step: 1.00
-          unit_of_measurement: °F
-          mode: slider
-    default_noon_temp:
-      name: Default Temperature at noon
-      description:
-        The temperature in the middle of the day. (May be higher/lower
-        than the maximum/minimum temperature.)
-      selector:
-        number:
-          min: 55.0
-          max: 100.0
-          step: 1.00
-          unit_of_measurement: °F
-          mode: slider
-    default_midnight_temp:
-      name: Default Temperature at midnight
-      description:
-        The temperature in the middle of the night. (May be higher/lower
-        than the maximum/minimum temperature.)
-      selector:
-        number:
-          min: 55.0
-          max: 100.0
-          step: 1.00
-          unit_of_measurement: °F
-          mode: slider
+        entity:
+          domain: input_boolean
+    
     away_temp:
       name: Away Temperature
+      default: 90
       description:
-        (Away) The temperature for the day when not in home. (May be higher/lower
-        than the maximum/minimum temperature.)
+        (Away) The temperature for the day when not in home.
       selector:
         number:
-          min: 55.0
-          max: 100.0
-          step: 1.00
+          min: 55
+          max: 100
+          step: 1
           unit_of_measurement: °F
-          mode: slider
-    time_offset:
-      name: Time offset
-      description:
-        Offset from the current time. Negative values will move the curve
-        back, i.e. delay the temperature change. (May be unstable.)
+
+    morning_time:
+      name: Morning Time
+      default: "05:00:00"
+      selector:
+        time: {}
+    morning_temp:
+      name: Morning Temperature
+      default: 75
       selector:
         number:
-          min: -12.0
-          max: 12.0
-          step: 0.50
-          unit_of_measurement: h
-          mode: slider
-  source_url: https://github.com/HenryLoenwind/HABlueprints/raw/master/cycle_temp.yaml
+          min: 55
+          max: 90
+          step: 1
+          unit_of_measurement: °F
+
+    noon_time:
+      name: Noon Time
+      default: "13:00:00"
+      selector:
+        time: {}
+    noon_temp:
+      name: Noon Temperature
+      default: 78
+      selector:
+        number:
+          min: 55
+          max: 90
+          step: 1
+          unit_of_measurement: °F
+
+    evening_time:
+      name: Evening Time
+      default: "18:00:00"
+      selector:
+        time: {}
+    evening_temp:
+      name: Evening Temperature
+      default: 76
+      selector:
+        number:
+          min: 55
+          max: 90
+          step: 1
+          unit_of_measurement: °F
+
+    night_time:
+      name: Night Time
+      default: "20:00:00"
+      selector:
+        time: {}
+    night_temp:
+      name: Night Temperature
+      default: 73
+      selector:
+        number:
+          min: 55
+          max: 90
+          step: 1
+          unit_of_measurement: °F
+
 trigger:
   - platform: time_pattern
-    minutes: /1
+    minutes: "/1"
+
 condition: []
+
 action:
   - variables:
-      cc: !input climate_controller
-      ac: !input alarm_controller
-      ec: !input energy_controller
-      default_dayt: !input default_noon_temp
-      default_nightt: !input default_midnight_temp
-      away_tempt: !input away_temp
-      default_baset: !input default_base_temp
-      maxt: !input default_max_temp
-      mint: !input default_min_temp
-      offset: !input time_offset
+      current_time: "{{ now().strftime('%H:%M:%S') }}"
+      alarm_controller: !input alarm_controller
+      morning_time: !input morning_time
+      noon_time: !input noon_time
+      evening_time: !input evening_time
+      night_time: !input night_time
+      morning_temp: !input morning_temp
+      noon_temp: !input noon_temp
+      evening_temp: !input evening_temp
+      night_temp: !input night_temp
+      away_temp: !input away_temp
 
-      alarm_state: "{{state_attr(ac.entity_id, 'next_state')}}"
-      dayt: "{{ away_tempt if alarm_state == 'armed_away' else default_dayt }}"
-      nightt: "{{ away_tempt if alarm_state == 'armed_away' else default_nightt }}"
-      sett: "{{ away_tempt if alarm_state == 'armed_away' else default_baset }}"
+      # Check alarm state - use simple state check instead of next_state attribute
+      alarm_state: "{{ states(alarm_controller) }}"
+      
+      # Determine target temperature - use away temp if alarm is armed_away, otherwise use time-based temp
+      temp: >-
+        {% if alarm_state == 'armed_away' %}
+          {{ away_temp }}
+        {% else %}
+          {% if current_time >= morning_time and current_time < noon_time %}
+            {{ morning_temp }}
+          {% elif current_time >= noon_time and current_time < evening_time %}
+            {{ noon_temp }}
+          {% elif current_time >= evening_time and current_time < night_time %}
+            {{ evening_temp }}
+          {% else %}
+            {{ night_temp }}
+          {% endif %}
+        {% endif %}
 
-      attday: "{{ dayt - sett }}"
-      attnight: "{{ nightt - sett }}"
+  - service: logbook.log
+    data:
+      name: HVAC Cycle Debug
+      message: >-
+        Time={{ current_time }} | Alarm={{ alarm_state }} | Target={{ temp }}°F
+        | Morning={{ morning_temp }}@{{ morning_time }}
+        | Noon={{ noon_temp }}@{{ noon_time }}
+        | Evening={{ evening_temp }}@{{ evening_time }}
+        | Night={{ night_temp }}@{{ night_time }}
+        | Away={{ away_temp }}
 
-      se:
-        "{% set sr = state_attr('sun.sun','next_rising')|as_timestamp - today_at()|as_timestamp
-        %} {% set sr = sr - [86400, 0][sr < 86400] %} {% set ss = state_attr('sun.sun','next_setting')|as_timestamp
-        - today_at()|as_timestamp %} {% set ss = ss - [86400, 0][ss < 86400] %} {% set
-        n = now()|as_timestamp + offset*60*60 - today_at()|as_timestamp %} {% set n
-        = n + [0, 86400][n < sr] %} {% set dl = ss - sr if ss > sr else 86400 - (sr
-        - ss) %} {{ ((-1, sin(pi * ((n - ss) / (dl - 86400), (n - sr) / dl)[ss > n >
-        sr]), 1)|sort)[1] }}"
-      temp: "{{ ((mint, [sett - se * attnight, sett + se * attday][se > 0], maxt)|sort)[1]  }}"
   - if:
-      - condition: template
-        value_template:
-          "{{ (temp - state_attr(cc.entity_id, 'temperature')|float(0))|abs
-          > 0.1 }}"
-      - condition: template
-        value_template: 
-          "{{ states(ec.entity_id) == 'on' }}"
+      - condition: state
+        entity_id: !input energy_controller
+        state: "on"
     then:
       - service: climate.set_temperature
-        metadata: {}
         data:
-          temperature: "{{temp}}"
-        target: !input climate_controller
+          entity_id: !input climate_controller
+          temperature: "{{ temp }}"
+      - service: logbook.log
+        data:
+          name: HVAC Cycle Debug
+          message: "Set thermostat {{ climate_controller }} → {{ temp }}°F (Alarm: {{ alarm_state }})"
+    else:
+      - service: logbook.log
+        data:
+          name: HVAC Cycle Debug
+          message: "Energy controller OFF, no temp change"
+
 mode: single

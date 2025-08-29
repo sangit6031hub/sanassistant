@@ -25,6 +25,17 @@ blueprint:
       selector:
         entity:
           domain: input_boolean
+
+    minmax_difference:
+      name: MinMax Temperature Difference
+      description: Temperature range between min and max for Heat/Cool mode (1-10°F)
+      default: 5
+      selector:
+        number:
+          min: 1
+          max: 10
+          step: 1
+          unit_of_measurement: °F
     
     away_temp:
       name: Away Temperature
@@ -107,7 +118,9 @@ condition: []
 action:
   - variables:
       current_time: "{{ now().strftime('%H:%M:%S') }}"
+      climate_entity: !input climate_controller
       alarm_controller: !input alarm_controller
+      minmax_diff: !input minmax_difference
       morning_time: !input morning_time
       noon_time: !input noon_time
       evening_time: !input evening_time
@@ -118,11 +131,14 @@ action:
       night_temp: !input night_temp
       away_temp: !input away_temp
 
-      # Check alarm state - use simple state check instead of next_state attribute
+      # Get current HVAC mode from climate controller - FIXED: use 'hvac_mode' not 'hvac_modes'
+      hvac_mode: "{{ states(climate_entity) }}"
+      
+      # Check alarm state
       alarm_state: "{{ states(alarm_controller) }}"
       
-      # Determine target temperature - use away temp if alarm is armed_away, otherwise use time-based temp
-      temp: >-
+      # Determine base target temperature - use away temp if alarm is armed_away, otherwise use time-based temp
+      base_temp: >-
         {% if alarm_state == 'armed_away' %}
           {{ away_temp }}
         {% else %}
@@ -137,11 +153,27 @@ action:
           {% endif %}
         {% endif %}
 
+      # For heat_cool mode, calculate min and max temperatures
+      target_temp_low: >-
+        {% if hvac_mode == 'heat_cool' %}
+          {{ (base_temp - minmax_diff) | round(0) }}
+        {% else %}
+          {{ 0 }}  {# Not used in single mode #}
+        {% endif %}
+
+      target_temp_high: >-
+        {% if hvac_mode == 'heat_cool' %}
+          {{ (base_temp + minmax_diff) | round(0) }}
+        {% else %}
+          {{ 0 }}  {# Not used in single mode #}
+        {% endif %}
+
   - service: logbook.log
     data:
       name: HVAC Cycle Debug
       message: >-
-        Time={{ current_time }} | Alarm={{ alarm_state }} | Target={{ temp }}°F
+        DEBUG: hvac_mode='{{ hvac_mode }}' | Time={{ current_time }} | Alarm={{ alarm_state }} | Base={{ base_temp }}°F
+        {% if hvac_mode == 'heat_cool' %} | Range={{ target_temp_low }}°F-{{ target_temp_high }}°F (Diff={{ minmax_diff }}°F){% endif %}
         | Morning={{ morning_temp }}@{{ morning_time }}
         | Noon={{ noon_temp }}@{{ noon_time }}
         | Evening={{ evening_temp }}@{{ evening_time }}
@@ -153,14 +185,32 @@ action:
         entity_id: !input energy_controller
         state: "on"
     then:
-      - service: climate.set_temperature
-        data:
-          entity_id: !input climate_controller
-          temperature: "{{ temp }}"
-      - service: logbook.log
-        data:
-          name: HVAC Cycle Debug
-          message: "Set thermostat {{ climate_controller }} → {{ temp }}°F (Alarm: {{ alarm_state }})"
+      - choose:
+          - conditions:
+              - condition: template
+                value_template: "{{ hvac_mode == 'heat_cool' }}"
+            sequence:
+              - service: climate.set_temperature
+                data:
+                  entity_id: !input climate_controller
+                  target_temp_low: "{{ target_temp_low }}"
+                  target_temp_high: "{{ target_temp_high }}"
+              - service: logbook.log
+                data:
+                  name: HVAC Cycle Debug
+                  message: "Set thermostat {{ climate_controller }} → {{ target_temp_low }}°F-{{ target_temp_high }}°F range (Mode: {{ hvac_mode }})"
+          - conditions:
+              - condition: template
+                value_template: "{{ hvac_mode in ['cool', 'heat'] }}"
+            sequence:
+              - service: climate.set_temperature
+                data:
+                  entity_id: !input climate_controller
+                  temperature: "{{ base_temp }}"
+              - service: logbook.log
+                data:
+                  name: HVAC Cycle Debug
+                  message: "Set thermostat {{ climate_controller }} → {{ base_temp }}°F (Mode: {{ hvac_mode }})"
     else:
       - service: logbook.log
         data:
