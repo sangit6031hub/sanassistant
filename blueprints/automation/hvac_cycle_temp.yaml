@@ -26,9 +26,20 @@ blueprint:
         entity:
           domain: input_boolean
 
-    minmax_difference:
-      name: MinMax Temperature Difference
-      description: Temperature range between min and max for Heat/Cool mode (1-10°F)
+    min_difference:
+      name: Min Temperature Difference
+      description: Temperature range between min and desired for Heat/Cool mode (1-10°F)
+      default: 5
+      selector:
+        number:
+          min: 1
+          max: 10
+          step: 1
+          unit_of_measurement: °F
+
+    max_difference:
+      name: Max Temperature Difference
+      description: Temperature range between desired and max for Heat/Cool mode (1-10°F)
       default: 5
       selector:
         number:
@@ -120,7 +131,8 @@ action:
       current_time: "{{ now().strftime('%H:%M:%S') }}"
       climate_entity: !input climate_controller
       alarm_controller: !input alarm_controller
-      minmax_diff: !input minmax_difference
+      min_diff: !input min_difference
+      max_diff: !input max_difference
       morning_time: !input morning_time
       noon_time: !input noon_time
       evening_time: !input evening_time
@@ -154,26 +166,15 @@ action:
         {% endif %}
 
       # For heat_cool mode, calculate min and max temperatures
-      target_temp_low: >-
-        {% if hvac_mode == 'heat_cool' %}
-          {{ (base_temp - minmax_diff) | round(0) }}
-        {% else %}
-          {{ 0 }}  {# Not used in single mode #}
-        {% endif %}
-
-      target_temp_high: >-
-        {% if hvac_mode == 'heat_cool' %}
-          {{ (base_temp + minmax_diff) | round(0) }}
-        {% else %}
-          {{ 0 }}  {# Not used in single mode #}
-        {% endif %}
+      target_temp_low: "{{ (base_temp - min_diff) | round(0) }}"
+      target_temp_high: "{{ (base_temp + max_diff) | round(0) }}"
 
   - service: logbook.log
     data:
       name: HVAC Cycle Debug
       message: >-
         DEBUG: hvac_mode='{{ hvac_mode }}' | Time={{ current_time }} | Alarm={{ alarm_state }} | Base={{ base_temp }}°F
-        {% if hvac_mode == 'heat_cool' %} | Range={{ target_temp_low }}°F-{{ target_temp_high }}°F (Diff={{ minmax_diff }}°F){% endif %}
+        | Range={{ target_temp_low }}°F-{{ target_temp_high }}°F (MinDiff={{ min_diff }}°F MaxDiff={{ max_diff }}°F)
         | Morning={{ morning_temp }}@{{ morning_time }}
         | Noon={{ noon_temp }}@{{ noon_time }}
         | Evening={{ evening_temp }}@{{ evening_time }}
