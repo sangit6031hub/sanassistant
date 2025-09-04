@@ -570,7 +570,7 @@
       default_max_temp: 90
       default_min_temp: 66
       default_midnight_temp: 73
-      away_temp: 85
+      away_temp: 75
       time_offset: 2
       default_noon_temp: 78
       default_morning_temp: 75
@@ -580,13 +580,14 @@
       evening_time: '18:00:00'
       midnight_time: '20:00:00'
       ramp_strategy: step
-      morning_temp: 78
-      evening_temp: 76
+      morning_temp: 75
+      evening_temp: 73
       night_time: '20:00:00'
-      noon_temp: 80
+      noon_temp: 77
       minmax_difference: 3
-      night_temp: 73
-      max_difference: 2
+      night_temp: 71
+      max_difference: 3
+      min_difference: 4
 - id: '1754312117243'
   alias: Night Alarm OFF
   description: ''
