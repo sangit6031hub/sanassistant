@@ -585,9 +585,9 @@
       night_time: '20:00:00'
       noon_temp: 77
       minmax_difference: 3
-      night_temp: 71
+      night_temp: 69
       max_difference: 3
-      min_difference: 4
+      min_difference: 2
 - id: '1754312117243'
   alias: Night Alarm OFF
   description: ''
