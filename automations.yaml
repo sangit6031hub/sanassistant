@@ -626,3 +626,33 @@
         '1234': script.turn_on_lights
         '5678': script.start_coffee
         '0000': script.custom_alert
+- id: '1757125485425'
+  alias: Garage Light OFF
+  description: ''
+  triggers:
+  - type: turned_on
+    device_id: 3d088840b274c5366c61b3417ba582cc
+    entity_id: c2dcb5dcc83cd4c6bc8aefd3f0ebc790
+    domain: switch
+    trigger: device
+  conditions: []
+  actions:
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - if:
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: input_boolean.energy_saver
+        state: 'on'
+    then:
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        device_id: 3d088840b274c5366c61b3417ba582cc
+    enabled: true
+  mode: single

@@ -318,9 +318,16 @@ trashreminder:
 ac_is_on_script:
   sequence:
   - if:
-    - condition: state
-      entity_id: climate.ecobeethermostat
-      state: 'off'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: climate.ecobeethermostat
+        attribute: hvac_action
+        state: 'off'
+      - condition: state
+        entity_id: climate.ecobeethermostat
+        state: idle
+        attribute: hvac_action
     then: []
     else:
     - action: script.tts_common_announcement
