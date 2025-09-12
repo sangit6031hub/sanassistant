@@ -229,32 +229,23 @@
       metadata: {}
       data:
         code: '5363'
-    - if:
-      - condition: and
-        conditions:
-        - condition: device
-          device_id: 6bee91906ed371d81142b086f5dee5c4
-          domain: media_player
-          entity_id: e46862071587735566875d11a33ee607
-          type: is_playing
-      then: []
-      else:
-      - target:
-          entity_id:
-          - media_player.speakers_group
-        data:
-          media_content_type: audio/mpeg
+    - target:
+        entity_id:
+        - media_player.speakers_group
+      data:
+        media:
           media_content_id: media-source://media_source/local/rooster-sound.mp3
-        metadata:
-          title: emergency-alarm.mp3
-          thumbnail:
-          media_class: music
-          children_media_class:
-          navigateIds:
-          - {}
-          - media_content_type: app
-            media_content_id: media-source://media_source
-        action: media_player.play_media
+          media_content_type: audio/mpeg
+          metadata:
+            title: emergency-alarm.mp3
+            thumbnail:
+            media_class: music
+            children_media_class:
+            navigateIds:
+            - {}
+            - media_content_type: app
+              media_content_id: media-source://media_source
+      action: media_player.play_media
   - delay:
       hours: 0
       minutes: 0
@@ -570,7 +561,7 @@
       default_max_temp: 90
       default_min_temp: 66
       default_midnight_temp: 73
-      away_temp: 75
+      away_temp: 82
       time_offset: 2
       default_noon_temp: 78
       default_morning_temp: 75
@@ -581,11 +572,11 @@
       midnight_time: '20:00:00'
       ramp_strategy: step
       morning_temp: 75
-      evening_temp: 73
+      evening_temp: 76
       night_time: '20:00:00'
-      noon_temp: 77
+      noon_temp: 78
       minmax_difference: 3
-      night_temp: 69
+      night_temp: 72
       max_difference: 3
       min_difference: 2
 - id: '1754312117243'
