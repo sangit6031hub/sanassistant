@@ -121,6 +121,7 @@
       - a4ba99b7719642420d94bebdb42e9622
       - 1d531cf53957ee6339f579fd6deaba7a
       area_id: outdoor
+      entity_id: switch.security_switch_group
     action: switch.turn_off
   mode: single
 - id: '1703297581987'
@@ -193,12 +194,15 @@
       entity_id: light.all_light_group
   mode: single
 - id: '1705634765942'
-  alias: Sunrise
+  alias: Morning
   description: ''
   triggers:
   - event: sunrise
     offset: 01:00:00
     trigger: sun
+    enabled: false
+  - at: 06:30:00
+    trigger: time
   conditions: []
   actions:
   - metadata: {}
