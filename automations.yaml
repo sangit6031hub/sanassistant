@@ -576,13 +576,13 @@
       midnight_time: '20:00:00'
       ramp_strategy: step
       morning_temp: 75
-      evening_temp: 75
+      evening_temp: 72
       night_time: '20:00:00'
-      noon_temp: 78
+      noon_temp: 75
       minmax_difference: 3
-      night_temp: 71
-      max_difference: 5
-      min_difference: 3
+      night_temp: 70
+      max_difference: 3
+      min_difference: 2
 - id: '1754312117243'
   alias: Night Alarm OFF
   description: ''
