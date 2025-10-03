@@ -479,7 +479,7 @@
   actions:
   - delay:
       hours: 0
-      minutes: 4
+      minutes: 1
       seconds: 0
       milliseconds: 0
   - metadata: {}
@@ -488,7 +488,7 @@
   - delay:
       hours: 0
       minutes: 0
-      seconds: 6
+      seconds: 4
       milliseconds: 0
   - action: script.ac_is_on_script
     metadata: {}
