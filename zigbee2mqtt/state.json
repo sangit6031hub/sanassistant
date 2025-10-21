@@ -11,7 +11,8 @@
         "power_outage_memory": "restore",
         "indicator_mode": "off/on",
         "child_lock": "UNLOCK",
-        "linkquality": 117
+        "linkquality": 117,
+        "countdown": 0
     },
     "0xa4c13878b325acca": {
         "battery": 98,
@@ -50,22 +51,22 @@
     "0xa4c138e0bcb360cc": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 21.52,
-        "humidity": 45.46,
+        "temperature": 22.89,
+        "humidity": 45.25,
         "linkquality": 114
     },
     "0xa4c1384318be8deb": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 21.06,
-        "humidity": 44.96,
+        "temperature": 22.92,
+        "humidity": 43.77,
         "linkquality": 114
     },
     "0xa4c138dbb692ffe1": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 20.9,
-        "humidity": 46.93,
+        "temperature": 22.06,
+        "humidity": 46.13,
         "linkquality": 75
     },
     "0xa4c138e48b80b383": {
@@ -82,7 +83,7 @@
         "tamper": false,
         "battery_low": false,
         "contact": true,
-        "temperature": 20,
+        "temperature": 21,
         "linkquality": 81
     },
     "0xa4c13816e64d4782": {
@@ -136,13 +137,13 @@
         "contact": true,
         "battery_low": false,
         "linkquality": 42,
-        "battery": 82
+        "battery": 62
     },
     "0x282c02bfffebb06e": {
         "contact": true,
         "battery_low": false,
         "linkquality": 78,
-        "battery": 90
+        "battery": 89
     },
     "0xa4c138b9ebec3506": {
         "battery": 100,
@@ -158,6 +159,6 @@
         "contact": true,
         "voltage": 6700,
         "battery": 100,
-        "temperature": 19
+        "temperature": 21
     }
 }

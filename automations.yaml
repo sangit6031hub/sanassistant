@@ -381,33 +381,6 @@
     data:
       volume_level: '{{ states(''input_number.speaker_volume'')}}'
   mode: single
-- id: '1710511790171'
-  alias: Office Speaker - Volume adjust
-  description: ''
-  triggers:
-  - at: 08:00:00
-    id: home
-    trigger: time
-  - at: '10:00:00'
-    id: home
-    trigger: time
-  conditions:
-  - condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
-  actions:
-  - target:
-      device_id:
-      - 084cd82182dbf7573b15b17ee4f4bfd7
-      area_id: []
-    data:
-      volume_level: 0
-    action: media_player.volume_set
-  mode: single
 - id: '1711758261995'
   alias: Aquarium
   description: ''
