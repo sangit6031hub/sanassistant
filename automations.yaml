@@ -120,6 +120,7 @@
       device_id:
       - a4ba99b7719642420d94bebdb42e9622
       - 1d531cf53957ee6339f579fd6deaba7a
+      - 26a2cd3009ae14f02d3a34f2e8476773
       area_id: outdoor
       entity_id: switch.security_switch_group
     action: switch.turn_off
@@ -159,6 +160,10 @@
   - type: turn_off
     device_id: df4cf792d8865cb18aa9400b9edc7bb3
     entity_id: cd3684ef5ee45d56c934b517b3cbbcf8
+    domain: switch
+  - type: turn_off
+    device_id: 26a2cd3009ae14f02d3a34f2e8476773
+    entity_id: 2d46cf50dfa93410aefee26e068d1d0e
     domain: switch
   mode: single
 - id: '1704825676538'
@@ -621,4 +626,31 @@
       target:
         device_id: 3d088840b274c5366c61b3417ba582cc
     enabled: true
+  mode: single
+- id: '1761261426732'
+  alias: Plants Light
+  description: ''
+  triggers:
+  - at: 07:02:00
+    trigger: time
+  - at: '19:04:00'
+    trigger: time
+  conditions: []
+  actions:
+  - if:
+    - condition: device
+      type: is_off
+      device_id: 26a2cd3009ae14f02d3a34f2e8476773
+      entity_id: 2d46cf50dfa93410aefee26e068d1d0e
+      domain: switch
+    then:
+    - type: turn_on
+      device_id: 26a2cd3009ae14f02d3a34f2e8476773
+      entity_id: 2d46cf50dfa93410aefee26e068d1d0e
+      domain: switch
+    else:
+    - type: turn_off
+      device_id: 26a2cd3009ae14f02d3a34f2e8476773
+      entity_id: 2d46cf50dfa93410aefee26e068d1d0e
+      domain: switch
   mode: single
