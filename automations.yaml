@@ -288,7 +288,7 @@
     trigger: device
   conditions:
   - condition: time
-    after: '18:00:00'
+    after: '17:00:00'
     before: 06:00:00
   actions:
   - metadata: {}
