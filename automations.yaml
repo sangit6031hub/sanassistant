@@ -633,6 +633,10 @@
   triggers:
   - at: 07:02:00
     trigger: time
+  - at: '11:04:00'
+    trigger: time
+  - at: '16:04:00'
+    trigger: time
   - at: '19:04:00'
     trigger: time
   conditions: []
