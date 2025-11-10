@@ -476,13 +476,15 @@
   alias: Night Alarm ON
   description: ''
   triggers:
+  - at: '21:00:00'
+    trigger: time
   - at: '21:30:00'
     trigger: time
   - at: '22:00:00'
     trigger: time
-  - at: '23:00:00'
+  - at: '22:30:00'
     trigger: time
-  - at: '23:30:00'
+  - at: '23:00:00'
     trigger: time
   conditions:
   - condition: state
