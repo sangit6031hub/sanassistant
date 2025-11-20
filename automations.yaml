@@ -555,12 +555,12 @@
       evening_time: '18:00:00'
       midnight_time: '20:00:00'
       ramp_strategy: step
-      morning_temp: 72
+      morning_temp: 71
       evening_temp: 70
       night_time: '20:00:00'
-      noon_temp: 73
+      noon_temp: 72
       minmax_difference: 3
-      night_temp: 68
+      night_temp: 67
       max_difference: 3
       min_difference: 2
 - id: '1754312117243'
@@ -639,8 +639,10 @@
     trigger: time
   - at: '11:04:00'
     trigger: time
+    enabled: false
   - at: '16:04:00'
     trigger: time
+    enabled: false
   - at: '19:04:00'
     trigger: time
   conditions: []
