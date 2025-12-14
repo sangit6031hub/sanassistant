@@ -67,7 +67,7 @@
   description: ''
   triggers:
   - event: sunset
-    offset: -01:01:01
+    offset: -00:30:01
     trigger: sun
   conditions: []
   actions:
