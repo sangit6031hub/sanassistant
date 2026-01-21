@@ -664,3 +664,97 @@
       entity_id: 2d46cf50dfa93410aefee26e068d1d0e
       domain: switch
   mode: single
+- id: '1768931074590'
+  alias: Dance class
+  description: ''
+  triggers:
+  - at: '18:00:00'
+    trigger: time
+  conditions:
+  - condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - wed
+      - mon
+    - condition: state
+      entity_id: input_boolean.voice_notifications
+      state:
+      - 'on'
+  actions:
+  - action: script.tts_common_announcement
+    data:
+      message: Time for Yantraa Dance class
+    metadata:
+      title: Door open script
+      thumbnail:
+      media_class: music
+      children_media_class:
+  - action: notify.notify
+    metadata: {}
+    data:
+      message: Time for Dance class
+      title: Trash Reminder
+  mode: single
+- id: '1768931489467'
+  alias: Art Class
+  description: ''
+  triggers:
+  - at: '16:30:00'
+    trigger: time
+  conditions:
+  - condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - tue
+    - condition: state
+      entity_id: input_boolean.voice_notifications
+      state:
+      - 'on'
+  actions:
+  - action: script.tts_common_announcement
+    data:
+      message: Time for Yantraa Art class
+    metadata:
+      title: Door open script
+      thumbnail:
+      media_class: music
+      children_media_class:
+  - action: notify.notify
+    metadata: {}
+    data:
+      message: Time for Art class
+      title: Trash Reminder
+  mode: single
+- id: '1768931716738'
+  alias: Chess class
+  description: ''
+  triggers:
+  - at: '18:00:00'
+    trigger: time
+  conditions:
+  - condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - thu
+    - condition: state
+      entity_id: input_boolean.voice_notifications
+      state:
+      - 'on'
+  actions:
+  - action: script.tts_common_announcement
+    data:
+      message: Time for Yantraa chess class
+    metadata:
+      title: Door open script
+      thumbnail:
+      media_class: music
+      children_media_class:
+  - action: notify.notify
+    metadata: {}
+    data:
+      message: Time for chess class
+      title: Trash Reminder
+  mode: single

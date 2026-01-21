@@ -376,7 +376,7 @@ tts_common_announcement:
     - delay:
         hours: 0
         minutes: 0
-        seconds: 5
+        seconds: 7
         milliseconds: 0
     - alias: Decrease Volumne
       metadata: {}
