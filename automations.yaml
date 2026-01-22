@@ -124,6 +124,11 @@
       area_id: outdoor
       entity_id: switch.security_switch_group
     action: switch.turn_off
+  - metadata: {}
+    data: {}
+    action: light.turn_off
+    target:
+      entity_id: light.all_light_group
   mode: single
 - id: '1703297581987'
   alias: Midnight Schedule
