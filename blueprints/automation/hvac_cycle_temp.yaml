@@ -26,6 +26,15 @@ blueprint:
         entity:
           domain: input_boolean
 
+    fan_mode:
+      name: Fan Mode
+      description: >
+        Fan mode to apply every time the automation runs.
+        Valid values: auto, on
+      default: auto
+      selector:
+        text: {}
+
     min_difference:
       name: Min Temperature Difference
       description: Temperature range between min and desired for Heat/Cool mode (1-10°F)
@@ -47,12 +56,11 @@ blueprint:
           max: 10
           step: 1
           unit_of_measurement: °F
-    
+
     away_temp:
       name: Away Temperature
       default: 90
-      description:
-        (Away) The temperature for the day when not in home.
+      description: (Away) The temperature for the day when not in home.
       selector:
         number:
           min: 55
@@ -145,10 +153,10 @@ action:
 
       # Get current HVAC mode from climate controller - FIXED: use 'hvac_mode' not 'hvac_modes'
       hvac_mode: "{{ states(climate_entity) }}"
-      
+
       # Check alarm state
       alarm_state: "{{ states(alarm_controller) }}"
-      
+
       # Determine base target temperature - use away temp if alarm is armed_away, otherwise use time-based temp
       base_temp: >-
         {% if alarm_state == 'armed_away' %}
@@ -196,6 +204,10 @@ action:
                   entity_id: !input climate_controller
                   target_temp_low: "{{ target_temp_low }}"
                   target_temp_high: "{{ target_temp_high }}"
+              - service: climate.set_fan_mode
+                data:
+                  entity_id: !input climate_controller
+                  fan_mode: !input fan_mode
               - service: logbook.log
                 data:
                   name: HVAC Cycle Debug
@@ -208,6 +220,10 @@ action:
                 data:
                   entity_id: !input climate_controller
                   temperature: "{{ base_temp }}"
+              - service: climate.set_fan_mode
+                data:
+                  entity_id: !input climate_controller
+                  fan_mode: !input fan_mode
               - service: logbook.log
                 data:
                   name: HVAC Cycle Debug
