@@ -698,8 +698,8 @@
   - action: notify.notify
     metadata: {}
     data:
-      message: Time for Dance class
-      title: Trash Reminder
+      message: Time for Yantraa Dance class
+      title: Class Reminder
   mode: single
 - id: '1768931489467'
   alias: Art Class
@@ -730,7 +730,7 @@
     metadata: {}
     data:
       message: Time for Art class
-      title: Trash Reminder
+      title: Class Reminder
   mode: single
 - id: '1768931716738'
   alias: Chess class
@@ -760,6 +760,6 @@
   - action: notify.notify
     metadata: {}
     data:
-      message: Time for chess class
-      title: Trash Reminder
+      message: Time for Yantraa chess class
+      title: Class Reminder
   mode: single
