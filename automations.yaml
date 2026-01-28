@@ -720,7 +720,7 @@
   actions:
   - action: script.tts_common_announcement
     data:
-      message: Time for Yantraa Art class
+      message: Time for Yantraa Art class 5pm
     metadata:
       title: Door open script
       thumbnail:
@@ -729,7 +729,7 @@
   - action: notify.notify
     metadata: {}
     data:
-      message: Time for Art class
+      message: Time for Art class 5pm
       title: Class Reminder
   mode: single
 - id: '1768931716738'
