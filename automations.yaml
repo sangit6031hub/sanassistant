@@ -560,7 +560,7 @@
       evening_time: '18:00:00'
       midnight_time: '20:00:00'
       ramp_strategy: step
-      morning_temp: 68
+      morning_temp: 70
       evening_temp: 70
       night_time: '20:00:00'
       noon_temp: 70
@@ -673,7 +673,7 @@
   alias: Dance class
   description: ''
   triggers:
-  - at: '18:00:00'
+  - at: '18:15:00'
     trigger: time
   conditions:
   - condition: and
@@ -689,7 +689,7 @@
   actions:
   - action: script.tts_common_announcement
     data:
-      message: Time for Yantraa Dance class
+      message: Time for Yantraa Dance class 6:30pm
     metadata:
       title: Door open script
       thumbnail:
@@ -698,7 +698,7 @@
   - action: notify.notify
     metadata: {}
     data:
-      message: Time for Yantraa Dance class
+      message: Time for Yantraa Dance class 6:30pm
       title: Class Reminder
   mode: single
 - id: '1768931489467'
