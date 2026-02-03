@@ -673,7 +673,7 @@
   alias: Dance class
   description: ''
   triggers:
-  - at: '18:15:00'
+  - at: '18:13:00'
     trigger: time
   conditions:
   - condition: and
@@ -705,7 +705,7 @@
   alias: Art Class
   description: ''
   triggers:
-  - at: '16:30:00'
+  - at: '16:25:00'
     trigger: time
   conditions:
   - condition: and
@@ -736,7 +736,7 @@
   alias: Chess class
   description: ''
   triggers:
-  - at: '18:00:00'
+  - at: '18:12:00'
     trigger: time
   conditions:
   - condition: and
