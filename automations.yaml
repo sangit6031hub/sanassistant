@@ -573,7 +573,7 @@
   description: ''
   triggers:
   - trigger: time
-    at: 05:15:00
+    at: 05:45:00
   conditions: []
   actions:
   - if:
@@ -592,6 +592,7 @@
       entity_id:
       - input_boolean.voice_notifications
     action: input_boolean.turn_off
+    enabled: false
   mode: single
 - id: '1755519421529'
   alias: Alarmo Keypad02 V2.1
