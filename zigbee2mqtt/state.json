@@ -4,7 +4,8 @@
         "power_outage_memory": "restore",
         "indicator_mode": "off",
         "child_lock": "UNLOCK",
-        "linkquality": 42
+        "linkquality": 42,
+        "countdown": 0
     },
     "0xa4c1384a58a142f5": {
         "state": "OFF",
@@ -51,22 +52,22 @@
     "0xa4c138e0bcb360cc": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 21.08,
-        "humidity": 27.3,
+        "temperature": 21.63,
+        "humidity": 26.22,
         "linkquality": 75
     },
     "0xa4c1384318be8deb": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 19.98,
-        "humidity": 26.74,
+        "temperature": 19.43,
+        "humidity": 26.79,
         "linkquality": 123
     },
     "0xa4c138dbb692ffe1": {
         "battery": 100,
         "voltage": 3000,
-        "temperature": 19.77,
-        "humidity": 26.9,
+        "temperature": 19.28,
+        "humidity": 26.5,
         "linkquality": 42
     },
     "0xa4c138e48b80b383": {
@@ -140,7 +141,14 @@
         "contact": true,
         "battery_low": false,
         "linkquality": 36,
-        "battery": 61
+        "battery": 50,
+        "update": {
+            "state": "available",
+            "installed_version": 29,
+            "latest_version": 36,
+            "latest_source": "https://raw.githubusercontent.com/Koenkk/zigbee-OTA/master/images/ThirdReality/GarageDoorSensor_PROD_OTA_V36_v1.00.36.ota",
+            "latest_release_notes": null
+        }
     },
     "0x282c02bfffebb06e": {
         "contact": true,

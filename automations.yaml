@@ -640,10 +640,10 @@
     trigger: time
   - at: '11:04:00'
     trigger: time
-    enabled: false
+    enabled: true
   - at: '16:04:00'
     trigger: time
-    enabled: false
+    enabled: true
   - at: '19:04:00'
     trigger: time
   conditions: []
