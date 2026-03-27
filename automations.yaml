@@ -732,14 +732,14 @@
   alias: Chess class
   description: ''
   triggers:
-  - at: '18:12:00'
+  - at: '21:30:00'
     trigger: time
   conditions:
   - condition: and
     conditions:
     - condition: time
       weekday:
-      - thu
+      - sun
     - condition: state
       entity_id: input_boolean.voice_notifications
       state:
