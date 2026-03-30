@@ -734,7 +734,7 @@
   alias: Chess class
   description: ''
   triggers:
-  - at: '21:30:00'
+  - at: 09:30:00
     trigger: time
   conditions:
   - condition: and
