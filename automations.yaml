@@ -557,12 +557,12 @@
       evening_time: '18:00:00'
       midnight_time: '20:00:00'
       ramp_strategy: step
-      morning_temp: 70
-      evening_temp: 70
+      morning_temp: 72
+      evening_temp: 72
       night_time: '20:00:00'
-      noon_temp: 70
+      noon_temp: 72
       minmax_difference: 3
-      night_temp: 68
+      night_temp: 70
       max_difference: 3
       min_difference: 2
 - id: '1754312117243'
