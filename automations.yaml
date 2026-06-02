@@ -553,16 +553,16 @@
       default_morning_temp: 75
       default_evening_temp: 76
       morning_time: 04:00:00
-      noon_time: '11:00:00'
+      noon_time: 09:00:00
       evening_time: '18:00:00'
       midnight_time: '20:00:00'
       ramp_strategy: step
       morning_temp: 75
-      evening_temp: 75
+      evening_temp: 76
       night_time: '20:00:00'
-      noon_temp: 75
+      noon_temp: 78
       minmax_difference: 3
-      night_temp: 72
+      night_temp: 74
       max_difference: 3
       min_difference: 2
 - id: '1754312117243'
