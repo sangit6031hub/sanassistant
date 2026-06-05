@@ -671,23 +671,19 @@
   alias: Dance class
   description: ''
   triggers:
-  - at: '18:13:00'
+  - at: '22:45:00'
     trigger: time
   conditions:
   - condition: and
     conditions:
     - condition: time
       weekday:
-      - wed
-      - mon
-    - condition: state
-      entity_id: input_boolean.voice_notifications
-      state:
-      - 'on'
+      - tue
+      - thu
   actions:
   - action: script.tts_common_announcement
     data:
-      message: Time for Yantraa Dance class 6:30pm
+      message: Time for Yantraa Dance class
     metadata:
       title: Door open script
       thumbnail:
@@ -696,7 +692,7 @@
   - action: notify.notify
     metadata: {}
     data:
-      message: Time for Yantraa Dance class 6:30pm
+      message: 'Time for Yantraa Dance class '
       title: Class Reminder
   mode: single
 - id: '1768931489467'
@@ -711,10 +707,6 @@
     - condition: time
       weekday:
       - tue
-    - condition: state
-      entity_id: input_boolean.voice_notifications
-      state:
-      - 'on'
   actions:
   - action: script.tts_common_announcement
     data:
@@ -734,18 +726,15 @@
   alias: Chess class
   description: ''
   triggers:
-  - at: 09:30:00
+  - at: 09:55:00
     trigger: time
   conditions:
   - condition: and
     conditions:
     - condition: time
       weekday:
-      - sun
-    - condition: state
-      entity_id: input_boolean.voice_notifications
-      state:
-      - 'on'
+      - mon
+      - wed
   actions:
   - action: script.tts_common_announcement
     data:
