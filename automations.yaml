@@ -671,7 +671,7 @@
   alias: Dance class
   description: ''
   triggers:
-  - at: '22:45:00'
+  - at: '10:45:00'
     trigger: time
   conditions:
   - condition: and
