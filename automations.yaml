@@ -104,10 +104,10 @@
     offset: +03:00:00
     trigger: sun
     enabled: false
-  - at: '21:34:00'
+  - at: '22:04:00'
     trigger: time
     enabled: true
-  - at: '22:03:00'
+  - at: '23:03:00'
     trigger: time
   conditions:
   - condition: state
