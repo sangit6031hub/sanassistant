@@ -96,40 +96,6 @@
       media_class: music
       children_media_class:
   mode: single
-- id: '1703297451429'
-  alias: Sunset + 3hrs
-  description: ''
-  triggers:
-  - event: sunset
-    offset: +03:00:00
-    trigger: sun
-    enabled: false
-  - at: '22:04:00'
-    trigger: time
-    enabled: true
-  - at: '23:03:00'
-    trigger: time
-  conditions:
-  - condition: state
-    entity_id: input_boolean.energy_saver
-    state: 'on'
-  actions:
-  - metadata: {}
-    data: {}
-    target:
-      device_id:
-      - a4ba99b7719642420d94bebdb42e9622
-      - 1d531cf53957ee6339f579fd6deaba7a
-      - 26a2cd3009ae14f02d3a34f2e8476773
-      area_id: outdoor
-      entity_id: switch.security_switch_group
-    action: switch.turn_off
-  - metadata: {}
-    data: {}
-    action: light.turn_off
-    target:
-      entity_id: light.all_light_group
-  mode: single
 - id: '1703297581987'
   alias: Midnight Schedule
   description: ''
