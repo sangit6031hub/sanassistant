@@ -81,6 +81,11 @@
       - 0a873709d9ade42d66bec015328266b0
       area_id: outdoor
     action: switch.turn_on
+  - action: input_boolean.turn_on
+    metadata: {}
+    target:
+      entity_id: input_boolean.voice_notifications
+    data: {}
   - metadata: {}
     data:
       value: 0.5
@@ -311,28 +316,6 @@
         message: '{{ backup_response[''stderr''] }}'
       action: notify.notify
       alias: Failed Notification
-  mode: single
-- id: '1709586544091'
-  alias: 'Turn ON voice notifications '
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - input_boolean.voice_notifications
-    from: 'on'
-    to: 'off'
-  condition: []
-  action:
-  - delay:
-      hours: 4
-      minutes: 0
-      seconds: 0
-      milliseconds: 0
-  - service: input_boolean.turn_on
-    metadata: {}
-    data: {}
-    target:
-      entity_id: input_boolean.voice_notifications
   mode: single
 - id: '1710282519929'
   alias: Speaker Volume Adjust
