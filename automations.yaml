@@ -157,7 +157,7 @@
     - condition: numeric_state
       entity_id: sensor.light_sensor_hall_illuminance
       above: 70
-      enabled: false
+      enabled: true
   actions:
   - metadata: {}
     data: {}
