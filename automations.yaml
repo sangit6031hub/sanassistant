@@ -63,7 +63,7 @@
       message: '{{ state_attr(trigger.to_state.entity_id, ''friendly_name'') }} {{''OPEN''
         if trigger.to_state.state == ''on'' else ''CLOSED''}}'
 - id: '1703297345806'
-  alias: Sunset
+  alias: Evening
   description: ''
   triggers:
   - event: sunset
@@ -105,9 +105,9 @@
   alias: Midnight Schedule
   description: ''
   triggers:
-  - at: '23:59:00'
-    trigger: time
   - at: '23:02:00'
+    trigger: time
+  - at: '23:59:00'
     trigger: time
   - at: 01:03:00
     trigger: time
@@ -174,11 +174,7 @@
   alias: Morning
   description: ''
   triggers:
-  - event: sunrise
-    offset: 01:00:00
-    trigger: sun
-    enabled: false
-  - at: 06:30:00
+  - at: 07:00:00
     trigger: time
   conditions: []
   actions:
@@ -428,6 +424,7 @@
   triggers:
   - at: '21:00:00'
     trigger: time
+    enabled: false
   - at: '21:30:00'
     trigger: time
   - at: '22:00:00'
@@ -520,7 +517,7 @@
   description: ''
   triggers:
   - trigger: time
-    at: 05:45:00
+    at: 05:00:00
   conditions: []
   actions:
   - if:
@@ -539,7 +536,7 @@
       entity_id:
       - input_boolean.voice_notifications
     action: input_boolean.turn_off
-    enabled: false
+    enabled: true
   mode: single
 - id: '1755519421529'
   alias: Alarmo Keypad02 V2.1
