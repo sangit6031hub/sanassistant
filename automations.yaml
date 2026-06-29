@@ -494,7 +494,7 @@
       default_max_temp: 90
       default_min_temp: 66
       default_midnight_temp: 73
-      away_temp: 68
+      away_temp: 82
       time_offset: 2
       default_noon_temp: 78
       default_morning_temp: 75
@@ -504,12 +504,12 @@
       evening_time: '18:00:00'
       midnight_time: '20:00:00'
       ramp_strategy: step
-      morning_temp: 75
+      morning_temp: 76
       evening_temp: 76
       night_time: '20:00:00'
       noon_temp: 78
       minmax_difference: 3
-      night_temp: 72
+      night_temp: 74
       max_difference: 3
       min_difference: 2
 - id: '1754312117243'
