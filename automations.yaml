@@ -501,12 +501,12 @@
       default_evening_temp: 76
       morning_time: 04:00:00
       noon_time: 09:00:00
-      evening_time: '18:00:00'
+      evening_time: '17:00:00'
       midnight_time: '20:00:00'
       ramp_strategy: step
       morning_temp: 78
       evening_temp: 78
-      night_time: '20:00:00'
+      night_time: '19:00:00'
       noon_temp: 80
       minmax_difference: 3
       night_temp: 72
