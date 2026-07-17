@@ -504,10 +504,10 @@
       evening_time: '17:00:00'
       midnight_time: '20:00:00'
       ramp_strategy: step
-      morning_temp: 73
-      evening_temp: 73
+      morning_temp: 72
+      evening_temp: 72
       night_time: '20:00:00'
-      noon_temp: 76
+      noon_temp: 74
       minmax_difference: 3
       night_temp: 70
       max_difference: 3
